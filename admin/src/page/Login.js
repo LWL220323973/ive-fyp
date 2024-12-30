@@ -1,7 +1,8 @@
 import React from "react";
-import { Form, Input, Button, Space } from "antd";
+import { Form, Input, Button, Space, message } from "antd";
 import axios from "axios";
 import "../style/Login.css";
+import { useNavigate } from "react-router-dom";
 
 const tailLayout = {
   wrapperCol: {
@@ -11,8 +12,9 @@ const tailLayout = {
 };
 
 function Login() {
+  sessionStorage.removeItem("messageDisplayed");
   const [form] = Form.useForm();
-
+  const navigate = useNavigate();
   const onSubmit = async (values) => {
     const { username, password } = values;
     try {
@@ -21,10 +23,15 @@ function Login() {
         password,
       });
       if (response.status === 200) {
-        alert("Login successful");
+        message.success("Login successful!", 1);
+        sessionStorage.setItem("user", JSON.stringify(response.data.user));
+        setTimeout(() => {
+          navigate("/home");
+        }, 1500);
       }
     } catch (error) {
-      alert("Invalid credentials");
+      message.error("Login failed!");
+      form.resetFields();
     }
   };
 
