@@ -1,5 +1,6 @@
-import { Button, Layout, message } from "antd";
-import Icon from "@ant-design/icons";
+import React, { useState } from "react";
+import { Button, Layout, message, Avatar, Modal } from "antd";
+import Icon, { UserOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 function Header() {
   const LogoutSvg = () => (
@@ -21,6 +22,8 @@ function Header() {
     </svg>
   );
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+
   const onLogout = () => {
     sessionStorage.removeItem("user");
     message.success("Logout successful!", 1);
@@ -30,20 +33,45 @@ function Header() {
     <Layout.Header
       style={{
         background: "#fff",
-        padding: 0,
+        padding: "0 16px",
         textAlign: "center",
         fontSize: "60px",
         fontWeight: "bold",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
       }}
     >
-        寶斯重慶紙包魚
-      <Button
-        type="link"
-        style={{ float: "right", height: "100%" }}
-        onClick={onLogout}
+      <div
+        style={{
+          flex: 1,
+          textAlign: "center",
+          fontSize: "60px",
+          fontWeight: "bold",
+        }}
       >
-        <Icon component={LogoutSvg} />
-      </Button>
+        寶斯重慶紙包魚
+      </div>
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <Avatar size={40} icon={<UserOutlined />} />
+        <Button
+          type="link"
+          style={{ marginLeft: "16px" }}
+          onClick={() => setOpen(!open)}
+        >
+          <Icon component={LogoutSvg} />
+        </Button>
+      </div>
+      <Modal
+        title="Logout"
+        open={open}
+        onOk={onLogout}
+        onCancel={() => setOpen(false)}
+        okText="Yes"
+        cancelText="No"
+      >
+        <p>Are you sure you want to logout?</p>
+      </Modal>
     </Layout.Header>
   );
 }
