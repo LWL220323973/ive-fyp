@@ -1,5 +1,4 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -7,11 +6,9 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
-CREATE DATABASE IF NOT EXISTS `menu` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `menu`;
 
 DROP TABLE IF EXISTS `admin`;
-CREATE TABLE IF NOT EXISTS `admin` (
+CREATE TABLE `admin` (
   `username` varchar(10) NOT NULL COMMENT 'username',
   `password` varchar(10) NOT NULL COMMENT 'password'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='管理員';
@@ -20,7 +17,7 @@ INSERT INTO `admin` (`username`, `password`) VALUES
 ('root', 'root_root');
 
 DROP TABLE IF EXISTS `capsicum_annuum`;
-CREATE TABLE IF NOT EXISTS `capsicum_annuum` (
+CREATE TABLE `capsicum_annuum` (
   `Name_zh_HK` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `Name_zh_CN` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `Name_en_US` varchar(150) NOT NULL,
@@ -42,7 +39,7 @@ INSERT INTO `capsicum_annuum` (`Name_zh_HK`, `Name_zh_CN`, `Name_en_US`, `price`
 ('泡椒豬潤', '泡椒猪润', 'Stir Fried Pork Intestines with Pickled Peppers', 88, 0, '泡椒豬潤.jpg');
 
 DROP TABLE IF EXISTS `cold_food`;
-CREATE TABLE IF NOT EXISTS `cold_food` (
+CREATE TABLE `cold_food` (
   `Name_zh_HK` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `Name_zh_CN` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `Name_en_US` varchar(150) NOT NULL,
@@ -75,7 +72,7 @@ INSERT INTO `cold_food` (`Name_zh_HK`, `Name_zh_CN`, `Name_en_US`, `price`, `onS
 ('豆花', '豆花', 'Tofu Pudding', 58, 0, '豆花.jpg');
 
 DROP TABLE IF EXISTS `drinks`;
-CREATE TABLE IF NOT EXISTS `drinks` (
+CREATE TABLE `drinks` (
   `Name_zh_HK` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `Name_zh_CN` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `Name_en_US` varchar(50) NOT NULL,
@@ -108,7 +105,7 @@ INSERT INTO `drinks` (`Name_zh_HK`, `Name_zh_CN`, `Name_en_US`, `price`, `onSale
 ('真露燒酒', '真露烧酒', 'Jinro-Clhamisul Soju', 40, 0, '真露燒酒.jpg');
 
 DROP TABLE IF EXISTS `side_dish`;
-CREATE TABLE IF NOT EXISTS `side_dish` (
+CREATE TABLE `side_dish` (
   `Name_zh_HK` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `Name_zh_CN` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `Name_en_US` varchar(50) NOT NULL,
@@ -158,7 +155,7 @@ INSERT INTO `side_dish` (`Name_zh_HK`, `Name_zh_CN`, `Name_en_US`, `price`, `onS
 ('雞腎', '鸡肾', 'Chicken Gizzard', 48, 0, '雞腎.jpg');
 
 DROP TABLE IF EXISTS `signature_dish`;
-CREATE TABLE IF NOT EXISTS `signature_dish` (
+CREATE TABLE `signature_dish` (
   `Name_zh_HK` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `Name_zh_CN` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `Name_en_US` varchar(150) NOT NULL,
@@ -198,7 +195,7 @@ INSERT INTO `signature_dish` (`Name_zh_HK`, `Name_zh_CN`, `Name_en_US`, `price`,
 ('麻辣雞煲(半隻)', '麻辣鸡煲（半只）', 'Spicy Chicken Hot Pot (Half Chicken)', 158, 0, '麻辣雞煲(半隻).jpg');
 
 DROP TABLE IF EXISTS `spiciness_levels`;
-CREATE TABLE IF NOT EXISTS `spiciness_levels` (
+CREATE TABLE `spiciness_levels` (
   `name_zh_TW` varchar(50) NOT NULL,
   `name_zh_CN` varchar(50) NOT NULL,
   `name_en_US` varchar(50) NOT NULL
@@ -211,7 +208,7 @@ INSERT INTO `spiciness_levels` (`name_zh_TW`, `name_zh_CN`, `name_en_US`) VALUES
 ('特辣', '特辣', 'Special');
 
 DROP TABLE IF EXISTS `staple_food`;
-CREATE TABLE IF NOT EXISTS `staple_food` (
+CREATE TABLE `staple_food` (
   `Name_zh_HK` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `Name_zh_CN` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `Name_en_US` varchar(150) NOT NULL,
@@ -228,7 +225,7 @@ INSERT INTO `staple_food` (`Name_zh_HK`, `Name_zh_CN`, `Name_en_US`, `price`, `o
 ('蛋炒飯', '蛋炒饭', 'Egg Fried Rice', 26, 0, '蛋炒飯.jpg');
 
 DROP TABLE IF EXISTS `stir_fry`;
-CREATE TABLE IF NOT EXISTS `stir_fry` (
+CREATE TABLE `stir_fry` (
   `Name_zh_HK` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `Name_zh_CN` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `Name_en_US` varchar(150) NOT NULL,
@@ -282,7 +279,6 @@ INSERT INTO `stir_fry` (`Name_zh_HK`, `Name_zh_CN`, `Name_en_US`, `price`, `onSa
 ('藕片炒肉', '藕片炒肉', 'Stir Fried Lotus Root Slices with Pork', 88, 0, '藕片炒肉.jpg'),
 ('青椒炒肉', '青椒炒肉', 'Stir Fried Green Peppers with Pork', 68, 0, '青椒炒肉.jpg'),
 ('苦瓜炒肉', '苦瓜炒肉', 'Stir Fried Bitter Melon with Pork', 88, 0, '苦瓜炒肉.jpg');
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

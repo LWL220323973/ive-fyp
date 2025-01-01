@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Layout, Breadcrumb, message } from "antd";
-import Sider from "./Sider";
-import Footer from "./Footer";
-import Header from "./Header";
+import Sider from "./layout/Sider";
+import Footer from "./layout/Footer";
+import Header from "./layout/Header";
 function Home() {
   const navigate = useNavigate();
 
