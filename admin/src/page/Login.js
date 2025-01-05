@@ -1,8 +1,8 @@
 import React from "react";
 import { Form, Input, Button, Space, message } from "antd";
-import axios from "axios";
 import "../style/Login.css";
 import { useNavigate } from "react-router-dom";
+import { login } from "../api/Login";
 
 const tailLayout = {
   wrapperCol: {
@@ -17,19 +17,14 @@ function Login() {
   const navigate = useNavigate();
   const onSubmit = async (values) => {
     const { username, password } = values;
-    try {
-      const response = await axios.post("http://localhost:5555/login", {
-        username,
-        password,
-      });
-      if (response.status === 200) {
-        message.success("Login successful!", 1);
-        sessionStorage.setItem("user", JSON.stringify(response.data.user));
-        setTimeout(() => {
-          navigate("/home");
-        }, 1500);
-      }
-    } catch (error) {
+    const response = await login(username, password);
+    if (response.data != "") {
+      sessionStorage.setItem("user", JSON.stringify(response.data));
+      message.success("Login successful!", 1);
+      setTimeout(() => {
+        navigate("/home");
+      }, 1200);
+    } else {
       message.error("Login failed!");
       form.resetFields();
     }
