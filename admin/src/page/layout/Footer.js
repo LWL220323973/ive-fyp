@@ -4,6 +4,7 @@ function Footer() {
     <Layout.Footer
       style={{
         textAlign: "center",
+        backgroundColor: "#fff",
       }}
     >
       IVE_FYP ©{new Date().getFullYear()} Created by Kelvin Chang

@@ -1,7 +1,9 @@
-import React, { useState } from "react";
-import { Button, Layout, message, Avatar, Modal } from "antd";
-import Icon, { UserOutlined } from "@ant-design/icons";
+import React, { useState, useEffect, useRef } from "react";
+import { Button, Layout, message, Avatar, Modal, Tooltip } from "antd";
+import Icon, { UserOutlined, TranslationOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import intl from "react-intl-universal";
+
 function Header() {
   const LogoutSvg = () => (
     <svg
@@ -23,12 +25,27 @@ function Header() {
   );
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const messageDisplayedRef = useRef(false);
 
   const onLogout = () => {
-    sessionStorage.removeItem("user");
+    sessionStorage.clear();
     message.success("Logout successful!", 1);
     navigate("/");
   };
+  useEffect(() => {
+    if (sessionStorage.getItem("user") === null && !messageDisplayedRef.current) {
+      message.error("Please login first", 1);
+      messageDisplayedRef.current = true;
+      navigate("/");
+    }
+  }, [navigate]);
+
+  const changeLocale = () => {
+    const newLocale = intl.getInitOptions().currentLocale === "en-US" ? "zh-HK" : "en-US";
+    localStorage.setItem("locale", newLocale);
+    window.location.reload();
+  };
+  
   return (
     <Layout.Header
       style={{
@@ -53,24 +70,35 @@ function Header() {
         寶斯重慶紙包魚
       </div>
       <div style={{ display: "flex", alignItems: "center" }}>
-        <Avatar size={40} icon={<UserOutlined />} />
-        <Button
-          type="link"
+        <Tooltip title={intl.get("translate")}>
+          <Button type="link" style={{ marginLeft: "16px" }} onClick={changeLocale}>
+            <TranslationOutlined style={{ fontSize: "24px" }} />
+          </Button>
+        </Tooltip>
+        <Avatar
+          size={40}
+          icon={<UserOutlined />}
           style={{ marginLeft: "16px" }}
-          onClick={() => setOpen(!open)}
-        >
-          <Icon component={LogoutSvg} />
-        </Button>
+        />
+        <Tooltip title={intl.get("logout")}>
+          <Button
+            type="link"
+            style={{ marginLeft: "16px" }}
+            onClick={() => setOpen(!open)}
+          >
+            <Icon component={LogoutSvg} />
+          </Button>
+        </Tooltip>
       </div>
       <Modal
-        title="Logout"
+        title={intl.get("logout")}
         open={open}
         onOk={onLogout}
         onCancel={() => setOpen(false)}
-        okText="Yes"
-        cancelText="No"
+        okText={intl.get("yes")}
+        cancelText={intl.get("no")}
       >
-        <p>Are you sure you want to logout?</p>
+        <p>{intl.get("logoutConfirm")}</p>
       </Modal>
     </Layout.Header>
   );

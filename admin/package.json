@@ -8,11 +8,10 @@
     "axios": "^1.7.9",
     "body-parser": "^1.20.3",
     "cra-template": "1.2.0",
-    "express": "^4.21.2",
     "ive-fyp": "file:",
-    "mysql": "^2.18.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-intl-universal": "^2.12.0",
     "react-router-dom": "^7.1.1",
     "react-scripts": "^5.0.1",
     "web-vitals": "^4.2.4"

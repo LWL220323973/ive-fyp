@@ -3,13 +3,24 @@ import ReactDOM from "react-dom/client";
 import "./style/index.css";
 import App from "./page/App";
 import reportWebVitals from "./reportWebVitals";
+import intl from "react-intl-universal";
+const locales = {
+  "en-US": require("./lang/en-us.json"),
+  "zh-HK": require("./lang/zh-hk.json"),
+};
+const currentLocale = localStorage.getItem("locale") || "en-US";
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+intl.init({
+  currentLocale,
+  locales,
+}).then(() => {
+  const root = ReactDOM.createRoot(document.getElementById("root"));
+  root.render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  );
+});
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

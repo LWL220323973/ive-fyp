@@ -1,20 +1,10 @@
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { Layout, Breadcrumb, message } from "antd";
+import React from "react";
+import { Layout, Breadcrumb } from "antd";
 import Sider from "./layout/Sider";
 import Footer from "./layout/Footer";
 import Header from "./layout/Header";
+import intl from "react-intl-universal";
 function Home() {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const messageDisplayed = sessionStorage.getItem("messageDisplayed");
-    if (sessionStorage.getItem("user") === null && !messageDisplayed) {
-      message.error("Please login first", 1);
-      sessionStorage.setItem("messageDisplayed", "true");
-      navigate("/");
-    }
-  }, [navigate]);
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -37,7 +27,7 @@ function Content() {
       }}
     >
       <Breadcrumb>
-        <Breadcrumb.Item>Home</Breadcrumb.Item>
+        <Breadcrumb.Item>{intl.get("home")}</Breadcrumb.Item>
       </Breadcrumb>
     </Layout.Content>
   );

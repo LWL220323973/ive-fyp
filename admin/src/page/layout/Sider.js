@@ -2,18 +2,23 @@ import { useState } from "react";
 import { Layout, Menu, Image } from "antd";
 import { HomeOutlined, MenuOutlined } from "@ant-design/icons";
 import { useNavigate, useLocation } from "react-router-dom";
+import intl from "react-intl-universal";
 
 function Sider() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [collapsed, setCollapsed] = useState(false);
 
+  const [collapsed, setCollapsed] = useState(false);
+  const onCollapse = (collapsed) => {
+    setCollapsed(collapsed);
+    sessionStorage.setItem("siderCollapsed", collapsed);
+  };
   const selectedKey = location.pathname;
   return (
     <Layout.Sider
       collapsible
       collapsed={collapsed}
-      onCollapse={setCollapsed}
+      onCollapse={onCollapse}
       style={{
         minHeight: "100vh",
       }}
@@ -27,7 +32,7 @@ function Sider() {
             navigate("/home");
           }}
         >
-          Home
+          {intl.get("home")}
         </Menu.Item>
         <Menu.Item
           key="/menu"
@@ -36,10 +41,8 @@ function Sider() {
             navigate("/menu");
           }}
         >
-          Menu  
+          {intl.get("menu")}
         </Menu.Item>
-
-        <Menu.Item key="3">Option 3</Menu.Item>
       </Menu>
     </Layout.Sider>
   );
