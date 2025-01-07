@@ -49,16 +49,16 @@ function Content({ dishes }) {
       }}
     >
       <Breadcrumb items={breadcrumbItems} />
-      {dishes.map((dish) => {
+      {dishes.map((dish, index) => {
         if (localStorage.getItem("locale") === "zh-HK") {
           return (
-            <Button type="primary" key={dish.dishes} style={{ margin: "12px" }}>
+            <Button key={index} type="primary" style={{ margin: "12px" }}>
               {dish.translate}
             </Button>
           );
         } else {
           return (
-            <Button type="primary" key={dish.dishes} style={{ margin: "12px" }}>
+            <Button key={index} type="primary" style={{ margin: "12px" }}>
               {dish.dishes}
             </Button>
           );
