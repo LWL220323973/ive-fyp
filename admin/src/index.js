@@ -4,6 +4,7 @@ import "./style/index.css";
 import App from "./page/App";
 import reportWebVitals from "./reportWebVitals";
 import intl from "react-intl-universal";
+
 const locales = {
   "en-US": require("./lang/en-us.json"),
   "zh-HK": require("./lang/zh-hk.json"),
@@ -16,9 +17,8 @@ intl.init({
 }).then(() => {
   const root = ReactDOM.createRoot(document.getElementById("root"));
   root.render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
+    // 暫時禁用嚴格模式
+    <App />
   );
 });
 

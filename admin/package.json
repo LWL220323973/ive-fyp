@@ -9,6 +9,7 @@
     "body-parser": "^1.20.3",
     "cra-template": "1.2.0",
     "ive-fyp": "file:",
+    "rc-checkbox": "^3.5.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-intl-universal": "^2.12.0",

@@ -14,6 +14,22 @@ function Sider() {
     sessionStorage.setItem("siderCollapsed", collapsed);
   };
   const selectedKey = location.pathname;
+
+  const menuItems = [
+    {
+      key: "/home",
+      icon: <HomeOutlined />,
+      label: intl.get("home"),
+      onClick: () => navigate("/home"),
+    },
+    {
+      key: "/menu",
+      icon: <MenuOutlined />,
+      label: intl.get("menu"),
+      onClick: () => navigate("/menu"),
+    },
+  ];
+
   return (
     <Layout.Sider
       collapsible
@@ -24,26 +40,7 @@ function Sider() {
       }}
     >
       <Image src="images/logo.png" alt="Logo" preview={false} />
-      <Menu theme="dark" mode="inline" selectedKeys={[selectedKey]}>
-        <Menu.Item
-          key="/home"
-          icon={<HomeOutlined />}
-          onClick={() => {
-            navigate("/home");
-          }}
-        >
-          {intl.get("home")}
-        </Menu.Item>
-        <Menu.Item
-          key="/menu"
-          icon={<MenuOutlined />}
-          onClick={() => {
-            navigate("/menu");
-          }}
-        >
-          {intl.get("menu")}
-        </Menu.Item>
-      </Menu>
+      <Menu theme="dark" mode="inline" selectedKeys={[selectedKey]} items={menuItems} />
     </Layout.Sider>
   );
 }

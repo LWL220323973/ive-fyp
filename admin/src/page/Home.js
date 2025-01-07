@@ -4,8 +4,8 @@ import Sider from "./layout/Sider";
 import Footer from "./layout/Footer";
 import Header from "./layout/Header";
 import intl from "react-intl-universal";
-function Home() {
 
+function Home() {
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sider />
@@ -19,6 +19,12 @@ function Home() {
 }
 
 function Content() {
+  const breadcrumbItems = [
+    {
+      title: intl.get("home"),
+    },
+  ];
+
   return (
     <Layout.Content
       style={{
@@ -26,9 +32,7 @@ function Content() {
         padding: 24,
       }}
     >
-      <Breadcrumb>
-        <Breadcrumb.Item>{intl.get("home")}</Breadcrumb.Item>
-      </Breadcrumb>
+      <Breadcrumb items={breadcrumbItems} />
     </Layout.Content>
   );
 }

@@ -32,6 +32,7 @@ function Header() {
     message.success("Logout successful!", 1);
     navigate("/");
   };
+
   useEffect(() => {
     if (sessionStorage.getItem("user") === null && !messageDisplayedRef.current) {
       message.error("Please login first", 1);
@@ -45,7 +46,7 @@ function Header() {
     localStorage.setItem("locale", newLocale);
     window.location.reload();
   };
-  
+
   return (
     <Layout.Header
       style={{
