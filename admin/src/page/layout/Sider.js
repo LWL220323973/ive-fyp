@@ -40,7 +40,12 @@ function Sider() {
       }}
     >
       <Image src="images/logo.png" alt="Logo" preview={false} />
-      <Menu theme="dark" mode="inline" selectedKeys={[selectedKey]} items={menuItems} />
+      <Menu
+        theme="dark"
+        mode="inline"
+        selectedKeys={[selectedKey]}
+        items={menuItems}
+      />
     </Layout.Sider>
   );
 }
