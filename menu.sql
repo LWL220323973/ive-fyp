@@ -1,31 +1,12 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- 主機： 127.0.0.1
--- 產生時間： 2025-01-09 01:25:23
--- 伺服器版本： 10.4.32-MariaDB
--- PHP 版本： 8.0.30
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
-
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
---
--- 資料庫： `menu`
---
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `admin`
---
 
 DROP TABLE IF EXISTS `admin`;
 CREATE TABLE `admin` (
@@ -33,18 +14,9 @@ CREATE TABLE `admin` (
   `password` varchar(10) NOT NULL COMMENT 'password'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='管理員';
 
---
--- 傾印資料表的資料 `admin`
---
-
+TRUNCATE TABLE `admin`;
 INSERT INTO `admin` (`username`, `password`) VALUES
 ('root', 'root_root');
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `capsicum_annuum`
---
 
 DROP TABLE IF EXISTS `capsicum_annuum`;
 CREATE TABLE `capsicum_annuum` (
@@ -56,10 +28,7 @@ CREATE TABLE `capsicum_annuum` (
   `path` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='泡椒類';
 
---
--- 傾印資料表的資料 `capsicum_annuum`
---
-
+TRUNCATE TABLE `capsicum_annuum`;
 INSERT INTO `capsicum_annuum` (`Name_zh_HK`, `Name_zh_CN`, `Name_en_US`, `price`, `onSale`, `path`) VALUES
 ('泡椒肥腸', '泡椒肥肠', 'Pork Intestines stri fried with Pickled Peppers', 168, 0, '泡椒肥腸.jpg'),
 ('泡椒黃喉', '泡椒黄喉', 'Stir Fried Yellow Throat with Pickled Peppers', 168, 0, '泡椒黃喉.jpg'),
@@ -72,12 +41,6 @@ INSERT INTO `capsicum_annuum` (`Name_zh_HK`, `Name_zh_CN`, `Name_en_US`, `price`
 ('泡椒田雞', '泡椒田鸡', 'Stir Fried Frog with Pickled Peppers', 168, 0, '泡椒田雞.jpg'),
 ('泡椒豬潤', '泡椒猪润', 'Stir Fried Pork Intestines with Pickled Peppers', 88, 0, '泡椒豬潤.jpg');
 
--- --------------------------------------------------------
-
---
--- 資料表結構 `cold_food`
---
-
 DROP TABLE IF EXISTS `cold_food`;
 CREATE TABLE `cold_food` (
   `Name_zh_HK` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
@@ -88,10 +51,7 @@ CREATE TABLE `cold_food` (
   `path` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='涼菜';
 
---
--- 傾印資料表的資料 `cold_food`
---
-
+TRUNCATE TABLE `cold_food`;
 INSERT INTO `cold_food` (`Name_zh_HK`, `Name_zh_CN`, `Name_en_US`, `price`, `onSale`, `path`) VALUES
 ('涼拌青瓜', '凉拌青瓜', 'Shredded Cucumber with Sauce', 38, 0, '涼拌青瓜.jpg'),
 ('涼拌秋葵', '凉拌秋葵', 'Shredded Orka with Sauce', 38, 0, '涼拌秋葵.jpg'),
@@ -115,37 +75,6 @@ INSERT INTO `cold_food` (`Name_zh_HK`, `Name_zh_CN`, `Name_en_US`, `price`, `onS
 ('涼拌長豆角', '凉拌长豆角', 'Shredded Chinese Long Bean with Sauce', 48, 0, '涼拌長豆角.jpg'),
 ('豆花', '豆花', 'Tofu Pudding', 58, 0, '豆花.jpg');
 
--- --------------------------------------------------------
-
---
--- 資料表結構 `dishes`
---
-
-DROP TABLE IF EXISTS `dishes`;
-CREATE TABLE `dishes` (
-  `dishes` varchar(100) NOT NULL,
-  `translate` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- 傾印資料表的資料 `dishes`
---
-
-INSERT INTO `dishes` (`dishes`, `translate`) VALUES
-('Capsicum Annuum', '泡椒'),
-('Drinks', '飲品'),
-('Cold Food', '涼菜'),
-('Side Dish', '配菜'),
-('Capsicum Annuum', '泡椒'),
-('Side Dish', '配菜'),
-('Drinks', '飲品');
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `drinks`
---
-
 DROP TABLE IF EXISTS `drinks`;
 CREATE TABLE `drinks` (
   `Name_zh_HK` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
@@ -156,10 +85,7 @@ CREATE TABLE `drinks` (
   `path` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='酒水';
 
---
--- 傾印資料表的資料 `drinks`
---
-
+TRUNCATE TABLE `drinks`;
 INSERT INTO `drinks` (`Name_zh_HK`, `Name_zh_CN`, `Name_en_US`, `price`, `onSale`, `path`) VALUES
 ('烏龍茶', '乌龙茶', 'oolong', 15, 0, '烏龍茶.jpg'),
 ('菊花茶', '菊花茶', 'Chrysanthemum tea', 15, 0, '菊花茶.jpg'),
@@ -183,12 +109,6 @@ INSERT INTO `drinks` (`Name_zh_HK`, `Name_zh_CN`, `Name_en_US`, `price`, `onSale
 ('（大樽）生力黑啤', '（大瓶）生力黑啤', '(Large)San Miguel Cerveza Negra', 38, 0, '（大樽）生力黑啤.jpg'),
 ('真露燒酒', '真露烧酒', 'Jinro-Clhamisul Soju', 40, 0, '真露燒酒.jpg');
 
--- --------------------------------------------------------
-
---
--- 資料表結構 `side_dish`
---
-
 DROP TABLE IF EXISTS `side_dish`;
 CREATE TABLE `side_dish` (
   `Name_zh_HK` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
@@ -199,10 +119,7 @@ CREATE TABLE `side_dish` (
   `path` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='配菜';
 
---
--- 傾印資料表的資料 `side_dish`
---
-
+TRUNCATE TABLE `side_dish`;
 INSERT INTO `side_dish` (`Name_zh_HK`, `Name_zh_CN`, `Name_en_US`, `price`, `onSale`, `path`) VALUES
 ('萵筍', '莴笋', 'Celtuce', 38, 0, '萵筍.jpg'),
 ('淮山', '山药', 'Common Yam Rhizome', 38, 0, '淮山.jpg'),
@@ -243,12 +160,6 @@ INSERT INTO `side_dish` (`Name_zh_HK`, `Name_zh_CN`, `Name_en_US`, `price`, `onS
 ('牛百葉', '牛百叶', 'Beef Omasum', 58, 0, '牛百葉.jpg'),
 ('雞腎', '鸡肾', 'Chicken Gizzard', 48, 0, '雞腎.jpg');
 
--- --------------------------------------------------------
-
---
--- 資料表結構 `signature_dish`
---
-
 DROP TABLE IF EXISTS `signature_dish`;
 CREATE TABLE `signature_dish` (
   `Name_zh_HK` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
@@ -259,10 +170,7 @@ CREATE TABLE `signature_dish` (
   `path` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='招牌特色';
 
---
--- 傾印資料表的資料 `signature_dish`
---
-
+TRUNCATE TABLE `signature_dish`;
 INSERT INTO `signature_dish` (`Name_zh_HK`, `Name_zh_CN`, `Name_en_US`, `price`, `onSale`, `path`) VALUES
 ('清江魚', '清江鱼', 'Steamed Mandarin Fish', 378, 0, '清江魚.jpg'),
 ('紙包魚(大)', '纸包鱼（大）', 'Steamed Fish in Paper (Large)', 238, 0, '紙包魚(大).jpg'),
@@ -293,12 +201,6 @@ INSERT INTO `signature_dish` (`Name_zh_HK`, `Name_zh_CN`, `Name_en_US`, `price`,
 ('麻辣雞煲(整隻)', '麻辣鸡煲（整只）', 'Spicy Chicken Hot Pot (Whole Chicken)', 268, 0, '麻辣雞煲(整隻).jpg'),
 ('麻辣雞煲(半隻)', '麻辣鸡煲（半只）', 'Spicy Chicken Hot Pot (Half Chicken)', 158, 0, '麻辣雞煲(半隻).jpg');
 
--- --------------------------------------------------------
-
---
--- 資料表結構 `spiciness_levels`
---
-
 DROP TABLE IF EXISTS `spiciness_levels`;
 CREATE TABLE `spiciness_levels` (
   `name_zh_TW` varchar(50) NOT NULL,
@@ -306,21 +208,12 @@ CREATE TABLE `spiciness_levels` (
   `name_en_US` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='辣度';
 
---
--- 傾印資料表的資料 `spiciness_levels`
---
-
+TRUNCATE TABLE `spiciness_levels`;
 INSERT INTO `spiciness_levels` (`name_zh_TW`, `name_zh_CN`, `name_en_US`) VALUES
 ('小辣', '小辣', 'Mild'),
 ('中辣', '中辣', 'Medium'),
 ('大辣', '大辣', 'Hot'),
 ('特辣', '特辣', 'Special');
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `staple_food`
---
 
 DROP TABLE IF EXISTS `staple_food`;
 CREATE TABLE `staple_food` (
@@ -332,22 +225,13 @@ CREATE TABLE `staple_food` (
   `path` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='主食';
 
---
--- 傾印資料表的資料 `staple_food`
---
-
+TRUNCATE TABLE `staple_food`;
 INSERT INTO `staple_food` (`Name_zh_HK`, `Name_zh_CN`, `Name_en_US`, `price`, `onSale`, `path`) VALUES
 ('紅油抄手', '红油抄手', 'Wonton Soup in Hot and Spicy Sauce', 35, 0, '紅油抄手.jpg'),
 ('重慶酸辣粉', '重庆酸辣粉', 'Chongqing Hot and Sour Rice Noodles', 26, 0, '重慶酸辣粉.jpg'),
 ('重慶酸辣麵', '重庆酸辣面', 'Chongqing Hot and Sour Noodles', 26, 0, '重慶酸辣麵.jpg'),
 ('白飯', '白饭', 'Rice', 10, 0, '白飯.jpg'),
 ('蛋炒飯', '蛋炒饭', 'Egg Fried Rice', 26, 0, '蛋炒飯.jpg');
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `stir_fry`
---
 
 DROP TABLE IF EXISTS `stir_fry`;
 CREATE TABLE `stir_fry` (
@@ -359,10 +243,7 @@ CREATE TABLE `stir_fry` (
   `path` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='精美小炒';
 
---
--- 傾印資料表的資料 `stir_fry`
---
-
+TRUNCATE TABLE `stir_fry`;
 INSERT INTO `stir_fry` (`Name_zh_HK`, `Name_zh_CN`, `Name_en_US`, `price`, `onSale`, `path`) VALUES
 ('螞蟻上樹', '蚂蚁上树', 'spicy vermicelli stir-fry', 58, 0, '螞蟻上樹.jpg'),
 ('辣子雞', '辣子鸡', 'Spicy Chicken', 158, 0, '辣子雞.jpg'),

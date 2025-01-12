@@ -31,9 +31,7 @@ function Content() {
         margin: "12px 8px",
         padding: 24,
       }}
-    >
-      <Breadcrumb items={breadcrumbItems} />
-    </Layout.Content>
+    ></Layout.Content>
   );
 }
 

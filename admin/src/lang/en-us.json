@@ -5,5 +5,12 @@
     "yes": "Yes",
     "no": "No",
     "home": "Home",
-    "menu": "Menu"
+    "menu": "Menu",
+    "capsicumAnnuum": "Capsicum Annuum",
+    "drinks": "Drinks",
+    "coldFood": "Cold Food",
+    "sideDish": "Side Dish",
+    "signatureDish": "Signature Dish",
+    "stapleFood": "Staple Food",
+    "stirFry": "Stir Fry"
 }

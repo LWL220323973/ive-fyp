@@ -13,7 +13,7 @@ function Sider() {
     setCollapsed(collapsed);
     sessionStorage.setItem("siderCollapsed", collapsed);
   };
-  const selectedKey = location.pathname;
+  const selectedKey = location.pathname.startsWith("/menu") ? "/menu" : location.pathname;
 
   const menuItems = [
     {
@@ -39,7 +39,7 @@ function Sider() {
         minHeight: "100vh",
       }}
     >
-      <Image src="images/logo.png" alt="Logo" preview={false} />
+      <Image src="../../images/logo.png" alt="Logo" preview={false} />
       <Menu
         theme="dark"
         mode="inline"

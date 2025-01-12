@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Layout, Breadcrumb, Button, Row, Table, Flex } from "antd";
+import React, { useState } from "react";
+import { Layout, Breadcrumb, Button, Flex, Tooltip } from "antd";
 import Sider from "./layout/Sider";
 import Footer from "./layout/Footer";
 import Header from "./layout/Header";
 import intl from "react-intl-universal";
-import { getAllDish } from "../api/DishesList";
+import { useNavigate, Outlet } from "react-router-dom";
 
 function Menu() {
   return (
@@ -20,35 +20,11 @@ function Menu() {
 }
 
 function Content() {
-  const breadcrumbItems = [
-    {
-      title: intl.get("menu"),
-    },
-  ];
-  const [dishes, setDishes] = useState([]);
+  const navigate = useNavigate();
 
-  const dishesList = async () => {
-    if (localStorage.getItem("locale") === "zh-HK") {
-      try {
-        const response = await getAllDish();
-        setDishes(response.data.map((dish) => dish.translate));
-      } catch (error) {
-        console.error(error);
-      }
-    } else {
-      try {
-        const response = await getAllDish();
-        setDishes(response.data.map((dish) => dish.dishes));
-      } catch (error) {
-        console.error(error);
-      }
-    }
+  const onMove = (key) => {
+    navigate(`/menu/${key}`);
   };
-
-  useEffect(() => {
-    dishesList();
-  }, []);
-
   return (
     <Layout.Content
       style={{
@@ -56,21 +32,85 @@ function Content() {
         padding: 12,
       }}
     >
-      <Breadcrumb items={breadcrumbItems} />
-      <Flex>
-        {dishes.map((dish, index) => {
-          return (
-            <Button
-              key={index}
-              type="primary"
-              style={{ margin: "12px", flex: "1 1 auto" }}
-            >
-              {dish}
-            </Button>
-          );
-        })}
+      <Flex wrap gap="middle">
+        <Tooltip title={intl.get("signatureDish")}>
+          <Button
+            color="primary"
+            variant="outlined"
+            onClick={() => onMove("signatureDish")}
+            style={{ flex: 1, height: "100%", fontSize: "20px" }}
+          >
+            {intl.get("signatureDish")}
+          </Button>
+        </Tooltip>
+        <Tooltip title={intl.get("coldFood")}>
+          <Button
+            color="primary"
+            variant="outlined"
+            onClick={() => onMove("coldFood")}
+            style={{ flex: 1, height: "100%", fontSize: "20px" }}
+          >
+            {intl.get("coldFood")}
+          </Button>
+        </Tooltip>
+        <Tooltip title={intl.get("sideDish")}>
+          <Button
+            color="primary"
+            variant="outlined"
+            onClick={() => onMove("sideDish")}
+            style={{ flex: 1, height: "100%", fontSize: "20px" }}
+          >
+            {intl.get("sideDish")}
+          </Button>
+        </Tooltip>
+        <Tooltip title={intl.get("capsicumAnnuum")}>
+          <Button
+            color="primary"
+            variant="outlined"
+            onClick={() => onMove("capsicumAnnuum")}
+            style={{ flex: 1, height: "100%", fontSize: "20px" }}
+          >
+            {intl.get("capsicumAnnuum")}
+          </Button>
+        </Tooltip>
+
+        <Tooltip title={intl.get("stirFry")}>
+          <Button
+            color="primary"
+            variant="outlined"
+            onClick={() => onMove("stirFry")}
+            style={{ flex: 1, height: "100%", fontSize: "20px" }}
+          >
+            {intl.get("stirFry")}
+          </Button>
+        </Tooltip>
+
+        <Tooltip title={intl.get("stapleFood")}>
+          <Button
+            color="primary"
+            variant="outlined"
+            onClick={() => onMove("stapleFood")}
+            style={{ flex: 1, height: "100%", fontSize: "20px" }}
+          >
+            {intl.get("stapleFood")}
+          </Button>
+        </Tooltip>
+
+        <Tooltip title={intl.get("drinks")}>
+          <Button
+            color="primary"
+            variant="outlined"
+            onClick={() => onMove("drinks")}
+            style={{ flex: 1, height: "100%", fontSize: "20px" }}
+          >
+            {intl.get("drinks")}
+          </Button>
+        </Tooltip>
       </Flex>
+
+      <Outlet />
     </Layout.Content>
   );
 }
+
 export default Menu;
