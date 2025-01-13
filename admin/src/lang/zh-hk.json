@@ -12,5 +12,12 @@
     "sideDish": "小菜",
     "signatureDish": "招牌菜",
     "stapleFood": "主食",
-    "stirFry": "精美小炒"
+    "stirFry": "精美小炒",
+    "name": "名稱",
+    "price": "價格",
+    "status": "狀態",
+    "active": "在售",
+    "inactive": "停售",
+    "reset": "重置",
+    "submit": "提交"
 }

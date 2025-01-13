@@ -12,5 +12,12 @@
     "sideDish": "Side Dish",
     "signatureDish": "Signature Dish",
     "stapleFood": "Staple Food",
-    "stirFry": "Stir Fry"
+    "stirFry": "Stir Fry",
+    "name": "Name",
+    "price": "Price",
+    "status": "Status",
+    "active": "on Sale",
+    "inactive": "off Sale",
+    "reset": "Reset",
+    "submit": "Submit"
 }

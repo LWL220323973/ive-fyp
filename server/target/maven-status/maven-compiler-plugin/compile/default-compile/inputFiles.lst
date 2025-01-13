@@ -1,5 +1,9 @@
-C:\Users\kahei\Desktop\FYP\ive-fyp\server\src\main\java\com\server\controller\AdminController.java
-C:\Users\kahei\Desktop\FYP\ive-fyp\server\src\main\java\com\server\mapper\AdminMapper.java
-C:\Users\kahei\Desktop\FYP\ive-fyp\server\src\main\java\com\server\model\Admin.java
-C:\Users\kahei\Desktop\FYP\ive-fyp\server\src\main\java\com\server\ServerApplication.java
-C:\Users\kahei\Desktop\FYP\ive-fyp\server\src\main\java\com\server\service\AdminService.java
+C:\Users\kelvin_chang\Desktop\IVE_FYP\ive-fyp\server\src\main\java\com\server\controller\AdminController.java
+C:\Users\kelvin_chang\Desktop\IVE_FYP\ive-fyp\server\src\main\java\com\server\controller\DrinkController.java
+C:\Users\kelvin_chang\Desktop\IVE_FYP\ive-fyp\server\src\main\java\com\server\mapper\AdminMapper.java
+C:\Users\kelvin_chang\Desktop\IVE_FYP\ive-fyp\server\src\main\java\com\server\mapper\DrinkMapper.java
+C:\Users\kelvin_chang\Desktop\IVE_FYP\ive-fyp\server\src\main\java\com\server\model\Admin.java
+C:\Users\kelvin_chang\Desktop\IVE_FYP\ive-fyp\server\src\main\java\com\server\model\Drink.java
+C:\Users\kelvin_chang\Desktop\IVE_FYP\ive-fyp\server\src\main\java\com\server\ServerApplication.java
+C:\Users\kelvin_chang\Desktop\IVE_FYP\ive-fyp\server\src\main\java\com\server\service\AdminService.java
+C:\Users\kelvin_chang\Desktop\IVE_FYP\ive-fyp\server\src\main\java\com\server\service\DrinkService.java
