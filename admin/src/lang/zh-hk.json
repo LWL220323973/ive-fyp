@@ -14,6 +14,8 @@
     "stapleFood": "主食",
     "stirFry": "精美小炒",
     "name": "名稱",
+    "nameCN": "名稱(簡)",
+    "nameEN": "名稱(英)",
     "price": "價格",
     "status": "狀態",
     "active": "在售",

@@ -14,6 +14,8 @@
     "stapleFood": "Staple Food",
     "stirFry": "Stir Fry",
     "name": "Name",
+    "nameCN": "Chinese Name",
+    "nameEN": "English Name",
     "price": "Price",
     "status": "Status",
     "active": "on Sale",

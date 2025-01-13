@@ -4,11 +4,11 @@
 <mapper namespace="com.server.mapper.AdminMapper">
     
     <select id="findAdmin" resultType="com.server.model.Admin">
-        Select * from admin
+        SELECT * FROM admin
         <where>
             1=1
             <if test="username != null &amp;&amp; username != '' &amp;&amp; password !=null &amp;&amp; password != ''">
-                and username = #{username} and password = #{password}
+                AND username = #{username} AND password = #{password}
             </if>
         </where>
     </select>

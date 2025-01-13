@@ -1,11 +1,12 @@
 package com.server.model;
 
-public class Admin {
+public class Drink {
     private String Name_zh_HK;
-    private String Name_en;
+    private String Name_en_US;
     private String Name_zh_CN;
     private String onSale;
     private int price;
+    private String path;
 
     public String getName_zh_HK() {
         return Name_zh_HK;
@@ -15,12 +16,12 @@ public class Admin {
         Name_zh_HK = name_zh_HK;
     }
 
-    public String getName_en() {
-        return Name_en;
+    public String getName_en_US() {
+        return Name_en_US;
     }
 
-    public void setName_en(String name_en) {
-        Name_en = name_en;
+    public void setName_en_US(String name_en_US) {
+        Name_en_US = name_en_US;
     }
 
     public String getName_zh_CN() {
@@ -45,6 +46,14 @@ public class Admin {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 
 }
