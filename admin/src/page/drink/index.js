@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import intl from "react-intl-universal";
 import { Form, Input, Layout, Radio, Flex, Table, Button } from "antd";
 import { ClearOutlined } from "@ant-design/icons";
-import { getDrink } from "../../api/Drink";
+import { getDrink } from "../../api/Menu";
 import "./index.css";
 
 function Drink() {
@@ -12,7 +12,7 @@ function Drink() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getDrink("", "", "");
+        const response = await getDrink("", "", "", "", "");
         response.data.forEach((item) => {
           item.key = item.id;
         });
@@ -26,8 +26,7 @@ function Drink() {
 
   const onReset = async () => {
     form.resetFields();
-
-    const response = await getDrink();
+    const response = await getDrink("", "", "", "", "");
     setData(response.data.map((item, index) => ({ ...item, key: index })));
   };
 
