@@ -18,8 +18,6 @@ public class DrinkController {
 
     @PostMapping("/api/menu/getDrink")
     public List<Drink> getDrink(@RequestBody Drink drink) {
-        System.out.println("DrinkController: getDrink");
-        return drinkService.getDrink(drink.getName_zh_HK(), drink.getName_en_US(), drink.getName_zh_CN(),
-                String.valueOf(drink.getPrice()), drink.getOnSale());
+        return drinkService.getDrink(drink);
     }
 }

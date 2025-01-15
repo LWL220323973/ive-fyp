@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import intl from "react-intl-universal";
-import { Form, Input, Layout, Radio, Button, Table, Flex } from "antd";
+import { Form, Input, Layout, Radio, Flex, Table, Button } from "antd";
 import { ClearOutlined } from "@ant-design/icons";
 import { getDrink } from "../../api/Drink";
 import "./index.css";
@@ -11,8 +11,15 @@ function Drink() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await getDrink();
-      setData(response.data.map((item, index) => ({ ...item, key: index })));
+      try {
+        const response = await getDrink("", "", "");
+        response.data.forEach((item) => {
+          item.key = item.id;
+        });
+        setData(response.data);
+      } catch (error) {
+        console.error(error);
+      }
     };
     fetchData();
   }, []);
@@ -25,15 +32,17 @@ function Drink() {
   };
 
   const onFinish = async (values) => {
-    console.log(values);
-    const response = await getDrink(
-      values.name_zh_HK,
-      values.name_en_US,
-      values.name_zh_CN,
-      values.price,
-      values.onSale
-    );
-    setData(response.data.map((item, index) => ({ ...item, key: index })));
+    const { name, price, onSale } = values;
+    try {
+      console.log(values);
+      const response = await getDrink(name, price, onSale);
+      response.data.forEach((item) => {
+        item.key = item.id;
+      });
+      setData(response.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -73,8 +82,11 @@ function Drink() {
       </Form>
       <Table
         dataSource={Array.isArray(data) ? data : []}
-        rowKey={(record) => record.key} // 確保每個子元素都有唯一的 key 屬性
-        scroll={{ y: 400 }}
+        scroll={{
+          y: 400,
+        }}
+        virtual
+        rowKey={(record) => record.key}
         columns={[
           {
             title: intl.get("name"),
@@ -110,7 +122,6 @@ function Drink() {
             },
           },
         ]}
-        pagination={{ pageSize: 10 }}
       />
     </Layout>
   );
