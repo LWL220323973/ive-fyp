@@ -14,7 +14,6 @@ CREATE TABLE `admin` (
   `password` varchar(10) NOT NULL COMMENT 'password'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='管理員';
 
-TRUNCATE TABLE `admin`;
 INSERT INTO `admin` (`username`, `password`) VALUES
 ('root', 'root_root');
 
@@ -28,7 +27,6 @@ CREATE TABLE `capsicum_annuum` (
   `path` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='泡椒類';
 
-TRUNCATE TABLE `capsicum_annuum`;
 INSERT INTO `capsicum_annuum` (`Name_zh_HK`, `Name_zh_CN`, `Name_en_US`, `price`, `onSale`, `path`) VALUES
 ('泡椒肥腸', '泡椒肥肠', 'Pork Intestines stri fried with Pickled Peppers', 168, 'Y', '泡椒肥腸.jpg'),
 ('泡椒黃喉', '泡椒黄喉', 'Stir Fried Yellow Throat with Pickled Peppers', 168, 'Y', '泡椒黃喉.jpg'),
@@ -51,7 +49,6 @@ CREATE TABLE `cold_food` (
   `path` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='涼菜';
 
-TRUNCATE TABLE `cold_food`;
 INSERT INTO `cold_food` (`Name_zh_HK`, `Name_zh_CN`, `Name_en_US`, `price`, `onSale`, `path`) VALUES
 ('涼拌青瓜', '凉拌青瓜', 'Shredded Cucumber with Sauce', 38, 'Y', '涼拌青瓜.jpg'),
 ('涼拌秋葵', '凉拌秋葵', 'Shredded Orka with Sauce', 38, 'Y', '涼拌秋葵.jpg'),
@@ -75,23 +72,6 @@ INSERT INTO `cold_food` (`Name_zh_HK`, `Name_zh_CN`, `Name_en_US`, `price`, `onS
 ('涼拌長豆角', '凉拌长豆角', 'Shredded Chinese Long Bean with Sauce', 48, 'Y', '涼拌長豆角.jpg'),
 ('豆花', '豆花', 'Tofu Pudding', 58, 'Y', '豆花.jpg');
 
-DROP TABLE IF EXISTS `dishes`;
-CREATE TABLE `dishes` (
-  `dishes` varchar(100) NOT NULL,
-  `translate` varchar(100) NOT NULL,
-  `db` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-TRUNCATE TABLE `dishes`;
-INSERT INTO `dishes` (`dishes`, `translate`, `db`) VALUES
-('Signature Dish', '招牌特色', 'signature_dish'),
-('Capsicum Annuum', '泡椒類', 'capsicum_annuum'),
-('Staple Food', '主食', 'signature_dish'),
-('Cold Food', '涼食', 'cold_food'),
-('Side Dish', '配菜', 'side_dish'),
-('Exquisite Stir-fry', '精美小炒', 'stir_fry'),
-('Drinks', '飲品', 'drinks');
-
 DROP TABLE IF EXISTS `drinks`;
 CREATE TABLE `drinks` (
   `Name_zh_HK` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
@@ -102,7 +82,6 @@ CREATE TABLE `drinks` (
   `path` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='酒水';
 
-TRUNCATE TABLE `drinks`;
 INSERT INTO `drinks` (`Name_zh_HK`, `Name_zh_CN`, `Name_en_US`, `price`, `onSale`, `path`) VALUES
 ('烏龍茶', '乌龙茶', 'oolong', 15, 'Y', '烏龍茶.jpg'),
 ('菊花茶', '菊花茶', 'Chrysanthemum tea', 15, 'Y', '菊花茶.jpg'),
@@ -136,7 +115,6 @@ CREATE TABLE `side_dish` (
   `path` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='配菜';
 
-TRUNCATE TABLE `side_dish`;
 INSERT INTO `side_dish` (`Name_zh_HK`, `Name_zh_CN`, `Name_en_US`, `price`, `onSale`, `path`) VALUES
 ('萵筍', '莴笋', 'Celtuce', 38, 'Y', '萵筍.jpg'),
 ('淮山', '山药', 'Common Yam Rhizome', 38, 'Y', '淮山.jpg'),
@@ -187,7 +165,6 @@ CREATE TABLE `signature_dish` (
   `path` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='招牌特色';
 
-TRUNCATE TABLE `signature_dish`;
 INSERT INTO `signature_dish` (`Name_zh_HK`, `Name_zh_CN`, `Name_en_US`, `price`, `onSale`, `path`) VALUES
 ('清江魚', '清江鱼', 'Steamed Mandarin Fish', 378, 'Y', '清江魚.jpg'),
 ('紙包魚(大)', '纸包鱼（大）', 'Steamed Fish in Paper (Large)', 238, 'Y', '紙包魚(大).jpg'),
@@ -225,7 +202,6 @@ CREATE TABLE `spiciness_levels` (
   `name_en_US` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='辣度';
 
-TRUNCATE TABLE `spiciness_levels`;
 INSERT INTO `spiciness_levels` (`name_zh_TW`, `name_zh_CN`, `name_en_US`) VALUES
 ('小辣', '小辣', 'Mild'),
 ('中辣', '中辣', 'Medium'),
@@ -242,7 +218,6 @@ CREATE TABLE `staple_food` (
   `path` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='主食';
 
-TRUNCATE TABLE `staple_food`;
 INSERT INTO `staple_food` (`Name_zh_HK`, `Name_zh_CN`, `Name_en_US`, `price`, `onSale`, `path`) VALUES
 ('紅油抄手', '红油抄手', 'Wonton Soup in Hot and Spicy Sauce', 35, 'Y', '紅油抄手.jpg'),
 ('重慶酸辣粉', '重庆酸辣粉', 'Chongqing Hot and Sour Rice Noodles', 26, 'Y', '重慶酸辣粉.jpg'),
@@ -260,7 +235,6 @@ CREATE TABLE `stir_fry` (
   `path` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='精美小炒';
 
-TRUNCATE TABLE `stir_fry`;
 INSERT INTO `stir_fry` (`Name_zh_HK`, `Name_zh_CN`, `Name_en_US`, `price`, `onSale`, `path`) VALUES
 ('螞蟻上樹', '蚂蚁上树', 'spicy vermicelli stir-fry', 58, 'Y', '螞蟻上樹.jpg'),
 ('辣子雞', '辣子鸡', 'Spicy Chicken', 158, 'Y', '辣子雞.jpg'),
