@@ -6,5 +6,5 @@ import com.server.model.Drink;
 
 @Mapper
 public interface DrinkMapper {
-    List<Drink> getDrink(Drink drink);
+    List<Drink> getDrink(String name_zh_HK, String name_en_US, String name_zh_CN, String price, String onSale);
 }

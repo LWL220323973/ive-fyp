@@ -5,7 +5,7 @@ public class Drink {
     private String Name_en_US;
     private String Name_zh_CN;
     private String onSale;
-    private int price;
+    private String price;
     private String path;
 
     public String getName_zh_HK() {
@@ -40,11 +40,11 @@ public class Drink {
         this.onSale = onSale;
     }
 
-    public int getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 

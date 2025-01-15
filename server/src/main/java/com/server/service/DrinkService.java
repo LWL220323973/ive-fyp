@@ -14,7 +14,7 @@ public class DrinkService {
     @Autowired
     private DrinkMapper drinkMapper;
 
-    public List<Drink> getDrink(Drink drink) {
-        return drinkMapper.getDrink(drink);
+    public List<Drink> getDrink(String name_zh_HK, String name_en_US, String name_zh_CN, String price, String onSale) {
+        return drinkMapper.getDrink(name_zh_HK, name_en_US, name_zh_CN, price, onSale);
     }
 }

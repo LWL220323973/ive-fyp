@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import intl from "react-intl-universal";
-import { Form, Input, Layout, Radio, Flex, Table, Button } from "antd";
+import { Form, Input, Layout, Radio, Button, Table, Flex } from "antd";
 import { ClearOutlined } from "@ant-design/icons";
 import { getDrink } from "../../api/Drink";
 
@@ -10,31 +10,22 @@ function Drink() {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await getDrink("", "", "");
-        response.data.forEach((item) => {
-          item.key = item.id;
-        });
-        setData(response.data);
-      } catch (error) {
-        console.error(error);
-      }
+      const response = await getDrink();
+      setData(response.data.map((item, index) => ({ ...item, key: index })));
     };
     fetchData();
   }, []);
 
   const onFinish = async (values) => {
-    const { name, price, onSale } = values;
-    try {
-      console.log(values);
-      const response = await getDrink(name, price, onSale);
-      response.data.forEach((item) => {
-        item.key = item.id;
-      });
-      setData(response.data);
-    } catch (error) {
-      console.error(error);
-    }
+    console.log(values);
+    const response = await getDrink(
+      values.name_zh_HK,
+      values.name_en_US,
+      values.name_zh_CN,
+      values.price,
+      values.onSale
+    );
+    setData(response.data.map((item, index) => ({ ...item, key: index })));
   };
 
   return (
@@ -74,11 +65,8 @@ function Drink() {
       </Form>
       <Table
         dataSource={Array.isArray(data) ? data : []}
-        scroll={{
-          y: 400,
-        }}
-        virtual
-        rowKey={(record) => record.key}
+        rowKey={(record) => record.key} // 確保每個子元素都有唯一的 key 屬性
+        scroll={{ y: 400 }}
         columns={[
           {
             title: intl.get("name"),
@@ -108,11 +96,12 @@ function Drink() {
             title: intl.get("status"),
             dataIndex: "onSale",
             key: "onSale",
-            sorter: (a, b) => a.onSale.localeCompare(b.onSale),
+            sorter: (a, b) => (a.onSale > b.onSale ? 1 : -1),
             render: (onSale) =>
               onSale ? intl.get("active") : intl.get("inactive"),
           },
         ]}
+        pagination={{ pageSize: 10 }}
       />
     </Layout>
   );
