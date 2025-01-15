@@ -10,4 +10,4 @@ REM 返回根目錄
 cd ../server
 
 REM 啟動後端
-start pwsh -NoExit -Command "mvn spring-boot:run"
+start pwsh -NoExit -Command "mvn clean install; mvn spring-boot:run"

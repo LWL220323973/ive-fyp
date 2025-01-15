@@ -10,9 +10,9 @@ import com.server.model.Admin;
 public class AdminService {
 
     @Autowired
-    private AdminMapper adminMapper;
+    private AdminMapper mapper;
 
     public Admin getAdmin(String username, String password) {
-        return adminMapper.findAdmin(username, password);
+        return mapper.findAdmin(username, password);
     }
 }

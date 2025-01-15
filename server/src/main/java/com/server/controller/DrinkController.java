@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class DrinkController {
 
     @Autowired
-    private DrinkService drinkService;
+    private DrinkService service;
 
     @PostMapping("/api/menu/getDrink")
     public List<Drink> getDrink(@RequestBody Drink drink) {
-        return drinkService.getDrink(drink);
+        return service.getDrink(drink);
     }
 }

@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminController {
 
     @Autowired
-    private AdminService adminService;
+    private AdminService service;
 
     @PostMapping("/api/adminLogin")
     public Admin getAdmin(@RequestBody Admin admin) {
-        return adminService.getAdmin(admin.getUsername(), admin.getPassword());
+        return service.getAdmin(admin.getUsername(), admin.getPassword());
     }
 }

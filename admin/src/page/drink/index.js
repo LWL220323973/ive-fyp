@@ -31,17 +31,22 @@ function Drink() {
   };
 
   const onFinish = async (values) => {
-    const { name, price, onSale } = values;
     try {
-      console.log(values);
-      const response = await getDrink(name, price, onSale);
-      response.data.forEach((item) => {
-        item.key = item.id;
-      });
-      setData(response.data);
-    } catch (error) {
-      console.error(error);
-    }
+          console.log(values);
+          const response = await getDrink(
+            values.name_zh_HK,
+            values.name_en_US,
+            values.name_zh_CN,
+            values.price,
+            values.onSale
+          );
+          response.data.forEach((item) => {
+            item.key = item.id;
+          });
+          setData(response.data);
+        } catch (error) {
+          console.error(error);
+        }
   };
 
   return (

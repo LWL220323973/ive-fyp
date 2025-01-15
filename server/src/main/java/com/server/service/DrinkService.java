@@ -12,9 +12,9 @@ import com.server.model.Drink;
 public class DrinkService {
 
     @Autowired
-    private DrinkMapper drinkMapper;
+    private DrinkMapper mapper;
 
     public List<Drink> getDrink(Drink drink) {
-        return drinkMapper.getDrink(drink);
+        return mapper.getDrink(drink);
     }
 }
