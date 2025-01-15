@@ -3,6 +3,7 @@ import intl from "react-intl-universal";
 import { Form, Input, Layout, Radio, Button, Table, Flex } from "antd";
 import { ClearOutlined } from "@ant-design/icons";
 import { getDrink } from "../../api/Drink";
+import "./index.css";
 
 function Drink() {
   const [form] = Form.useForm();
@@ -15,6 +16,13 @@ function Drink() {
     };
     fetchData();
   }, []);
+
+  const onReset = async () => {
+    form.resetFields();
+
+    const response = await getDrink();
+    setData(response.data.map((item, index) => ({ ...item, key: index })));
+  };
 
   const onFinish = async (values) => {
     console.log(values);
@@ -31,7 +39,7 @@ function Drink() {
   return (
     <Layout>
       <h1>{intl.get("drinks")}</h1>
-      <Form layout="vertical" form={form} onFinish={onFinish}>
+      <Form layout="vertical" form={form} onFinish={onFinish} name="drinkForm">
         <Flex wrap gap={20} justify="center">
           <Form.Item label={intl.get("name")} name="name_zh_HK">
             <Input size="large" id="name_zh_HK" />
@@ -52,7 +60,7 @@ function Drink() {
             </Radio.Group>
           </Form.Item>
           <Form.Item label="&nbsp;">
-            <Button icon={<ClearOutlined />} htmlType="reset">
+            <Button icon={<ClearOutlined />} onClick={() => onReset()}>
               {intl.get("reset")}
             </Button>
           </Form.Item>
@@ -97,8 +105,9 @@ function Drink() {
             dataIndex: "onSale",
             key: "onSale",
             sorter: (a, b) => (a.onSale > b.onSale ? 1 : -1),
-            render: (onSale) =>
-              onSale ? intl.get("active") : intl.get("inactive"),
+            render: (onSale) => {
+              return onSale === "Y" ? intl.get("active") : intl.get("inactive");
+            },
           },
         ]}
         pagination={{ pageSize: 10 }}
