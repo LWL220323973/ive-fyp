@@ -2,17 +2,17 @@ import React, { useState, useEffect } from "react";
 import intl from "react-intl-universal";
 import { Form, Input, Layout, Radio, Flex, Table, Button } from "antd";
 import { ClearOutlined } from "@ant-design/icons";
-import { getSideDish } from "../../api/Menu";
+import { getStapleFood } from "../../../api/Menu";
 import "./index.css";
 
-function Drink() {
+function StapleFood() {
   const [form] = Form.useForm();
   const [data, setData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getSideDish("", "", "", "", "");
+        const response = await getStapleFood("", "", "", "", "");
         response.data.forEach((item) => {
           item.key = item.id;
         });
@@ -26,33 +26,43 @@ function Drink() {
 
   const onReset = async () => {
     form.resetFields();
-    const response = await getSideDish("", "", "", "", "");
+    const response = await getStapleFood("", "", "", "", "");
     setData(response.data.map((item, index) => ({ ...item, key: index })));
   };
 
-  const onFinish = async (values) => {
+  const onSearch = async (values) => {
     try {
-          console.log(values);
-          const response = await getSideDish(
-            values.name_zh_HK,
-            values.name_en_US,
-            values.name_zh_CN,
-            values.price,
-            values.onSale
-          );
-          response.data.forEach((item) => {
-            item.key = item.id;
-          });
-          setData(response.data);
-        } catch (error) {
-          console.error(error);
-        }
+      console.log(values);
+      const response = await getStapleFood(
+        values.name_zh_HK,
+        values.name_en_US,
+        values.name_zh_CN,
+        values.price,
+        values.onSale
+      );
+      response.data.forEach((item) => {
+        item.key = item.id;
+      });
+      setData(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const handleFieldsChange = async (changedFields, allFields) => {
+    const values = form.getFieldsValue();
+    await onSearch(values);
   };
 
   return (
     <Layout>
-      <h1>{intl.get("sideDish")}</h1>
-      <Form layout="vertical" form={form} onFinish={onFinish} name="drinkForm">
+      <h1>{intl.get("stapleFood")}</h1>
+      <Form
+        layout="vertical"
+        form={form}
+        onFinish={onSearch}
+        name="drinkForm"
+        onFieldsChange={handleFieldsChange}
+      >
         <Flex wrap gap={20} justify="center">
           <Form.Item label={intl.get("name")} name="name_zh_HK">
             <Input size="large" id="name_zh_HK" />
@@ -131,4 +141,4 @@ function Drink() {
   );
 }
 
-export default Drink;
+export default StapleFood;

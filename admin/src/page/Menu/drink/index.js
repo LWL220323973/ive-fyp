@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import intl from "react-intl-universal";
 import { Form, Input, Layout, Radio, Flex, Table, Button } from "antd";
 import { ClearOutlined } from "@ant-design/icons";
-import { getDrink } from "../../api/Menu";
+import { getDrink } from "../../../api/Menu";
 import "./index.css";
 
 function Drink() {
@@ -30,29 +30,40 @@ function Drink() {
     setData(response.data.map((item, index) => ({ ...item, key: index })));
   };
 
-  const onFinish = async (values) => {
+  const onSearch = async (values) => {
     try {
-          console.log(values);
-          const response = await getDrink(
-            values.name_zh_HK,
-            values.name_en_US,
-            values.name_zh_CN,
-            values.price,
-            values.onSale
-          );
-          response.data.forEach((item) => {
-            item.key = item.id;
-          });
-          setData(response.data);
-        } catch (error) {
-          console.error(error);
-        }
+      console.log(values);
+      const response = await getDrink(
+        values.name_zh_HK,
+        values.name_en_US,
+        values.name_zh_CN,
+        values.price,
+        values.onSale
+      );
+      response.data.forEach((item) => {
+        item.key = item.id;
+      });
+      setData(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleFieldsChange = async (changedFields, allFields) => {
+    const values = form.getFieldsValue();
+    await onSearch(values);
   };
 
   return (
     <Layout>
       <h1>{intl.get("drinks")}</h1>
-      <Form layout="vertical" form={form} onFinish={onFinish} name="drinkForm">
+      <Form
+        layout="vertical"
+        form={form}
+        name="drinkForm"
+        onFieldsChange={handleFieldsChange}
+        onFinish={onSearch}
+      >
         <Flex wrap gap={20} justify="center">
           <Form.Item label={intl.get("name")} name="name_zh_HK">
             <Input size="large" id="name_zh_HK" />

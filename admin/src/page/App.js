@@ -3,13 +3,13 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./Login";
 import Home from "./Home";
 import Menu from "./Menu";
-import Drink from "./drink";
-import StapleFood from "./stapleFood";
-import SideDish from "./sideDish";
-import SignatureDish from "./signatureDish";
-import CapsicumAnnuum from "./capsicumAnnuum";
-import ColdFood from "./coldFood";
-import StirFry from "./stirFry";
+import Drink from "./Menu/drink";
+import StapleFood from "./Menu/stapleFood";
+import SideDish from "./Menu/sideDish";
+import SignatureDish from "./Menu/signatureDish";
+import CapsicumAnnuum from "./Menu/capsicumAnnuum";
+import ColdFood from "./Menu/coldFood";
+import StirFry from "./Menu/stirFry";
 
 function App() {
   return (
