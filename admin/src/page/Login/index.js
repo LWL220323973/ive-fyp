@@ -18,7 +18,7 @@ function Login() {
   const onSubmit = async (values) => {
     const { username, password } = values;
     const response = await login(username, password);
-    if (response.data !== "") {
+    if (response) {
       sessionStorage.setItem("user", JSON.stringify(response.data));
       sessionStorage.setItem("siderCollapsed", false);
       message.success("Login successful!", 1);

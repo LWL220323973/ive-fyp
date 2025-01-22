@@ -14,7 +14,7 @@ public class AdminController {
     private AdminService service;
 
     @PostMapping("/api/adminLogin")
-    public Admin getAdmin(@RequestBody Admin admin) {
+    public boolean getAdmin(@RequestBody Admin admin) {
         return service.getAdmin(admin.getUsername(), admin.getPassword());
     }
 }

@@ -8,7 +8,7 @@
         <where>
             1=1
             <if test="username != null &amp;&amp; username != '' &amp;&amp; password !=null &amp;&amp; password != ''">
-                AND username = #{username} AND password = #{password}
+                AND username = #{username}
             </if>
         </where>
     </select>

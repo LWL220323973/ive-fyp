@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "AdminService",
+            "request": "launch",
+            "mainClass": "com.server.service.AdminService",
+            "projectName": "server"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
