@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Layout, Button, Flex, Tooltip } from "antd";
 import Sider from "../layout/Sider";
 import Footer from "../layout/Footer";
 import Header from "../layout/Header";
+import { getDishesType } from "../../api/DishesType";
 import intl from "react-intl-universal";
-import { useNavigate, Outlet } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import "./index.css";
 
 function Menu() {
   return (
@@ -20,11 +22,46 @@ function Menu() {
 }
 
 function Content() {
-  const navigate = useNavigate();
+  const [dishesType, setDishesType] = useState([]);
 
-  const onMove = (key) => {
-    navigate(`/menu/${key}`);
-  };
+  const navigator = useNavigate();
+  useEffect(() => {
+    getDishesType().then((res) => {
+      const data = res.data;
+      if (localStorage.getItem("locale") === "zh-HK") {
+        setDishesType(
+          data.map((item) => (
+            <Tooltip title={item.name_Zh_HK} key={item.id}>
+              <Button
+                type="primary"
+                color="primary"
+                variant="outlined"
+                style={{ flex: 1, height: "100%", fontSize: "16px" }}
+              >
+                {item.name_Zh_HK}
+              </Button>
+            </Tooltip>
+          ))
+        );
+      } else {
+        console.log(data);
+        setDishesType(
+          data.map((item) => (
+            <Tooltip title={item.name_Us_En} key={item.id}>
+              <Button
+                type="primary"
+                color="primary"
+                variant="outlined"
+                style={{ flex: 1, height: "100%", fontSize: "16px" }}
+              >
+                {item.name_Us_En}
+              </Button>
+            </Tooltip>
+          ))
+        );
+      }
+    });
+  }, [navigator]);
   return (
     <Layout.Content
       style={{
@@ -33,82 +70,8 @@ function Content() {
       }}
     >
       <Flex wrap gap="middle">
-        <Tooltip title={intl.get("signatureDish")}>
-          <Button
-            color="primary"
-            variant="outlined"
-            onClick={() => onMove("signatureDish")}
-            style={{ flex: 1, height: "100%", fontSize: "16px" }}
-          >
-            {intl.get("signatureDish")}
-          </Button>
-        </Tooltip>
-        <Tooltip title={intl.get("coldFood")}>
-          <Button
-            color="primary"
-            variant="outlined"
-            onClick={() => onMove("coldFood")}
-            style={{ flex: 1, height: "100%", fontSize: "16px" }}
-          >
-            {intl.get("coldFood")}
-          </Button>
-        </Tooltip>
-        <Tooltip title={intl.get("sideDish")}>
-          <Button
-            color="primary"
-            variant="outlined"
-            onClick={() => onMove("sideDish")}
-            style={{ flex: 1, height: "100%", fontSize: "16px" }}
-          >
-            {intl.get("sideDish")}
-          </Button>
-        </Tooltip>
-        <Tooltip title={intl.get("capsicumAnnuum")}>
-          <Button
-            color="primary"
-            variant="outlined"
-            onClick={() => onMove("capsicumAnnuum")}
-            style={{ flex: 1, height: "100%", fontSize: "16px" }}
-          >
-            {intl.get("capsicumAnnuum")}
-          </Button>
-        </Tooltip>
-
-        <Tooltip title={intl.get("stirFry")}>
-          <Button
-            color="primary"
-            variant="outlined"
-            onClick={() => onMove("stirFry")}
-            style={{ flex: 1, height: "100%", fontSize: "16px" }}
-          >
-            {intl.get("stirFry")}
-          </Button>
-        </Tooltip>
-
-        <Tooltip title={intl.get("stapleFood")}>
-          <Button
-            color="primary"
-            variant="outlined"
-            onClick={() => onMove("stapleFood")}
-            style={{ flex: 1, height: "100%", fontSize: "16px" }}
-          >
-            {intl.get("stapleFood")}
-          </Button>
-        </Tooltip>
-
-        <Tooltip title={intl.get("drinks")}>
-          <Button
-            color="primary"
-            variant="outlined"
-            onClick={() => onMove("drinks")}
-            style={{ flex: 1, height: "100%", fontSize: "16px" }}
-          >
-            {intl.get("drinks")}
-          </Button>
-        </Tooltip>
+        {dishesType}
       </Flex>
-
-      <Outlet />
     </Layout.Content>
   );
 }
