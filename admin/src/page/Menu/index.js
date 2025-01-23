@@ -4,7 +4,7 @@ import Sider from "../layout/Sider";
 import Footer from "../layout/Footer";
 import Header from "../layout/Header";
 import { getDishesType } from "../../api/DishesType";
-import intl from "react-intl-universal";
+// import intl from "react-intl-universal";
 import { useNavigate } from "react-router-dom";
 import "./index.css";
 
