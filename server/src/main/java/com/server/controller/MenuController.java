@@ -19,6 +19,7 @@ public class MenuController {
     
     @PostMapping("/api/menu/findInMenu")
     public List<Menu> findInMenu(@RequestBody Menu menu) {
+        System.out.println(menu.toString());
         return service.findInMenu(menu);
     }
 

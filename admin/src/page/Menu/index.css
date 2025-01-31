@@ -7,3 +7,9 @@
     margin: 10px;
     width: 100%;
 }
+
+#table{
+    margin: 10px;
+    border-collapse: collapse;
+    height: auto;
+}

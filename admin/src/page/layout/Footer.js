@@ -5,6 +5,7 @@ function Footer() {
       style={{
         textAlign: "center",
         backgroundColor: "#fff",
+        height: "50px",
       }}
     >
       IVE_FYP ©{new Date().getFullYear()} Created by Kelvin Chang
