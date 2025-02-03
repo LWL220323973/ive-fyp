@@ -65,10 +65,4 @@ public class Menu {
     public void setId(int id) {
         this.id = id;
     }
-
-    @Override
-    public String toString() {
-        return "Menu [Name_zh_HK=" + Name_zh_HK + ", Name_zh_CN=" + Name_zh_CN + ", Name_en_US=" + Name_en_US
-                + ", onSale=" + onSale + ", price=" + price + ", type=" + type + "]";
-    }
 }

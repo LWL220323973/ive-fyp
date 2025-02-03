@@ -9,16 +9,19 @@
         <where> 1=1
         </where>
 
+        <if test="name_en_US != null and name_en_US != ''">
+            AND (Name_en_US LIKE CONCAT( #{name_en_US}, '%'))
+        </if>
 
 
-        <if test="price != null &amp;&amp; price != ''">
-            AND price = #{price}
+        <if test="price != null and price != ''">
+            AND (price = #{price})
         </if>
-        <if test="onSale != null &amp;&amp; onSale != ''">
-            AND onSale = #{onSale}
+        <if test="onSale != null and onSale != ''">
+            AND (onSale = #{onSale})
         </if>
-        <if test="type != null &amp;&amp; type != ''">
-            AND type = #{type}
+        <if test="type != null and type != ''">
+            AND (type = #{type})
         </if>
     </select>
 </mapper>

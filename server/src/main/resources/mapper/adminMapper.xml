@@ -7,7 +7,7 @@
         SELECT * FROM admin
         <where>
             1=1
-            <if test="username != null &amp;&amp; username != '' &amp;&amp; password !=null &amp;&amp; password != ''">
+            <if test="username != null and username != '' and password !=null and password != ''">
                 AND username = #{username}
             </if>
         </where>
