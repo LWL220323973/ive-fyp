@@ -21,5 +21,7 @@
     "active": "on Sale",
     "inactive": "off Sale",
     "reset": "Reset",
-    "submit": "Submit"
+    "submit": "Submit",
+    "checkToView": "Check to view",
+    "personalInfo": "Personal Information"
 }

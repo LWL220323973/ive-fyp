@@ -1,4 +1,5 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -6,18 +7,22 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
-DROP DATABASE IF EXISTS `ive_fyp`;
 CREATE DATABASE IF NOT EXISTS `ive_fyp` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `ive_fyp`;
 
 DROP TABLE IF EXISTS `admin`;
 CREATE TABLE `admin` (
+  `id` int(10) NOT NULL,
   `username` varchar(10) NOT NULL COMMENT 'username',
-  `password` varchar(1000) NOT NULL COMMENT 'password'
+  `password` varchar(1000) NOT NULL COMMENT 'password',
+  `name` varchar(100) NOT NULL COMMENT 'Name',
+  `phoneNumber` varchar(8) NOT NULL COMMENT 'phoneNumber',
+  `address(CN)` varchar(100) NOT NULL,
+  `address(EN)` varchar(1000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='管理員';
 
-INSERT INTO `admin` (`username`, `password`) VALUES
-('admin', '$2a$10$CmL8d8kv2y2pMgpgTZThE.xeaCZx1nzD5epgyWWVaodS8Gak6WBou');
+INSERT INTO `admin` (`id`, `username`, `password`, `name`, `phoneNumber`, `address(CN)`, `address(EN)`) VALUES
+(1, 'admin', '$2a$10$CmL8d8kv2y2pMgpgTZThE.xeaCZx1nzD5epgyWWVaodS8Gak6WBou', 'Admin_01', '28935767', '香港快活谷路123號，快活谷', '123 Happy Valley Road, Happy Valley, Hong Kong\n\n');
 
 DROP TABLE IF EXISTS `dishes_type`;
 CREATE TABLE `dishes_type` (
@@ -231,6 +236,9 @@ INSERT INTO `spiciness_levels` (`name_zh_TW`, `name_zh_CN`, `name_en_US`) VALUES
 ('特辣', '特辣', 'Special');
 
 
+ALTER TABLE `admin`
+  ADD PRIMARY KEY (`id`);
+
 ALTER TABLE `dishes_type`
   ADD PRIMARY KEY (`id`);
 
@@ -239,12 +247,16 @@ ALTER TABLE `menu`
   ADD KEY `menu_dishes_type_FK` (`type`);
 
 
+ALTER TABLE `admin`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 ALTER TABLE `menu`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=168;
 
 
 ALTER TABLE `menu`
   ADD CONSTRAINT `menu_dishes_type_FK` FOREIGN KEY (`type`) REFERENCES `dishes_type` (`id`);
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

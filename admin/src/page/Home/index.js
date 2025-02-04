@@ -1,5 +1,5 @@
 import React from "react";
-import { Layout } from "antd";
+import { Flex, Layout, Statistic } from "antd";
 import Sider from "../layout/Sider";
 import Footer from "../layout/Footer";
 import Header from "../layout/Header";
@@ -19,14 +19,17 @@ function Home() {
 }
 
 function Content() {
-
   return (
     <Layout.Content
       style={{
         margin: "12px 8px",
         padding: 24,
       }}
-    ></Layout.Content>
+    >
+      <Flex wrap="wrap" justify="end" gap="middle">
+        <Statistic title="Active Users" value={112893} />
+      </Flex>
+    </Layout.Content>
   );
 }
 

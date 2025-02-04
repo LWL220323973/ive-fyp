@@ -24,7 +24,8 @@ function Header() {
     </svg>
   );
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
+  const [openLogout, setOpenLogout] = useState(false);
+  const [openPersonalInfo, setOpenPersonalInfo] = useState(false);
   const messageDisplayedRef = useRef(false);
 
   const onLogout = () => {
@@ -34,7 +35,10 @@ function Header() {
   };
 
   useEffect(() => {
-    if (sessionStorage.getItem("user") === null && !messageDisplayedRef.current) {
+    if (
+      sessionStorage.getItem("user") === null &&
+      !messageDisplayedRef.current
+    ) {
       message.error("Please login first", 1);
       messageDisplayedRef.current = true;
       navigate("/");
@@ -42,7 +46,8 @@ function Header() {
   }, [navigate]);
 
   const changeLocale = () => {
-    const newLocale = intl.getInitOptions().currentLocale === "en-US" ? "zh-HK" : "en-US";
+    const newLocale =
+      intl.getInitOptions().currentLocale === "en-US" ? "zh-HK" : "en-US";
     localStorage.setItem("locale", newLocale);
     window.location.reload();
   };
@@ -72,20 +77,27 @@ function Header() {
       </div>
       <div style={{ display: "flex", alignItems: "center" }}>
         <Tooltip title={intl.get("translate")}>
-          <Button type="link" style={{ marginLeft: "16px" }} onClick={changeLocale}>
+          <Button
+            type="link"
+            style={{ marginLeft: "16px" }}
+            onClick={changeLocale}
+          >
             <TranslationOutlined style={{ fontSize: "24px" }} />
           </Button>
         </Tooltip>
-        <Avatar
-          size={40}
-          icon={<UserOutlined />}
-          style={{ marginLeft: "16px" }}
-        />
+        <Tooltip title={intl.get("checkToView")}>
+          <Avatar
+            size={40}
+            icon={<UserOutlined />}
+            style={{ marginLeft: "16px" }}
+            onClick={() => (setOpenPersonalInfo(true))}
+          />
+        </Tooltip>
         <Tooltip title={intl.get("logout")}>
           <Button
             type="link"
             style={{ marginLeft: "16px" }}
-            onClick={() => setOpen(!open)}
+            onClick={() => setOpenLogout(!openLogout)}
           >
             <Icon component={LogoutSvg} />
           </Button>
@@ -93,13 +105,20 @@ function Header() {
       </div>
       <Modal
         title={intl.get("logout")}
-        open={open}
+        open={openLogout}
         onOk={onLogout}
-        onCancel={() => setOpen(false)}
+        onCancel={() => setOpenLogout(false)}
         okText={intl.get("yes")}
         cancelText={intl.get("no")}
       >
         <p>{intl.get("logoutConfirm")}</p>
+      </Modal>
+      <Modal
+      title={intl.get("personalInfo")}
+      open={openPersonalInfo}
+      onCancel={() => setOpenPersonalInfo(false)}
+      >
+        
       </Modal>
     </Layout.Header>
   );

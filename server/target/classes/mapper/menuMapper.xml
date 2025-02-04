@@ -12,7 +12,14 @@
         <if test="name_en_US != null and name_en_US != ''">
             AND (Name_en_US LIKE CONCAT( #{name_en_US}, '%'))
         </if>
+        
+        <if test="name_zh_HK != null and name_zh_HK != ''">
+            AND (Name_zh_HK LIKE CONCAT( #{name_zh_HK}, '%'))
+        </if>
 
+        <if test="name_zh_CN != null and name_zh_CN != ''">
+            AND (Name_zh_CN LIKE CONCAT( #{name_zh_CN}, '%'))
+        </if>
 
         <if test="price != null and price != ''">
             AND (price = #{price})
