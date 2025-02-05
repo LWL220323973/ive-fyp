@@ -29,5 +29,11 @@
     "name_en": "名稱(英)",
     "name_cn": "名稱(中)",
     "email": "電郵",
-    "phoneNumber": "電話號碼"
+    "userName": "用戶名",
+    "password": "密碼",
+    "phoneNumber": "電話號碼",
+    "addUser": "新增用戶",
+    "editUser": "編輯用戶",
+    "address_cn": "地址(中)",
+    "address_en": "地址(英)"
 }

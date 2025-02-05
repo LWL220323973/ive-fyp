@@ -1,11 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { Layout, Form, Typography, Flex, Table, Input, Button } from "antd";
-import { ClearOutlined } from "@ant-design/icons";
+import {
+  Layout,
+  Form,
+  Typography,
+  Flex,
+  Table,
+  Input,
+  Button,
+  Row,
+  Col,
+} from "antd";
+import { ClearOutlined, UserAddOutlined } from "@ant-design/icons";
 import intl from "react-intl-universal"; // 假設你使用的是 react-intl-universal 庫
-import Sider from "../layout/Sider";
-import Footer from "../layout/Footer";
-import Header from "../layout/Header";
-import { findInAdmin } from "../../api/Admin";
+import Sider from "../../layout/Sider";
+import Footer from "../../layout/Footer";
+import Header from "../../layout/Header";
+import { findInAdmin } from "../../../api/Admin";
+import { useNavigate } from "react-router-dom";
 
 function Menu() {
   return (
@@ -23,6 +34,7 @@ function Menu() {
 function UserContent() {
   const [form] = Form.useForm(); // 確保 form 已正確初始化
   const [data, setData] = useState([]); //the list of dishes
+  const navigate = useNavigate();
 
   const columns = () => {
     if (localStorage.getItem("locale") === "en-US") {
@@ -120,6 +132,7 @@ function UserContent() {
       );
     }
   };
+
   useEffect(() => {
     onSearch({});
   }, []);
@@ -151,8 +164,25 @@ function UserContent() {
         overflow: "auto",
       }}
     >
+      <Row justify="space-between" align="middle">
+        <Col>
+          <Typography.Title level={2}>{intl.get("user")}</Typography.Title>
+        </Col>
+        <Col>
+          <Button
+            type="primary"
+            name="btnAddUser"
+            onClick={() => {
+              sessionStorage.setItem("userInfoStatus", "add");
+              navigate("userInfo");
+            }}
+          >
+            <UserAddOutlined />
+            {intl.get("addUser")}
+          </Button>
+        </Col>
+      </Row>
       <Flex wrap gap="middle">
-        <Typography.Title level={2}>{intl.get("user")}</Typography.Title>
         <Form form={form} name="form" layout="vertical">
           <Flex wrap gap={20} justify="center">
             <Form.Item label={intl.get("staffId")} name="staff_id">

@@ -29,5 +29,11 @@
     "name_en": "Name(EN)",
     "name_cn": "Name(CN)",
     "email": "Email",
-    "phoneNumber": "Phone Number"
+    "userName": "Username",
+    "password": "Password",
+    "phoneNumber": "Phone Number",
+    "addUser": "Add User",
+    "editUser": "Edit User",
+    "address_cn": "Address(CN)",
+    "address_en": "Address(EN)"
 }
