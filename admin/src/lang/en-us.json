@@ -35,5 +35,9 @@
     "addUser": "Add User",
     "editUser": "Edit User",
     "address_cn": "Address(CN)",
-    "address_en": "Address(EN)"
+    "address_en": "Address(EN)",
+    "pleaseEnterValidPhoneNumber": "Please enter a valid phone number",
+    "pleaseEnterValidName": "Please enter a valid name",
+    "pleaseEnterValidEmail": "Please enter a valid email",
+    "pleaseEnterValidAddress": "Please enter a valid address"
 }

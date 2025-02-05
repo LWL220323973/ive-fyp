@@ -1,5 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Button, Layout, message, Avatar, Modal, Tooltip } from "antd";
+import {
+  Button,
+  Layout,
+  message,
+  Avatar,
+  Modal,
+  Tooltip,
+  Typography,
+  Flex,
+  Row,
+  Col,
+} from "antd";
 import Icon, { UserOutlined, TranslationOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import intl from "react-intl-universal";
@@ -25,7 +36,6 @@ function Header() {
   );
   const navigate = useNavigate();
   const [openLogout, setOpenLogout] = useState(false);
-  const [openPersonalInfo, setOpenPersonalInfo] = useState(false);
   const messageDisplayedRef = useRef(false);
 
   const onLogout = () => {
@@ -65,17 +75,13 @@ function Header() {
         alignItems: "center",
       }}
     >
-      <div
-        style={{
-          flex: 1,
-          textAlign: "center",
-          fontSize: "60px",
-          fontWeight: "bold",
-        }}
-      >
-        寶斯重慶紙包魚
-      </div>
-      <div style={{ display: "flex", alignItems: "center" }}>
+      <Row justify="center" align="middle" style={{ width: "100%" }}>
+        <Col span={24}>
+          <Typography.Title level={1}>寶斯重慶紙包魚</Typography.Title>
+        </Col>
+      </Row>
+
+      <Flex justify="center" align="middle" gap={20}>
         <Tooltip title={intl.get("translate")}>
           <Button
             type="link"
@@ -90,7 +96,7 @@ function Header() {
             size={40}
             icon={<UserOutlined />}
             style={{ marginLeft: "16px" }}
-            onClick={() => (setOpenPersonalInfo(true))}
+            // onClick={() => setOpenPersonalInfo(true)}
           />
         </Tooltip>
         <Tooltip title={intl.get("logout")}>
@@ -102,7 +108,7 @@ function Header() {
             <Icon component={LogoutSvg} />
           </Button>
         </Tooltip>
-      </div>
+      </Flex>
       <Modal
         title={intl.get("logout")}
         open={openLogout}
@@ -112,13 +118,6 @@ function Header() {
         cancelText={intl.get("no")}
       >
         <p>{intl.get("logoutConfirm")}</p>
-      </Modal>
-      <Modal
-      title={intl.get("personalInfo")}
-      open={openPersonalInfo}
-      onCancel={() => setOpenPersonalInfo(false)}
-      >
-        
       </Modal>
     </Layout.Header>
   );

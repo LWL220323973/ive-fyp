@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import {
   Layout,
   Button,
-  Flex,
+  Row,
   Tooltip,
   Form,
   Input,
   Radio,
   Typography,
   Table,
+  Col,
 } from "antd";
 import { ClearOutlined } from "@ant-design/icons";
 import Sider from "../layout/Sider";
@@ -114,6 +115,7 @@ function MenuContent() {
     onSearch({});
   }, []);
 
+
   const onReset = () => {
     const type = form.getFieldValue("type");
     form.resetFields();
@@ -141,29 +143,41 @@ function MenuContent() {
     if (local === "zh-HK") {
       return (
         <>
-          <Form.Item label={intl.get("name")} name="Name_zh_HK">
-            <Input size="large" id="Name_zh_HK" />
-          </Form.Item>
-          <Form.Item label={intl.get("nameCN")} name="Name_zh_CN">
-            <Input size="large" id="Name_zh_CN" />
-          </Form.Item>
-          <Form.Item label={intl.get("nameEN")} name="Name_en_US">
-            <Input size="large" id="Name_en_US" />
-          </Form.Item>
+          <Col span={4}>
+            <Form.Item label={intl.get("name")} name="Name_zh_HK">
+              <Input size="large" id="Name_zh_HK" />
+            </Form.Item>
+          </Col>
+          <Col span={4}>
+            <Form.Item label={intl.get("nameCN")} name="Name_zh_CN">
+              <Input size="large" id="Name_zh_CN" />
+            </Form.Item>
+          </Col>
+          <Col span={5}>
+            <Form.Item label={intl.get("nameEN")} name="Name_en_US">
+              <Input size="large" id="Name_en_US" />
+            </Form.Item>
+          </Col>
         </>
       );
     } else {
       return (
         <>
-          <Form.Item label={intl.get("nameEN")} name="Name_en_US">
-            <Input size="large" id="Name_en_US" />
-          </Form.Item>
-          <Form.Item label={intl.get("name")} name="Name_zh_HK">
-            <Input size="large" id="Name_zh_HK" />
-          </Form.Item>
-          <Form.Item label={intl.get("nameCN")} name="Name_zh_CN">
-            <Input size="large" id="Name_zh_CN" />
-          </Form.Item>
+          <Col span={5}>
+            <Form.Item label={intl.get("nameEN")} name="Name_en_US">
+              <Input size="large" id="Name_en_US" />
+            </Form.Item>
+          </Col>
+          <Col span={4}>
+            <Form.Item label={intl.get("name")} name="Name_zh_HK">
+              <Input size="large" id="Name_zh_HK" />
+            </Form.Item>
+          </Col>
+          <Col span={4}>
+            <Form.Item label={intl.get("nameCN")} name="Name_zh_CN">
+              <Input size="large" id="Name_zh_CN" />
+            </Form.Item>
+          </Col>
         </>
       );
     }
@@ -256,65 +270,75 @@ function MenuContent() {
         overflow: "auto",
       }}
     >
-      <Flex wrap gap="middle">
+      <Row justify="center" style={{ marginBottom: 20 }}>
         {dishesType}
-      </Flex>
-      <Flex wrap gap="middle">
+      </Row>
+      <Row justify="center">
         <Form form={form} name="form" layout="vertical" onFinish={onSearch}>
-          <Flex wrap gap={20} justify="center">
+          <Row justify="center" gutter={[20, 10]}>
             {formItem(localStorage.getItem("locale"))}
-            <Form.Item
-              label={intl.get("price")}
-              name="price"
-              style={{ order: 4 }}
-            >
-              <Input size="large" id="price" type="number" />
-            </Form.Item>
-            <Form.Item
-              label={intl.get("status")}
-              name="onSale"
-              style={{ order: 5 }}
-            >
-              <Radio.Group id="onSale">
-                <Radio value="Y">{intl.get("active")}</Radio>
-                <Radio value="N">{intl.get("inactive")}</Radio>
-              </Radio.Group>
-            </Form.Item>
-            <Form.Item label="&nbsp;" style={{ order: 6 }}>
-              <Button icon={<ClearOutlined />} onClick={() => onReset()}>
-                {intl.get("reset")}
-              </Button>
-            </Form.Item>
-            <Form.Item label="&nbsp;" style={{ order: 7 }}>
-              <Button type="primary" htmlType="submit">
-                {intl.get("submit")}
-              </Button>
-            </Form.Item>
+            <Col span={2}>
+              <Form.Item
+                label={intl.get("price")}
+                name="price"
+                style={{ order: 4 }}
+              >
+                <Input size="large" id="price" type="number" />
+              </Form.Item>
+            </Col>
+            <Col span={3.5}>
+              <Form.Item
+                label={intl.get("status")}
+                name="onSale"
+                style={{ order: 5 }}
+              >
+                <Radio.Group id="onSale">
+                  <Radio value="Y">{intl.get("active")}</Radio>
+                  <Radio value="N">{intl.get("inactive")}</Radio>
+                </Radio.Group>
+              </Form.Item>
+            </Col>
+            <Col span={2}>
+              <Form.Item label="&nbsp;" style={{ order: 6 }}>
+                <Button icon={<ClearOutlined />} onClick={() => onReset()}>
+                  {intl.get("reset")}
+                </Button>
+              </Form.Item>
+            </Col>
+            <Col span={2}>
+              <Form.Item label="&nbsp;" style={{ order: 7 }}>
+                <Button type="primary" htmlType="submit">
+                  {intl.get("submit")}
+                </Button>
+              </Form.Item>
+            </Col>
+
             <Form.Item label="&nbsp;" style={{ order: 8 }} name="type" hidden>
               <Input size="large" id="type" value={""} />
             </Form.Item>
-          </Flex>
+          </Row>
         </Form>
-      </Flex>
-      <Flex wrap gap="middle">
-        <Typography.Title level={3}>{type}</Typography.Title>
-        <Table
-          dataSource={Array.isArray(data) ? data : []}
-          scroll={{
-            scrollToFirstRowOnChange: true,
-            y: "auto",
-          }}
-          virtual
-          rowKey={(record) => record.id}
-          columns={columns()}
-          name="table"
-          pagination={{
-            showSizeChanger: true,
-            pageSizeOptions: ["10", "20", "30"],
-            position: ["bottomCenter"],
-          }}
-        />
-      </Flex>
+      </Row>
+      <Typography.Title level={3}>{type}</Typography.Title>
+      <Row justify="center" style={{ marginBottom: 20 }}>
+        <Col span={22}>
+          <Table
+            dataSource={Array.isArray(data) ? data : []}
+            scroll={{
+              scrollToFirstRowOnChange: true,
+            }}
+            virtual
+            rowKey={(record) => record.id}
+            columns={columns()}
+            name="table"
+            pagination={{
+              showSizeChanger: true,
+              pageSizeOptions: ["10", "20", "30"],
+              position: ["bottomCenter"],
+            }}
+          />
+        </Col>
+      </Row>
     </Layout.Content>
   );
 }

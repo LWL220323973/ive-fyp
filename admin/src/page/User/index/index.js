@@ -1,15 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Layout,
-  Form,
-  Typography,
-  Flex,
-  Table,
-  Input,
-  Button,
-  Row,
-  Col,
-} from "antd";
+import { Layout, Form, Typography, Table, Input, Button, Row, Col } from "antd";
 import { ClearOutlined, UserAddOutlined } from "@ant-design/icons";
 import intl from "react-intl-universal"; // 假設你使用的是 react-intl-universal 庫
 import Sider from "../../layout/Sider";
@@ -110,24 +100,31 @@ function UserContent() {
     if (local === "en-US") {
       return (
         <>
-          {" "}
-          <Form.Item label={intl.get("name_cn")} name="name_cn">
-            <Input size="large" id="name_cn" />
-          </Form.Item>
-          <Form.Item label={intl.get("name_en")} name="name_en">
-            <Input size="large" id="name_en" />
-          </Form.Item>
+          <Col span={3}>
+            <Form.Item label={intl.get("name_cn")} name="name_cn">
+              <Input size="large" id="name_cn" />
+            </Form.Item>
+          </Col>
+          <Col span={3}>
+            <Form.Item label={intl.get("name_en")} name="name_en">
+              <Input size="large" id="name_en" />
+            </Form.Item>
+          </Col>
         </>
       );
     } else {
       return (
         <>
-          <Form.Item label={intl.get("name_cn")} name="name_cn">
-            <Input size="large" id="name_cn" />
-          </Form.Item>
-          <Form.Item label={intl.get("name_en")} name="name_en">
-            <Input size="large" id="name_en" />
-          </Form.Item>
+          <Col span={3}>
+            <Form.Item label={intl.get("name_cn")} name="name_cn">
+              <Input size="large" id="name_cn" />
+            </Form.Item>
+          </Col>
+          <Col span={3}>
+            <Form.Item label={intl.get("name_en")} name="name_en">
+              <Input size="large" id="name_en" />
+            </Form.Item>
+          </Col>
         </>
       );
     }
@@ -182,33 +179,41 @@ function UserContent() {
           </Button>
         </Col>
       </Row>
-      <Flex wrap gap="middle">
-        <Form form={form} name="form" layout="vertical">
-          <Flex wrap gap={20} justify="center">
+      <Form form={form} name="form" layout="vertical">
+        <Row justify="center" align="middle" gutter={[16, 16]}>
+          <Col span={3}>
             <Form.Item label={intl.get("staffId")} name="staff_id">
               <Input size="large" id="staff_id" />
             </Form.Item>
-            {formItem(localStorage.getItem("locale"))}
+          </Col>
+          {formItem(localStorage.getItem("locale"))}
+          <Col span={5}>
             <Form.Item label={intl.get("email")} name="email">
               <Input size="large" id="email" />
             </Form.Item>
+          </Col>
+          <Col span={3}>
             <Form.Item label={intl.get("phoneNumber")} name="phone_number">
               <Input size="large" id="phone_number" />
             </Form.Item>
+          </Col>
+          <Col span={2}>
             <Form.Item label="&nbsp;" style={{ order: 6 }}>
               <Button icon={<ClearOutlined />} onClick={() => onReset()}>
                 {intl.get("reset")}
               </Button>
             </Form.Item>
+          </Col>
+          <Col span={2}>
             <Form.Item label="&nbsp;" style={{ order: 7 }}>
               <Button type="primary" htmlType="submit">
                 {intl.get("submit")}
               </Button>
             </Form.Item>
-          </Flex>
-        </Form>
-      </Flex>
-      <Flex wrap gap="middle">
+          </Col>
+        </Row>
+      </Form>
+      <Row justify="end" align="middle">
         <Table
           dataSource={Array.isArray(data) ? data : []}
           scroll={{
@@ -225,7 +230,7 @@ function UserContent() {
             position: ["bottomCenter"],
           }}
         />
-      </Flex>
+      </Row>
     </Layout.Content>
   );
 }

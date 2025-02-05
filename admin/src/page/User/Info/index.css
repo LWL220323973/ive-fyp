@@ -1,3 +1,9 @@
-#userInfo {
-
+#form {
+  padding: 10px;
+  border: 1px solid #a7a7a7;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 10px;
+  width: auto;
 }
