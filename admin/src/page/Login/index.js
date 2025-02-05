@@ -2,7 +2,7 @@ import React from "react";
 import { Form, Input, Button, Space, message } from "antd";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
-import { login } from "../../api/Login";
+import { login } from "../../api/Admin";
 
 const tailLayout = {
   wrapperCol: {

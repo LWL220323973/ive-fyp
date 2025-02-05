@@ -23,5 +23,11 @@
     "reset": "重置",
     "submit": "提交",
     "checkToView": "點選查看",
-    "personalInfo": "個人資料"
+    "personalInfo": "個人資料",
+    "user": "用戶",
+    "staffId": "員工編號",
+    "name_en": "名稱(英)",
+    "name_cn": "名稱(中)",
+    "email": "電郵",
+    "phoneNumber": "電話號碼"
 }

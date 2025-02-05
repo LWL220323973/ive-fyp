@@ -6,29 +6,29 @@
     <select id="findInMenu" resultType="com.server.model.Menu">
 
         SELECT * FROM menu
-        <where> 1=1
-        </where>
-
-        <if test="name_en_US != null and name_en_US != ''">
+        <where> 
+        1=1
+            <if test="name_en_US != null and name_en_US != ''">
             AND (Name_en_US LIKE CONCAT( #{name_en_US}, '%'))
-        </if>
-        
-        <if test="name_zh_HK != null and name_zh_HK != ''">
+            </if>
+
+            <if test="name_zh_HK != null and name_zh_HK != ''">
             AND (Name_zh_HK LIKE CONCAT( #{name_zh_HK}, '%'))
-        </if>
+            </if>
 
-        <if test="name_zh_CN != null and name_zh_CN != ''">
+            <if test="name_zh_CN != null and name_zh_CN != ''">
             AND (Name_zh_CN LIKE CONCAT( #{name_zh_CN}, '%'))
-        </if>
+            </if>
 
-        <if test="price != null and price != ''">
+            <if test="price != null and price != ''">
             AND (price = #{price})
-        </if>
-        <if test="onSale != null and onSale != ''">
+            </if>
+            <if test="onSale != null and onSale != ''">
             AND (onSale = #{onSale})
-        </if>
-        <if test="type != null and type != ''">
+            </if>
+            <if test="type != null and type != ''">
             AND (type = #{type})
-        </if>
+            </if>
+        </where>
     </select>
 </mapper>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Layout, Menu, Image } from "antd";
-import { HomeOutlined, MenuOutlined } from "@ant-design/icons";
+import { HomeOutlined, MenuOutlined, UserOutlined } from "@ant-design/icons";
 import { useNavigate, useLocation } from "react-router-dom";
 import intl from "react-intl-universal";
 
@@ -28,6 +28,12 @@ function Sider() {
       label: intl.get("menu"),
       onClick: () => navigate("/menu"),
     },
+    {
+      key:"/user",
+      icon: <UserOutlined />,
+      label: intl.get("user"),
+      onClick: () => navigate("/user"),
+    }
   ];
 
   return (

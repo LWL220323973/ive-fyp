@@ -15,8 +15,9 @@ public class AdminService {
     @Autowired
     private AdminMapper mapper;
 
+    //Login
     public Boolean getAdmin(String username, String password) {
-        List<Admin> account = mapper.findAdmin(username, password);
+        List<Admin> account = mapper.getAdmin(username, password);
         if (account.size() == 0) {
             return false;
         }
@@ -26,6 +27,11 @@ public class AdminService {
             }
         }
         return false;
+    }
+
+    //User searching
+    public List<Admin> findInAdmin(Admin admin) {
+        return mapper.findAdmin(admin);
     }
 
 }

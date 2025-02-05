@@ -10,5 +10,7 @@ import com.server.model.Admin;
 @Mapper
 public interface AdminMapper {
 
-    List<Admin> findAdmin(String username, String password);
+    List<Admin> getAdmin(String username, String password);
+
+    List<Admin> findAdmin(Admin admin);
 }

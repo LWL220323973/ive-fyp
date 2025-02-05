@@ -26,14 +26,14 @@ function Menu() {
       <Sider />
       <Layout>
         <Header />
-        <Content />
+        <MenuContent />
         <Footer />
       </Layout>
     </Layout>
   );
 }
 
-function Content() {
+function MenuContent() {
   const [dishesType, setDishesType] = useState([]); //the list of dishes type
   const [type, setType] = useState(""); //the selected dishes type
   const [data, setData] = useState([]); //the list of dishes
@@ -57,11 +57,11 @@ function Content() {
                     setType(item.name_Zh_HK);
                     form.setFieldsValue({ type: item.id });
                     onSearch({ type: item.id });
-                  } else if(type === item.name_Zh_HK){
+                  } else if (type === item.name_Zh_HK) {
                     setType("");
                     form.setFieldsValue({ type: "" });
                     onSearch({});
-                  }else{
+                  } else {
                     setType(item.name_Zh_HK);
                     form.setFieldsValue({ type: item.id });
                     onSearch({ type: item.id });
@@ -89,11 +89,11 @@ function Content() {
                     setType(item.name_Us_En);
                     form.setFieldsValue({ type: item.id });
                     onSearch({ type: item.id });
-                  } else if(type === item.name_Us_En){
+                  } else if (type === item.name_Us_En) {
                     setType("");
                     form.setFieldsValue({ type: "" });
                     onSearch({});
-                  }else{
+                  } else {
                     setType(item.name_Us_En);
                     form.setFieldsValue({ type: item.id });
                     onSearch({ type: item.id });
@@ -115,11 +115,12 @@ function Content() {
   }, []);
 
   const onReset = () => {
+    const type = form.getFieldValue("type");
     form.resetFields();
     type === ""
       ? form.setFieldsValue({ type: "" })
       : form.setFieldsValue({ type: type });
-    onSearch(form.getFieldsValue());
+    onSearch(form.getFieldValue());
   };
 
   const onSearch = async (values) => {
@@ -175,14 +176,12 @@ function Content() {
           title: intl.get("name"),
           dataIndex: "name_zh_HK",
           key: "name_zh_HK",
-
           sorter: (a, b) => a.name_zh_HK.localeCompare(b.name_zh_HK),
         },
         {
           title: intl.get("nameCN"),
           dataIndex: "name_zh_CN",
           key: "name_zh_CN",
-
           sorter: (a, b) => a.name_zh_CN.localeCompare(b.name_zh_CN),
         },
         {

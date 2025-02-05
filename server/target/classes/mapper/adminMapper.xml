@@ -3,7 +3,7 @@
 
 <mapper namespace="com.server.mapper.AdminMapper">
     
-    <select id="findAdmin" resultType="com.server.model.Admin">
+    <select id="getAdmin" resultType="com.server.model.Admin">
         SELECT * FROM admin
         <where>
             1=1
@@ -11,5 +11,13 @@
                 AND username = #{username}
             </if>
         </where>
+    </select>
+
+    <select id="findAdmin" resultType="com.server.model.Admin">
+        SELECT * FROM admin
+        <where>
+            1=1
+        </where>
+        
     </select>
 </mapper>

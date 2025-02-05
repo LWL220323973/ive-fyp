@@ -23,5 +23,11 @@
     "reset": "Reset",
     "submit": "Submit",
     "checkToView": "Check to view",
-    "personalInfo": "Personal Information"
+    "personalInfo": "Personal Information",
+    "user": "User",
+    "staffId": "Staff ID",
+    "name_en": "Name(EN)",
+    "name_cn": "Name(CN)",
+    "email": "Email",
+    "phoneNumber": "Phone Number"
 }
