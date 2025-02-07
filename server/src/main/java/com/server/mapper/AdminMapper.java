@@ -15,4 +15,6 @@ public interface AdminMapper {
     List<Admin> findAdmin(Admin admin);
 
     int registerAdmin(Admin admin);
+
+    Admin getLatestAdmin();
 }

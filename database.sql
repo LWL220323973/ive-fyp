@@ -12,7 +12,7 @@ DROP TABLE IF EXISTS `admin`;
 CREATE TABLE `admin` (
   `id` int(10) NOT NULL,
   `staff_id` varchar(10) NOT NULL,
-  `username` varchar(10) NOT NULL COMMENT 'username',
+  `username` varchar(50) NOT NULL COMMENT 'username',
   `password` varchar(1000) NOT NULL COMMENT 'password',
   `name_en` varchar(100) NOT NULL,
   `name_cn` varchar(100) NOT NULL COMMENT 'Name',

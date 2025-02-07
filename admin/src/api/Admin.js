@@ -43,3 +43,8 @@ export function registerAdmin(
     address_cn,
   });
 }
+
+//Get Latest Admin
+export function getLatestAdmin() {
+  return axios.post(baseURL + "/getLatestAdmin",{});
+}

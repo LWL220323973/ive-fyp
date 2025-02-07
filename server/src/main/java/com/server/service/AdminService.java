@@ -38,8 +38,13 @@ public class AdminService {
     public int registerAdmin(Admin admin) {
         admin.setStaff_id(checkExistingStaffID());
         admin.setUsername(generateUserName(admin.getName_en()));
-        admin.setPassword(generatePassword());
+        admin.setPassword(generatePassword(admin));
         return mapper.registerAdmin(admin);
+    }
+
+    // Get Latest UserInfo
+    public Admin getLatestAdmin() {
+        return mapper.getLatestAdmin();
     }
 
     // Generate staffID
@@ -63,13 +68,9 @@ public class AdminService {
     }
 
     // Generate password
-    public String generatePassword() {
-        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_+=<>?";
-        StringBuilder password = new StringBuilder();
-        for (int i = 0; i < 8; i++) {
-            int index = (int) (Math.random() * characters.length());
-            password.append(characters.charAt(index));
-        }
+    public String generatePassword(Admin admin) {
+        String password = admin.getUsername().substring(0, 3) + admin.getPhone_number().substring(4, 8);
+        System.out.println(password);
         return BCrypt.hashpw(password.toString(), BCrypt.gensalt());
     }
 
@@ -84,7 +85,7 @@ public class AdminService {
             username += nameSplit[0];
             int repeatCount = 0;
             for (Admin account : mapper.findAdmin(null)) {
-                if (account.getUsername().equals(username.toLowerCase())) {
+                if (account.getUsername().contains(username.toLowerCase())) {
                     repeatCount++;
                 }
             }
@@ -97,7 +98,7 @@ public class AdminService {
             String username = nameSplit[1] + nameSplit[0];
             int repeatCount = 0;
             for (Admin account : mapper.findAdmin(null)) {
-                if (account.getUsername().equals(username.toLowerCase())) {
+                if (account.getUsername().contains(username.toLowerCase())) {
                     repeatCount++;
                 }
             }

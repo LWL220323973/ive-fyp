@@ -43,6 +43,12 @@
 
     </select>
 
+    <select id="getLatestAdmin" resultType="com.server.model.Admin">
+        SELECT * FROM admin
+        ORDER BY staff_id DESC
+        LIMIT 1
+    </select>
+    
     <insert id="registerAdmin" parameterType="com.server.model.Admin">
         INSERT INTO admin (staff_id, username, password, name_en, name_cn, phone_number, email, address_cn, address_en)
         VALUES (#{staff_id}, #{username}, #{password}, #{name_en}, #{name_cn}, #{phone_number}, #{email}, #{address_cn}, #{address_en})

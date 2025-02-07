@@ -30,4 +30,9 @@ public class AdminController {
     public int registerAdmin(@RequestBody Admin admin) {
         return service.registerAdmin(admin);
     }
+
+    @PostMapping("/api/admin/getLatestAdmin")
+    public Admin getLatestAdmin() {
+        return service.getLatestAdmin();
+    }
 }

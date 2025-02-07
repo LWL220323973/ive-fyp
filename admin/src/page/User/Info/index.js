@@ -15,7 +15,7 @@ import Footer from "../../layout/Footer";
 import Header from "../../layout/Header";
 import intl from "react-intl-universal";
 import "./index.css";
-import { registerAdmin } from "../../../api/Admin";
+import { registerAdmin, getLatestAdmin } from "../../../api/Admin";
 import { useNavigate } from "react-router-dom";
 
 function AddUser() {
@@ -54,7 +54,8 @@ function UserInfoContent() {
         values;
       registerAdmin(name_en, name_cn, email, phone_number, address_en, address_cn)
       message.success(intl.get("addSuccess"));
-      navigate("..");
+      const res = await getLatestAdmin();
+      
     }
   };
 
