@@ -37,7 +37,7 @@ public class AdminService {
     // User registration
     public int registerAdmin(Admin admin) {
         admin.setStaff_id(checkExistingStaffID());
-        admin.setUsername(generateUserName(admin.getName_en()).toLowerCase());
+        admin.setUsername(generateUserName(admin.getName_en()));
         admin.setPassword(generatePassword());
         return mapper.registerAdmin(admin);
     }
@@ -75,7 +75,6 @@ public class AdminService {
 
     // Generate username
     public String generateUserName(String name) {
-        List<Admin> existingAccount = mapper.findAdmin(new Admin());
         String[] nameSplit = name.split(" ");
         if (nameSplit.length > 2) {
             String username = "";
@@ -84,28 +83,28 @@ public class AdminService {
             }
             username += nameSplit[0];
             int repeatCount = 0;
-            for (Admin account : existingAccount) {
-                if (account.getUsername().equals(username)) {
+            for (Admin account : mapper.findAdmin(null)) {
+                if (account.getUsername().equals(username.toLowerCase())) {
                     repeatCount++;
                 }
             }
             if (repeatCount > 0) {
-                return username += ("0" + repeatCount);
-            }else{
-                return username;
+                return (username += ("0" + repeatCount)).toLowerCase();
+            } else {
+                return username.toLowerCase();
             }
-        }else{
+        } else {
             String username = nameSplit[1] + nameSplit[0];
             int repeatCount = 0;
-            for (Admin account : existingAccount) {
-                if (account.getUsername().equals(username)) {
+            for (Admin account : mapper.findAdmin(null)) {
+                if (account.getUsername().equals(username.toLowerCase())) {
                     repeatCount++;
                 }
             }
             if (repeatCount > 0) {
-                return username += ("0" + repeatCount);
-            }else{
-                return username;
+                return (username += ("0" + repeatCount)).toLowerCase();
+            } else {
+                return username.toLowerCase();
             }
         }
     }

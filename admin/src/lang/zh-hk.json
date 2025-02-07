@@ -40,5 +40,7 @@
     "pleaseEnterValidName": "請輸入有效的名稱",
     "pleaseEnterValidEmail": "請輸入有效的電郵",
     "pleaseEnterValidAddress": "請輸入有效的地址",
-    "pleaseFillCorrectly": "請正確填寫表格"
+    "pleaseFillCorrectly": "請正確填寫表格",
+    "addSuccess": "新增成功",
+    "addFailed": "新增失敗"
 }

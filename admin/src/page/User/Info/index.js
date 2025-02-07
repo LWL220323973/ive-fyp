@@ -48,6 +48,16 @@ function UserInfoContent() {
     form.resetFields();
   };
 
+  const onFinish = async (values) => {
+    if (status === "add") {
+      const { name_en, name_cn, email, phone_number, address_en, address_cn } =
+        values;
+      registerAdmin(name_en, name_cn, email, phone_number, address_en, address_cn)
+      message.success(intl.get("addSuccess"));
+      navigate("..");
+    }
+  };
+
   return (
     <Layout.Content
       style={{
@@ -65,7 +75,7 @@ function UserInfoContent() {
         </Col>
         <Col span={10}></Col>
       </Row>
-      <Form form={form} name="form" layout="vertical">
+      <Form form={form} name="form" layout="vertical" onFinish={onFinish}>
         <Row gutter={[48, 24]}>
           <Col span={12}>
             <Form.Item
@@ -166,7 +176,7 @@ function UserInfoContent() {
             </Form.Item>
           </Col>
         </Row>
-        
+
         <Row gutter={[48, 24]} justify="center">
           <Col span={10}></Col>
           <Col span={2}>
@@ -175,7 +185,7 @@ function UserInfoContent() {
             </Button>
           </Col>
           <Col span={12}>
-            <Button icon={<UserAddOutlined />} type="primary">
+            <Button icon={<UserAddOutlined />} type="primary" htmlType="submit">
               {intl.get("submit")}
             </Button>
           </Col>
