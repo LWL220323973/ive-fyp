@@ -39,5 +39,6 @@
     "pleaseEnterValidPhoneNumber": "Please enter a valid phone number",
     "pleaseEnterValidName": "Please enter a valid name",
     "pleaseEnterValidEmail": "Please enter a valid email",
-    "pleaseEnterValidAddress": "Please enter a valid address"
+    "pleaseEnterValidAddress": "Please enter a valid address",
+    "pleaseFillCorrectly": "Please fill in the form correctly"
 }

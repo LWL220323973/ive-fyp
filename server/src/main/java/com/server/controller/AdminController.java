@@ -25,4 +25,9 @@ public class AdminController {
     public List<Admin> findInAdmin(@RequestBody Admin admin) {
         return service.findInAdmin(admin);
     }
+
+    @PostMapping("/api/admin/registerAdmin")
+    public int registerAdmin(@RequestBody Admin admin) {
+        return service.registerAdmin(admin);
+    }
 }

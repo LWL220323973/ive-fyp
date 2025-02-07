@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Layout, Form, Typography, Table, Input, Button, Row, Col } from "antd";
 import { ClearOutlined, UserAddOutlined } from "@ant-design/icons";
-import intl from "react-intl-universal"; // 假設你使用的是 react-intl-universal 庫
+import intl from "react-intl-universal";
 import Sider from "../../layout/Sider";
 import Footer from "../../layout/Footer";
 import Header from "../../layout/Header";
@@ -135,9 +135,9 @@ function UserContent() {
   }, []);
 
   const onSearch = async (values) => {
-    const { staffId, name_en, name_cn, email, phone_number } = values;
+    const { staff_id, name_en, name_cn, email, phone_number } = values;
     const res = await findInAdmin(
-      staffId,
+      staff_id,
       name_en,
       name_cn,
       email,
@@ -179,7 +179,7 @@ function UserContent() {
           </Button>
         </Col>
       </Row>
-      <Form form={form} name="form" layout="vertical">
+      <Form form={form} name="form" layout="vertical" onFinish={onSearch}>
         <Row justify="center" align="middle" gutter={[16, 16]}>
           <Col span={3}>
             <Form.Item label={intl.get("staffId")} name="staff_id">

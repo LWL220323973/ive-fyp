@@ -39,5 +39,6 @@
     "pleaseEnterValidPhoneNumber": "請輸入有效的電話號碼",
     "pleaseEnterValidName": "請輸入有效的名稱",
     "pleaseEnterValidEmail": "請輸入有效的電郵",
-    "pleaseEnterValidAddress": "請輸入有效的地址"
+    "pleaseEnterValidAddress": "請輸入有效的地址",
+    "pleaseFillCorrectly": "請正確填寫表格"
 }

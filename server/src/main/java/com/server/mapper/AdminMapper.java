@@ -13,4 +13,6 @@ public interface AdminMapper {
     List<Admin> getAdmin(String username, String password);
 
     List<Admin> findAdmin(Admin admin);
+
+    int registerAdmin(Admin admin);
 }

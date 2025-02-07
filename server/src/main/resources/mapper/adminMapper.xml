@@ -2,11 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.server.mapper.AdminMapper">
-    
+
     <select id="getAdmin" resultType="com.server.model.Admin">
         SELECT * FROM admin
-        <where>
-            1=1
+        <where> 1=1
             <if test="username != null and username != '' and password !=null and password != ''">
                 AND username = #{username}
             </if>
@@ -15,9 +14,37 @@
 
     <select id="findAdmin" resultType="com.server.model.Admin">
         SELECT * FROM admin
-        <where>
-            1=1
+        <where> 1=1
+
+            <if test="username != null and username != ''">
+                AND username LIKE CONCAT('%', #{username})
+            </if>
+
+            <if test="staff_id != null and staff_id != ''">
+                AND staff_id LIKE CONCAT( #{staff_id}, '%')
+            </if>
+
+            <if test="name_en != null and name_en != ''">
+                AND name_en LIKE CONCAT( #{name_en}, '%')
+            </if>
+
+            <if test="name_cn != null and name_cn != ''">
+                AND name_cn LIKE CONCAT( #{name_cn}, '%')
+            </if>
+
+            <if test="email != null and email != ''">
+                AND email LIKE CONCAT( #{email}, '%')
+            </if>
+
+            <if test="phone_number != null and phone_number != ''">
+                AND phone_number LIKE CONCAT( #{phone_number}, '%')
+            </if>
         </where>
-        
+
     </select>
+
+    <insert id="registerAdmin" parameterType="com.server.model.Admin">
+        INSERT INTO admin (staff_id, username, password, name_en, name_cn, phone_number, email, address_cn, address_en)
+        VALUES (#{staff_id}, #{username}, #{password}, #{name_en}, #{name_cn}, #{phone_number}, #{email}, #{address_cn}, #{address_en})
+    </insert>
 </mapper>

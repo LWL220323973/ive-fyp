@@ -11,16 +11,19 @@ SET time_zone = "+00:00";
 DROP TABLE IF EXISTS `admin`;
 CREATE TABLE `admin` (
   `id` int(10) NOT NULL,
+  `staff_id` varchar(10) NOT NULL,
   `username` varchar(10) NOT NULL COMMENT 'username',
   `password` varchar(1000) NOT NULL COMMENT 'password',
-  `name` varchar(100) NOT NULL COMMENT 'Name',
-  `phoneNumber` varchar(8) NOT NULL COMMENT 'phoneNumber',
-  `address(CN)` varchar(100) NOT NULL,
-  `address(EN)` varchar(1000) NOT NULL
+  `name_en` varchar(100) NOT NULL,
+  `name_cn` varchar(100) NOT NULL COMMENT 'Name',
+  `phone_number` varchar(8) NOT NULL COMMENT 'phoneNumber',
+  `email` varchar(100) NOT NULL,
+  `address_cn` varchar(100) NOT NULL,
+  `address_en` varchar(1000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='管理員';
 
-INSERT INTO `admin` (`id`, `username`, `password`, `name`, `phoneNumber`, `address(CN)`, `address(EN)`) VALUES
-(1, 'admin', '$2a$10$CmL8d8kv2y2pMgpgTZThE.xeaCZx1nzD5epgyWWVaodS8Gak6WBou', 'Admin_01', '28935767', '香港快活谷路123號，快活谷', '123 Happy Valley Road, Happy Valley, Hong Kong\n\n');
+INSERT INTO `admin` (`id`, `staff_id`, `username`, `password`, `name_en`, `name_cn`, `phone_number`, `email`, `address_cn`, `address_en`) VALUES
+(1, '12345678', 'admin', '$2a$10$CmL8d8kv2y2pMgpgTZThE.xeaCZx1nzD5epgyWWVaodS8Gak6WBou', 'Admin_01', '管理員_1號', '28935767', 'admin01@gmail.com', '香港快活谷路123號，快活谷', '123 Happy Valley Road, Happy Valley, Hong Kong');
 
 DROP TABLE IF EXISTS `dishes_type`;
 CREATE TABLE `dishes_type` (
