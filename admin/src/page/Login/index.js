@@ -3,6 +3,7 @@ import { Form, Input, Button, Space, message } from "antd";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
 import { login, findCurrentAdmin } from "../../api/Admin";
+import intl from "react-intl-universal";
 
 const tailLayout = {
   wrapperCol: {
@@ -39,7 +40,7 @@ function Login() {
     <div id="Login">
       <Form form={form} id="login-form" onFinish={onSubmit}>
         <Form.Item
-          label="Username"
+          label={intl.get("userName")}
           name="username"
           rules={[
             {
@@ -51,7 +52,7 @@ function Login() {
           <Input />
         </Form.Item>
         <Form.Item
-          label="Password"
+          label={intl.get("password")}
           name="password"
           rules={[
             {

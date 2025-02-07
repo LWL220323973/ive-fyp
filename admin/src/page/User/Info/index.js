@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Form,
   Input,
@@ -8,6 +8,7 @@ import {
   Row,
   Col,
   message,
+  Modal,
 } from "antd";
 import { ClearOutlined, UserAddOutlined } from "@ant-design/icons";
 import Sider from "../../layout/Sider";
@@ -35,7 +36,7 @@ function UserInfoContent() {
   const status = sessionStorage.getItem("userInfoStatus");
   const [form] = Form.useForm();
   const navigate = useNavigate();
-
+  const [open, setOpen] = useState(false);
   const title = (status) => {
     if (status === "add") {
       return intl.get("addUser");
@@ -52,10 +53,25 @@ function UserInfoContent() {
     if (status === "add") {
       const { name_en, name_cn, email, phone_number, address_en, address_cn } =
         values;
-      registerAdmin(name_en, name_cn, email, phone_number, address_en, address_cn)
+      registerAdmin(
+        name_en,
+        name_cn,
+        email,
+        phone_number,
+        address_en,
+        address_cn
+      );
       message.success(intl.get("addSuccess"));
-      const res = await getLatestAdmin();
-      
+      sessionStorage.setItem(
+        "latestUserName",
+        (await getLatestAdmin()).data.username
+      );
+      sessionStorage.setItem(
+        "latestUserPassword",
+        (await getLatestAdmin()).data.username.substring(0, 3) +
+          phone_number.substring(4, 8)
+      );
+      setOpen(!open);
     }
   };
 
@@ -192,6 +208,33 @@ function UserInfoContent() {
           </Col>
         </Row>
       </Form>
+      <Modal
+        open={open}
+        onCancel={() => {
+          sessionStorage.removeItem("latestUserName");
+          sessionStorage.removeItem("latestUserPassword");
+          setOpen(!open);
+          navigate("..");
+        }}
+        onOk={() => {
+          sessionStorage.removeItem("latestUserName");
+          sessionStorage.removeItem("latestUserPassword");
+          setOpen(!open);
+          navigate("..");
+        }}
+        title={intl.get("addSuccess")}
+      >
+        <p>
+          {intl.get("userName") +
+            ":" +
+            sessionStorage.getItem("latestUserName")}
+        </p>
+        <p>
+          {intl.get("password") +
+            ":" +
+            sessionStorage.getItem("latestUserPassword")}
+        </p>
+      </Modal>
     </Layout.Content>
   );
 }
