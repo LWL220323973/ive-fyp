@@ -1,0 +1,35 @@
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  background-color: #f8f8f8;
+  border-top: 2px solid #d4a017;
+  padding: 10px 0;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Noto Serif', serif;
+}
+
+.bottom-nav button {
+  flex: 1;
+  margin: 0 5px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #d4a017;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.bottom-nav button:hover {
+  background-color: #b8860b;
+}
+
+.bottom-nav button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(212, 160, 23, 0.5);
+}

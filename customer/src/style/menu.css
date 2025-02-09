@@ -1,0 +1,210 @@
+.menu-screen {
+  padding: 60px 16px 60px 16px;
+  background-color: #fffaf0;
+  min-height: 100vh;
+  transition: all 0.3s ease;
+  font-family: "Arial", sans-serif;
+}
+
+.search-filter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  position: fixed;
+  top: 64px;
+  left: 0;
+  width: 100%;
+  background-color: #fffaf0;
+  z-index: 999;
+  padding: 10px 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+}
+
+.menu-search-input,
+.menu-category-select {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.menu-category-select {
+  max-width: 150px;
+}
+
+.menu-items {
+  transition: all 0.5s ease-in-out;
+}
+
+.menu-item-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.menu-item-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.category-buttons::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and Opera */
+}
+
+.category-scroll {
+  display: inline-flex;
+  gap: 10px;
+}
+
+.menu-search-input {
+  flex: 0.4;
+  margin-right: 10px;
+}
+
+.table-number {
+  text-align: center;
+  margin: 10px 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.search-button {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px 10px;
+  background: #fff;
+  color: black;
+}
+
+.searching-button {
+  border: 2px solid red !important;
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-weight: bold;
+  background-color: #ffcccc;
+  color: black;
+}
+
+.search-popup {
+  display: flex;
+  align-items: center;
+}
+
+.search-popup input {
+  flex: 1;
+}
+
+.search-popup button {
+  min-width: 40px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  color: black;
+}
+
+.search-filter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  position: fixed;
+  top: 64px;
+  left: 0;
+  width: 100%;
+  background-color: #fffaf0;
+  z-index: 999;
+  padding: 10px 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+}
+
+.category-buttons {
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 0px 20px 0px 0px;
+  background-color: #fffaf0;
+  scrollbar-width: none; /* For Firefox */
+}
+
+.category-buttons::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and Opera */
+}
+
+.category-scroll {
+  display: inline-flex;
+  gap: 10px;
+}
+
+.category-title {
+  font-size: 22px; /* Reduced from 26px */
+  font-weight: bold;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  text-align: center;
+  position: relative;
+}
+
+.category-title::before,
+.category-title::after {
+  content: "";
+  display: block;
+  width: 35%;
+  height: 2px;
+  background-color: #ccc;
+  position: absolute;
+  top: 50%;
+}
+
+.category-title::before {
+  left: 0;
+}
+
+.category-title::after {
+  right: 0;
+}
+
+.card-meta-description p {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin: 0;
+}
+
+.search-category-separator {
+  width: 1px;
+  height: 40px;
+  background-color: #ccc;
+  margin: 0 10px;
+}
+
+.category-buttons .ant-btn {
+  border-radius: 0;
+  font-size: 16px;
+  font-weight: bold;
+  margin: 5px;
+  padding: 8px 16px;
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.category-buttons .ant-btn-default {
+  background-color: #fffaf0;
+  border: 2px solid #b22222;
+  color: #b22222;
+}
+
+.category-buttons .ant-btn-primary {
+  background-color: #b22222;
+  border: none;
+  color: #fff;
+}
+
+.category-buttons .ant-btn-default:hover {
+  background-color: #ffe6e6;
+}
+
+.category-buttons .ant-btn-primary:hover {
+  background-color: #a11a1a;
+}
+
+.category-buttons .ant-btn:active {
+  transform: scale(0.98);
+}

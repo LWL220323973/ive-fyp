@@ -1,0 +1,28 @@
+.app-header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #8B0000;
+  padding: 0 16px;
+  height: 64px;
+  box-sizing: border-box; /* Add this line */
+}
+  
+  .logo {
+    color: #fff;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+    .app-logo {
+    width: auto;
+    height: auto; 
+  }
+
+  .language-select { /* Add this block */
+    margin-left: auto;
+}
