@@ -35,4 +35,9 @@ public class AdminController {
     public Admin getLatestAdmin() {
         return service.getLatestAdmin();
     }
+
+    @PostMapping("/api/admin/updateAdmin")
+    public int editAdmin(@RequestBody Admin admin) {
+        return service.editAdmin(admin);
+    }
 }

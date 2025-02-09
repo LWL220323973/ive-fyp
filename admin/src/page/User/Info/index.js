@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Form,
   Input,
@@ -16,10 +16,10 @@ import Footer from "../../layout/Footer";
 import Header from "../../layout/Header";
 import intl from "react-intl-universal";
 import "./index.css";
-import { registerAdmin, getLatestAdmin } from "../../../api/Admin";
-import { useNavigate } from "react-router-dom";
+import { registerAdmin, getLatestAdmin, updateAdmin } from "../../../api/Admin";
+import { useNavigate, useLocation } from "react-router-dom";
 
-function AddUser() {
+function UserInfo() {
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sider />
@@ -34,6 +34,8 @@ function AddUser() {
 
 function UserInfoContent() {
   const status = sessionStorage.getItem("userInfoStatus");
+  const location = useLocation();
+  const { record } = location.state || {};
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -46,7 +48,18 @@ function UserInfoContent() {
   };
 
   const onReset = () => {
-    form.resetFields();
+    if (status === "edit") {
+      form.setFieldsValue({
+        name_en: record.name_en,
+        name_cn: record.name_cn,
+        email: record.email,
+        phone_number: record.phone_number,
+        address_en: record.address_en,
+        address_cn: record.address_cn,
+      });
+    } else {
+      form.resetFields();
+    }
   };
 
   const onFinish = async (values) => {
@@ -72,8 +85,46 @@ function UserInfoContent() {
           phone_number.substring(4, 8)
       );
       setOpen(!open);
+    } else {
+      const { name_en, name_cn, email, phone_number, address_en, address_cn } =
+        values;
+      const id = record.id;
+      const staff_id = record.staff_id;
+      if (
+        (
+          await updateAdmin(
+            id,
+            staff_id,
+            name_en,
+            name_cn,
+            email,
+            phone_number,
+            address_en,
+            address_cn
+          )
+        ).data === 1
+      ) {
+        message.success(intl.get("editSuccess"));
+        setTimeout(() => {
+          navigate("..");
+        }, 3000);
+      }
     }
   };
+
+  useEffect(() => {
+    if (status === "edit") {
+      form.setFieldsValue({
+        name_en: record.name_en,
+        name_cn: record.name_cn,
+        email: record.email,
+        phone_number: record.phone_number,
+        address_en: record.address_en,
+        address_cn: record.address_cn,
+      });
+      location.state = {};
+    }
+  }, [record, form, status, location]);
 
   return (
     <Layout.Content
@@ -119,6 +170,10 @@ function UserInfoContent() {
               rules={[
                 {
                   required: true,
+                  message: intl.get("pleaseEnterValidName"),
+                },
+                {
+                  pattern: /^[\u4e00-\u9fa5\s]*$/,
                   message: intl.get("pleaseEnterValidName"),
                 },
               ]}
@@ -239,4 +294,4 @@ function UserInfoContent() {
   );
 }
 
-export default AddUser;
+export default UserInfo;

@@ -326,6 +326,7 @@ function MenuContent() {
             dataSource={Array.isArray(data) ? data : []}
             scroll={{
               scrollToFirstRowOnChange: true,
+              y: window.innerHeight - 300,
             }}
             virtual
             rowKey={(record) => record.id}

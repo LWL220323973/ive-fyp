@@ -17,4 +17,6 @@ public interface AdminMapper {
     int registerAdmin(Admin admin);
 
     Admin getLatestAdmin();
+
+    int editAdmin(Admin admin);
 }

@@ -42,5 +42,7 @@
     "pleaseEnterValidAddress": "Please enter a valid address",
     "pleaseFillCorrectly": "Please fill in the form correctly",
     "addSuccess": "Add successfully",
-    "addFailed": "Add failed"
+    "addFailed": "Add failed",
+    "editSuccess": "Edit successfully",
+    "editFailed": "Edit failed"
 }
