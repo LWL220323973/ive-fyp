@@ -48,9 +48,35 @@
         ORDER BY staff_id DESC
         LIMIT 1
     </select>
-    
+
     <insert id="registerAdmin" parameterType="com.server.model.Admin">
         INSERT INTO admin (staff_id, username, password, name_en, name_cn, phone_number, email, address_cn, address_en)
         VALUES (#{staff_id}, #{username}, #{password}, #{name_en}, #{name_cn}, #{phone_number}, #{email}, #{address_cn}, #{address_en})
     </insert>
+
+    <update id="editAdmin" parameterType="com.server.model.Admin">
+        UPDATE admin
+        <set>
+            <if test="name_en != null and name_en != ''">
+                name_en = #{name_en},
+            </if>
+            <if test="name_cn != null and name_cn != ''">
+                name_cn = #{name_cn},
+            </if>
+            <if test="phone_number != null and phone_number != ''">
+                phone_number = #{phone_number},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="address_cn != null and address_cn != ''">
+                address_cn = #{address_cn},
+            </if>
+            <if test="address_en != null and address_en != ''">
+                address_en = #{address_en},
+            </if>
+        </set>
+        WHERE staff_id = #{staff_id} AND id = #{id}
+    </update>
+
 </mapper>

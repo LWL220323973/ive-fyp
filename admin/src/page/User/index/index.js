@@ -218,7 +218,7 @@ function UserContent() {
           dataSource={Array.isArray(data) ? data : []}
           scroll={{
             scrollToFirstRowOnChange: true,
-            y: "auto",
+            y: "calc(100vh - 300px)",
           }}
           virtual
           rowKey={(record) => record.id}
@@ -228,6 +228,14 @@ function UserContent() {
             showSizeChanger: true,
             pageSizeOptions: ["10", "20", "30"],
             position: ["bottomCenter"],
+          }}
+          onRow={(record) => {
+            return {
+              onClick: () => {
+                sessionStorage.setItem("userInfoStatus", "edit");
+                navigate("userInfo", { state: { record: record } });
+              },
+            };
           }}
         />
       </Row>

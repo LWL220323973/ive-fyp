@@ -48,3 +48,26 @@ export function registerAdmin(
 export function getLatestAdmin() {
   return axios.post(baseURL + "/getLatestAdmin",{});
 }
+
+// Admin updating
+export function updateAdmin(
+  id,
+  staff_id,
+  name_en,
+  name_cn,
+  email,
+  phone_number,
+  address_en,
+  address_cn
+) {
+  return axios.post(baseURL + "/updateAdmin", {
+    id,
+    staff_id,
+    name_en,
+    name_cn,
+    email,
+    phone_number,
+    address_en,
+    address_cn,
+  });
+}

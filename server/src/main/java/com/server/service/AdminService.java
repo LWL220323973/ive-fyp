@@ -47,6 +47,11 @@ public class AdminService {
         return mapper.getLatestAdmin();
     }
 
+    //Edit User
+    public int editAdmin(Admin admin) {
+        return mapper.editAdmin(admin);
+    }
+
     // Generate staffID
     public String generateStaffID() {
         int min = 10000000;
