@@ -148,6 +148,12 @@ const MenuScreen = () => {
         </Popover>
         <div className="search-category-separator"></div>
         <div className="category-buttons">
+          <Button
+            type={selectedCategory === 'all' ? 'primary' : 'default'}
+            onClick={() => setSelectedCategory('all')}
+          >
+            {t('all_categories')}
+          </Button>
           {categories.map(cat => (
             <Button
               key={cat.id}
