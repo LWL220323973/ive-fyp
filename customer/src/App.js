@@ -18,7 +18,7 @@ function App() {
           <Route path="/orders" element={<div style={{ padding: '20px', textAlign: 'center' }}>訂單頁面（待實現）</div>} />
           <Route path="/test" element={<Test />} />
         </Routes>
-        <AppFooter />
+        {/* <AppFooter /> */}
         <BottomNav />
       </div>
     </Router>

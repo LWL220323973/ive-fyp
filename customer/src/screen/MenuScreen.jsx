@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Input, Card, Row, Col, Button, Popover, Modal } from 'antd';
+import { Input, Card, Row, Col, Button, Popover, Modal, message } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 import '../style/menu.css';
 import { findInMenu } from '../api/Menu';
 import { getDishesType } from '../api/DishesType';
+import { DeleteOutlined } from '@ant-design/icons';
 
 const MenuScreen = () => {
   const { t, i18n } = useTranslation();
@@ -19,6 +20,14 @@ const MenuScreen = () => {
   const [searchInputVisible, setSearchInputVisible] = useState(false);
   const [tempSearch, setTempSearch] = useState('');
   const [tableNumber, setTableNumber] = useState(localStorage.getItem('tableNumber') || '');
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [itemDetailVisible, setItemDetailVisible] = useState(false);
+  const [cart, setCart] = useState(() => {
+    const savedCart = localStorage.getItem('cart');
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
+  const [cartModalVisible, setCartModalVisible] = useState(false);
+  const [selectedQuantity, setSelectedQuantity] = useState(1);
 
   useEffect(() => {
     const urlTableNumber = searchParams.get('table');
@@ -66,6 +75,10 @@ const MenuScreen = () => {
     setFilteredItems(items);
   }, [searchTerm, selectedCategory, i18n.language, menuItems]);
 
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart]);
+
   const groupedItems = filteredItems.reduce((acc, item) => {
     if (!acc[item.type]) {
       acc[item.type] = [];
@@ -96,6 +109,68 @@ const MenuScreen = () => {
     setSearchInputVisible(false);
     setSearchTerm('');
     setSearching(false);
+  };
+
+  const handleItemClick = (item) => {
+    setSelectedItem(item);
+    setSelectedQuantity(1); // Reset quantity when opening detail
+    setItemDetailVisible(true);
+  };
+
+  const handleAddToCart = () => {
+    if (!selectedItem) return;
+    
+    const existingItem = cart.find(item => item.id === selectedItem.id);
+    if (existingItem) {
+      setCart(cart.map(item =>
+        item.id === selectedItem.id
+          ? { ...item, quantity: item.quantity + selectedQuantity }
+          : item
+      ));
+    } else {
+      setCart([...cart, { ...selectedItem, quantity: selectedQuantity }]);
+    }
+    
+    message.success(t('added_to_cart'));
+    setItemDetailVisible(false);
+  };
+
+  const handleUpdateQuantity = (itemId, delta) => {
+    setCart(cart.map(item => {
+      if (item.id === itemId) {
+        const newQuantity = item.quantity + delta;
+        return newQuantity > 0 ? { ...item, quantity: newQuantity } : null;
+      }
+      return item;
+    }).filter(Boolean));
+  };
+
+  const handleDetailQuantityChange = (delta) => {
+    const newQuantity = selectedQuantity + delta;
+    if (newQuantity > 0) {
+      setSelectedQuantity(newQuantity);
+    }
+  };
+
+  const getTotalPrice = () => {
+    return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  };
+
+  const getTotalItems = () => {
+    return cart.reduce((sum, item) => sum + item.quantity, 0);
+  };
+
+  const handleClearCart = () => {
+    Modal.confirm({
+      title: t('clear_cart_confirm'),
+      onOk: () => {
+        setCart([]);
+        message.success(t('clear_cart'));
+      },
+      okButtonProps: { 
+        style: { background: '#b22222' } 
+      }
+    });
   };
 
   return (
@@ -169,6 +244,56 @@ const MenuScreen = () => {
       {/* 桌號顯示 */}
       <div className="table-number">{t('table_number')}: {tableNumber || 'N/A'}</div>
 
+      {/* Item Detail Modal */}
+      <Modal
+        visible={itemDetailVisible}
+        onCancel={() => setItemDetailVisible(false)}
+        footer={null}
+        centered
+        className="item-detail-modal"
+        title={selectedItem?.[`Name_${i18n.language === 'en' ? 'en_US' : (i18n.language === 'zh_CN' ? 'zh_CN' : 'zh_HK')}`]}
+      >
+        {selectedItem && (
+          <>
+            <img
+              src={selectedItem.image}
+              alt={selectedItem[`Name_${i18n.language === 'en' ? 'en_US' : (i18n.language === 'zh_CN' ? 'zh_CN' : 'zh_HK')}`]}
+              className="item-detail-image"
+            />
+            <div className="item-detail-description">
+              {<h2>{selectedItem[`name_${i18n.language === 'en' ? 'en_US' : (i18n.language === 'zh_CN' ? 'zh_CN' : 'zh_HK')}`]}</h2>}
+            </div>
+            <div className="item-detail-price">
+              ${selectedItem.price.toFixed(2)}
+            </div>
+            
+            <div className="item-detail-quantity">
+              <button 
+                className="quantity-button" 
+                onClick={() => handleDetailQuantityChange(-1)}
+              >
+                -
+              </button>
+              <span>{selectedQuantity}</span>
+              <button 
+                className="quantity-button" 
+                onClick={() => handleDetailQuantityChange(1)}
+              >
+                +
+              </button>
+            </div>
+
+            <div className="item-detail-total">
+              {t('cart_total')}: ${(selectedItem.price * selectedQuantity).toFixed(2)}
+            </div>
+
+            <Button className="add-to-cart-button" onClick={handleAddToCart}>
+              {t('add_to_cart')}
+            </Button>
+          </>
+        )}
+      </Modal>
+
       {/* 菜單內容 */}
       {Object.keys(groupedItems).map(category => (
         <div key={category}>
@@ -180,8 +305,9 @@ const MenuScreen = () => {
               <Col xs={24} sm={12} md={8} key={item.id}>
                 <Card
                   hoverable
-                  cover={<img alt={item[`Name_${i18n.language === 'en' ? 'en_US' : (i18n.language === 'zh_CN' ? 'zh_CN' : 'zh_HK')}`]} src={item.image} />}
+                  cover={<img alt={item[`path`]} src={item.image} />}
                   className="menu-item-card"
+                  onClick={() => handleItemClick(item)}
                 >
                   <Card.Meta
                     title={<h3>{item[`name_${i18n.language === 'en' ? 'en_US' : (i18n.language === 'zh_CN' ? 'zh_CN' : 'zh_HK')}`]}</h3>}
@@ -193,6 +319,77 @@ const MenuScreen = () => {
           </Row>
         </div>
       ))}
+
+      {/* Floating Cart Button */}
+      {cart.length > 0 && (
+        <div className="floating-cart" onClick={() => setCartModalVisible(true)}>
+          <span className="cart-count">{getTotalItems()} {t('cart_items')}</span>
+          <span className="cart-total">${getTotalPrice().toFixed(2)}</span>
+        </div>
+      )}
+
+      {/* Cart Modal */}
+      <Modal
+        visible={cartModalVisible}
+        onCancel={() => setCartModalVisible(false)}
+        footer={null}
+        title={
+          <div style={{ position: 'relative' }}>
+            {t('cart')}
+            {cart.length > 0 && (
+              <div className="cart-header-actions">
+                <DeleteOutlined 
+                  className="clear-cart-icon" 
+                  onClick={handleClearCart}
+                />
+              </div>
+            )}
+          </div>
+        }
+        className="cart-modal"
+        style={{ top: 20 }} /* 調整模態框位置 */
+      >
+        <div className="cart-items-container">
+          {cart.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '20px' }}>
+              {t('empty_cart')}
+            </div>
+          ) : (
+            cart.map(item => (
+              <div key={item.id} className="cart-item">
+                <img
+                  src={item.image}
+                  alt={item[`Name_${i18n.language === 'en' ? 'en_US' : (i18n.language === 'zh_CN' ? 'zh_CN' : 'zh_HK')}`]}
+                  className="cart-item-image"
+                />
+                <div className="cart-item-info">
+                  <div>{item[`name_${i18n.language === 'en' ? 'en_US' : (i18n.language === 'zh_CN' ? 'zh_CN' : 'zh_HK')}`]}</div>
+                  <div>${(item.price * item.quantity).toFixed(2)}</div>
+                </div>
+                <div className="cart-item-quantity">
+                  <button className="quantity-button" onClick={() => handleUpdateQuantity(item.id, -1)}>-</button>
+                  <span>{item.quantity}</span>
+                  <button className="quantity-button" onClick={() => handleUpdateQuantity(item.id, 1)}>+</button>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+        {cart.length > 0 && (
+          <div className="cart-footer">
+            <div className="cart-total-amount">
+              {t('cart_total')}: ${getTotalPrice().toFixed(2)}
+            </div>
+            <Button 
+              type="primary" 
+              style={{ background: '#b22222', width: '100%' }}
+              onClick={() => {/* TODO: Implement checkout */}}
+            >
+              {t('checkout')}
+            </Button>
+          </div>
+        )}
+      </Modal>
     </div>
   );
 };

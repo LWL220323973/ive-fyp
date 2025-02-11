@@ -1,10 +1,20 @@
 {
-    "search_placeholder": "搜尋...",
-    "all_categories": "所有分類",
-    "menu": "菜單",
-    "orders": "訂單",
-    "app_title": "寶斯重慶紙包魚",
-    "category": "分類",
-    "price": "價格",
-    "table_number": "桌號"
+  "search_placeholder": "搜尋...",
+  "all_categories": "所有分類",
+  "menu": "菜單",
+  "orders": "訂單",
+  "app_title": "寶斯重慶紙包魚",
+  "category": "分類",
+  "price": "價格",
+  "table_number": "桌號",
+  "added_to_cart": "已加入購物車",
+  "add_to_cart": "加入購物車",
+  "cart": "購物車",
+  "cart_items": "件商品",
+  "cart_total": "總計",
+  "empty_cart": "您的購物車是空的",
+  "remove_item": "移除",
+  "checkout": "下單",
+  "clear_cart": "清空購物車",
+  "clear_cart_confirm": "您確定要清空購物車中的所有商品嗎？"
 }

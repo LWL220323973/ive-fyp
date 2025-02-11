@@ -1,10 +1,20 @@
 {
-    "search_placeholder": "搜索...",
-    "all_categories": "所有分类",
-    "menu": "菜单",
-    "orders": "订单",
-    "app_title": "宝斯重庆纸包鱼",
-    "category": "分类",
-    "price": "价格",
-    "table_number": "桌号"
+  "search_placeholder": "搜索...",
+  "all_categories": "所有分类",
+  "menu": "菜单",
+  "orders": "订单",
+  "app_title": "宝斯重庆纸包鱼",
+  "category": "分类",
+  "price": "价格",
+  "table_number": "桌号",
+  "added_to_cart": "已加入购物车",
+  "add_to_cart": "加入购物车",
+  "cart": "购物车",
+  "cart_items": "件商品",
+  "cart_total": "总计",
+  "empty_cart": "您的购物车是空的",
+  "remove_item": "移除",
+  "checkout": "下单",
+  "clear_cart": "清空购物车",
+  "clear_cart_confirm": "您确定要清空购物车中的所有商品吗？"
 }
