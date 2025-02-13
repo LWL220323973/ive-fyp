@@ -38,7 +38,8 @@ function UserInfoContent() {
   const { record } = location.state || {};
   const [form] = Form.useForm();
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
+  const [isHidden, setIsHidden] = useState(false);
   const title = (status) => {
     if (status === "add") {
       return intl.get("addUser");
@@ -75,16 +76,16 @@ function UserInfoContent() {
         address_cn
       );
       message.success(intl.get("addSuccess"));
-      sessionStorage.setItem(
-        "latestUserName",
-        (await getLatestAdmin()).data.username
-      );
-      sessionStorage.setItem(
-        "latestUserPassword",
-        (await getLatestAdmin()).data.username.substring(0, 3) +
-          phone_number.substring(4, 8)
-      );
-      setOpen(!open);
+      // sessionStorage.setItem(
+      //   "latestUserName",
+      //   (await getLatestAdmin()).data.username
+      // );
+      // sessionStorage.setItem(
+      //   "latestUserPassword",
+      //   (await getLatestAdmin()).data.username.substring(0, 3) +
+      //     phone_number.substring(4, 8)
+      // );
+      // setOpen(!open);
     } else {
       const { name_en, name_cn, email, phone_number, address_en, address_cn } =
         values;
@@ -141,9 +142,29 @@ function UserInfoContent() {
         <Col span={4}>
           <Typography.Title level={1}>{title(status)}</Typography.Title>
         </Col>
-        <Col span={10}></Col>
+        <Col span={6}></Col>
+        <Col span={4}>
+          {status === "add" ? (
+            <Typography.Title level={1}>
+              <Button
+                onClick={() => {
+                  setIsHidden(!isHidden);
+                }}
+                type="primary"
+              >
+                {intl.get("AddUserByExcel")}
+              </Button>
+            </Typography.Title>
+          ) : null}
+        </Col>
       </Row>
-      <Form form={form} name="form" layout="vertical" onFinish={onFinish}>
+      <Form
+        form={form}
+        name="form"
+        layout="vertical"
+        onFinish={onFinish}
+        hidden={isHidden}
+      >
         <Row gutter={[48, 24]}>
           <Col span={12}>
             <Form.Item
@@ -263,7 +284,7 @@ function UserInfoContent() {
           </Col>
         </Row>
       </Form>
-      <Modal
+      {/* <Modal
         open={open}
         onCancel={() => {
           sessionStorage.removeItem("latestUserName");
@@ -289,7 +310,10 @@ function UserInfoContent() {
             ":" +
             sessionStorage.getItem("latestUserPassword")}
         </p>
-      </Modal>
+      </Modal> */}
+      <Form hidden={!isHidden} name="form" layout="vertical">
+        
+      </Form>
     </Layout.Content>
   );
 }

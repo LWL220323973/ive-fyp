@@ -2,7 +2,7 @@ package com.server.service;
 
 import java.util.List;
 
-import org.mindrot.jbcrypt.BCrypt;
+import org.jasypt.util.text.AES256TextEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +17,15 @@ public class AdminService {
 
     // Login
     public Boolean getAdmin(String username, String password) {
-        List<Admin> account = mapper.getAdmin(username, password);
+        List<Admin> account = mapper.getAdmin(username);
         if (account.size() == 0) {
             return false;
         }
         for (Admin admin : account) {
-            if (BCrypt.checkpw(password, admin.getPassword())) {
+            AES256TextEncryptor textEncryptor = new AES256TextEncryptor();
+            textEncryptor.setPassword("ive_fyp_20242025_admin_password_encryption_password");
+            String passwordDecrypted = textEncryptor.decrypt(admin.getPassword());
+            if (passwordDecrypted.equals(password) && admin.getUsername().equals(username)) {
                 return true;
             }
         }
@@ -74,9 +77,11 @@ public class AdminService {
 
     // Generate password
     public String generatePassword(Admin admin) {
+        AES256TextEncryptor textEncryptor = new AES256TextEncryptor();
+        textEncryptor.setPassword("ive_fyp_20242025_admin_password_encryption_password");
         String password = admin.getUsername().substring(0, 3) + admin.getPhone_number().substring(4, 8);
-        System.out.println(password);
-        return BCrypt.hashpw(password.toString(), BCrypt.gensalt());
+        String passwordEncrypted = textEncryptor.encrypt(password);
+        return passwordEncrypted;
     }
 
     // Generate username

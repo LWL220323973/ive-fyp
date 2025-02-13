@@ -6,7 +6,7 @@
     <select id="getAdmin" resultType="com.server.model.Admin">
         SELECT * FROM admin
         <where> 1=1
-            <if test="username != null and username != '' and password !=null and password != ''">
+            <if test="username != null and username != ''">
                 AND username = #{username}
             </if>
         </where>

@@ -44,5 +44,6 @@
     "addSuccess": "Add successfully",
     "addFailed": "Add failed",
     "editSuccess": "Edit successfully",
-    "editFailed": "Edit failed"
+    "editFailed": "Edit failed",
+    "AddUserByExcel": "Add User By Excel"
 }

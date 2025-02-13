@@ -26,8 +26,8 @@
     "personalInfo": "個人資料",
     "user": "用戶",
     "staffId": "員工編號",
-    "name_en": "名稱(英)",
-    "name_cn": "名稱(中)",
+    "name_en": "姓名(英)",
+    "name_cn": "姓名(中)",
     "email": "電郵",
     "userName": "用戶名",
     "password": "密碼",
@@ -44,5 +44,6 @@
     "addSuccess": "新增成功",
     "addFailed": "新增失敗",
     "editSuccess": "編輯成功",
-    "editFailed": "編輯失敗"
+    "editFailed": "編輯失敗",
+    "AddUserByExcel": "通過Excel添加用戶"
 }
