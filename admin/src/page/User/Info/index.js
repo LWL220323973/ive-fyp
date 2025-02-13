@@ -8,15 +8,21 @@ import {
   Row,
   Col,
   message,
-  Modal,
+  Upload,
+  Flex,
 } from "antd";
-import { ClearOutlined, UserAddOutlined } from "@ant-design/icons";
+import {
+  ClearOutlined,
+  UserAddOutlined,
+  DownloadOutlined,
+  UploadOutlined,
+} from "@ant-design/icons";
 import Sider from "../../layout/Sider";
 import Footer from "../../layout/Footer";
 import Header from "../../layout/Header";
 import intl from "react-intl-universal";
 import "./index.css";
-import { registerAdmin, getLatestAdmin, updateAdmin } from "../../../api/Admin";
+import { registerAdmin, updateAdmin } from "../../../api/Admin";
 import { useNavigate, useLocation } from "react-router-dom";
 
 function UserInfo() {
@@ -76,16 +82,6 @@ function UserInfoContent() {
         address_cn
       );
       message.success(intl.get("addSuccess"));
-      // sessionStorage.setItem(
-      //   "latestUserName",
-      //   (await getLatestAdmin()).data.username
-      // );
-      // sessionStorage.setItem(
-      //   "latestUserPassword",
-      //   (await getLatestAdmin()).data.username.substring(0, 3) +
-      //     phone_number.substring(4, 8)
-      // );
-      // setOpen(!open);
     } else {
       const { name_en, name_cn, email, phone_number, address_en, address_cn } =
         values;
@@ -152,7 +148,9 @@ function UserInfoContent() {
                 }}
                 type="primary"
               >
-                {intl.get("AddUserByExcel")}
+                {isHidden
+                  ? intl.get("AddUserByForm")
+                  : intl.get("AddUserByExcel")}
               </Button>
             </Typography.Title>
           ) : null}
@@ -284,35 +282,34 @@ function UserInfoContent() {
           </Col>
         </Row>
       </Form>
-      {/* <Modal
-        open={open}
-        onCancel={() => {
-          sessionStorage.removeItem("latestUserName");
-          sessionStorage.removeItem("latestUserPassword");
-          setOpen(!open);
-          navigate("..");
-        }}
-        onOk={() => {
-          sessionStorage.removeItem("latestUserName");
-          sessionStorage.removeItem("latestUserPassword");
-          setOpen(!open);
-          navigate("..");
-        }}
-        title={intl.get("addSuccess")}
-      >
-        <p>
-          {intl.get("userName") +
-            ":" +
-            sessionStorage.getItem("latestUserName")}
-        </p>
-        <p>
-          {intl.get("password") +
-            ":" +
-            sessionStorage.getItem("latestUserPassword")}
-        </p>
-      </Modal> */}
       <Form hidden={!isHidden} name="form" layout="vertical">
-        
+        <Flex justify="center">
+          <Form.Item>
+            <a href="http://localhost:8080/api/admin/downloadExcel/UserInfo.xlsx" download>
+              <Button type="primary" icon={<DownloadOutlined />} size="large">
+                {intl.get("getTemplate")}
+              </Button>
+            </a>
+          </Form.Item>
+        </Flex>
+        <Flex justify="center">
+          <Form.Item>
+            <Upload
+              accept=".xlsx"
+              maxCount={1}
+              action="" // Set your upload endpoint here
+            >
+              <Button
+                type="primary"
+                size="large"
+                icon={<UploadOutlined />}
+                style={{ width: "100%" }}
+              >
+                {intl.get("uploadExcel")}
+              </Button>
+            </Upload>
+          </Form.Item>
+        </Flex>
       </Form>
     </Layout.Content>
   );

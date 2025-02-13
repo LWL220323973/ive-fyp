@@ -3,12 +3,21 @@ package com.server.controller;
 import com.server.model.Admin;
 import com.server.service.AdminService;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 public class AdminController {
@@ -39,5 +48,19 @@ public class AdminController {
     @PostMapping("/api/admin/updateAdmin")
     public int editAdmin(@RequestBody Admin admin) {
         return service.editAdmin(admin);
+    }
+
+    @GetMapping("/api/admin/downloadExcel/UserInfo.xlsx")
+    public ResponseEntity<Resource> downloadUserInfoTemplate() {
+        String filePath = "excel_template/UserInfo.xlsx";
+        Resource resource = new FileSystemResource(filePath);
+
+        if (!resource.exists()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=UserInfo.xlsx")
+                .body(resource);
     }
 }

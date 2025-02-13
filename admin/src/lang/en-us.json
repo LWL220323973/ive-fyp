@@ -45,5 +45,8 @@
     "addFailed": "Add failed",
     "editSuccess": "Edit successfully",
     "editFailed": "Edit failed",
-    "AddUserByExcel": "Add User By Excel"
+    "AddUserByExcel": "Add User By Excel",
+    "AddUserByForm": "Add User By Form",
+    "getTemplate": "Get the Excel Template",
+    "uploadExcel": "Upload Excel"
 }
