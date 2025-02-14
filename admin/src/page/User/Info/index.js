@@ -109,6 +109,10 @@ function UserInfoContent() {
     }
   };
 
+  const onUpload=()=>{
+    message.success(intl.get("uploadSuccess"));
+  }
+
   useEffect(() => {
     if (status === "edit") {
       form.setFieldsValue({
@@ -285,7 +289,10 @@ function UserInfoContent() {
       <Form hidden={!isHidden} name="form" layout="vertical">
         <Flex justify="center">
           <Form.Item>
-            <a href="http://localhost:8080/api/admin/downloadExcel/UserInfo.xlsx" download>
+            <a
+              href="http://localhost:8080/api/admin/downloadExcel/UserInfo.xlsx"
+              download
+            >
               <Button type="primary" icon={<DownloadOutlined />} size="large">
                 {intl.get("getTemplate")}
               </Button>
@@ -297,7 +304,6 @@ function UserInfoContent() {
             <Upload
               accept=".xlsx"
               maxCount={1}
-              action="" // Set your upload endpoint here
             >
               <Button
                 type="primary"
@@ -309,6 +315,11 @@ function UserInfoContent() {
               </Button>
             </Upload>
           </Form.Item>
+        </Flex>
+        <Flex justify="center">
+          <Button type="primary" onClick={() => onUpload()}>
+            {intl.get("submit")}
+          </Button>
         </Flex>
       </Form>
     </Layout.Content>

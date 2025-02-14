@@ -45,7 +45,7 @@ function Login() {
           rules={[
             {
               required: true,
-              message: "Please input your username!",
+              message: intl.get("usernameRequired"),
             },
           ]}
         >
@@ -57,7 +57,7 @@ function Login() {
           rules={[
             {
               required: true,
-              message: "Please input your password!",
+              message: intl.get("passwordRequired"),
             },
           ]}
         >
@@ -66,10 +66,10 @@ function Login() {
         <Form.Item {...tailLayout}>
           <Space>
             <Button type="primary" htmlType="submit">
-              Login
+              {intl.get("login")}
             </Button>
             <Button htmlType="button" onClick={onCancel}>
-              Cancel
+              {intl.get("cancel")}
             </Button>
           </Space>
         </Form.Item>

@@ -8,8 +8,6 @@ import {
   Tooltip,
   Typography,
   Flex,
-  Row,
-  Col,
 } from "antd";
 import Icon, { UserOutlined, TranslationOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";

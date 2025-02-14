@@ -48,5 +48,13 @@
     "AddUserByExcel": "Add User By Excel",
     "AddUserByForm": "Add User By Form",
     "getTemplate": "Get the Excel Template",
-    "uploadExcel": "Upload Excel"
+    "uploadExcel": "Upload Excel",
+    "loginSuccess": "Login Successfully",
+    "loginFailed": "Login Failed",
+    "logoutSuccess": "Logout Successfully",
+    "uploadSuccess": "Upload Successfully",
+    "login": "Login",
+    "cancel": "Cancel",
+    "passwordRequired": "Please input your password!",
+    "usernameRequired": "Please input your username!"
 }

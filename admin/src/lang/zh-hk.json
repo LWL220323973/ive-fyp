@@ -48,5 +48,13 @@
     "AddUserByExcel": "通過Excel添加用戶",
     "AddUserByForm": "通過表格添加用戶",
     "getTemplate":"獲取Excel範本",
-    "uploadExcel":"上傳Excel"
+    "uploadExcel":"上傳Excel",
+    "loginSuccess": "登入成功",
+    "loginFailed": "登入失敗",
+    "logoutSuccess": "登出成功",
+    "uploadSuccess": "上傳成功",
+    "login": "登入",
+    "cancel": "取消",
+    "passwordRequired": "請輸入您的密碼",
+    "usernameRequired": "請輸入您的用戶名"
 }

@@ -50,6 +50,7 @@ public class AdminController {
         return service.editAdmin(admin);
     }
 
+    //Download Excel Template
     @GetMapping("/api/admin/downloadExcel/UserInfo.xlsx")
     public ResponseEntity<Resource> downloadUserInfoTemplate() {
         String filePath = "excel_template/UserInfo.xlsx";
@@ -62,5 +63,23 @@ public class AdminController {
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=UserInfo.xlsx")
                 .body(resource);
+    }
+
+    //Upload Excel File
+    @PostMapping("/api/admin/uploadExcel")
+    public String uploadExcel(@RequestParam("file") MultipartFile file) {
+        String uploadDir = "C:/Users/kelvin_chang/Desktop/IVE_FYP/ive-fyp/server/excel_upload/";
+        File uploadDirFile = new File(uploadDir);
+        if (!uploadDirFile.exists()) {
+            uploadDirFile.mkdirs();
+        }
+
+        try {
+            file.transferTo(new File(uploadDir + file.getOriginalFilename()));
+            return "File uploaded successfully: " + file.getOriginalFilename();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "File upload failed: " + e.getMessage();
+        }
     }
 }
