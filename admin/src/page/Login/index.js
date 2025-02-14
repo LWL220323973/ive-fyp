@@ -22,12 +22,12 @@ function Login() {
     if (response.data) {
       sessionStorage.setItem("user", findCurrentAdmin(username).data);
       sessionStorage.setItem("siderCollapsed", false);
-      message.success("Login successful!", 1);
+      message.success(intl.get("loginSuccess"),1);
       setTimeout(() => {
         navigate("/home");
       }, 1200);
     } else {
-      message.error("Login failed!");
+      message.error(intl.get("loginFail"));
       form.resetFields();
     }
   };

@@ -40,7 +40,7 @@ function Header() {
 
   const onLogout = () => {
     sessionStorage.clear();
-    message.success("Logout successful!", 1);
+    message.success(intl.get("logoutSuccess"), 1);
     navigate("/");
   };
 
@@ -75,12 +75,9 @@ function Header() {
         alignItems: "center",
       }}
     >
-      <Row justify="center" align="middle" style={{ width: "100%" }}>
-        <Col span={24}>
-          <Typography.Title level={1}>寶斯重慶紙包魚</Typography.Title>
-        </Col>
-      </Row>
-
+      <Flex>
+        <Typography.Title level={1}>寶斯重慶紙包魚</Typography.Title>
+      </Flex>
       <Flex justify="center" align="middle" gap={20}>
         <Tooltip title={intl.get("translate")}>
           <Button
