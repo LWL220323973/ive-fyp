@@ -7,6 +7,7 @@ import Footer from "../../layout/Footer";
 import Header from "../../layout/Header";
 import { findInAdmin } from "../../../api/Admin";
 import { useNavigate } from "react-router-dom";
+import "./index.css";
 
 function Menu() {
   return (
@@ -25,6 +26,14 @@ function UserContent() {
   const [form] = Form.useForm(); // 確保 form 已正確初始化
   const [data, setData] = useState([]); //the list of dishes
   const navigate = useNavigate();
+
+  const style = {
+    padding: 12,
+    height: "auto",
+    width: "auto",
+    overflow: "auto",
+    backgroundColor: "#E2E2E2",
+  };
 
   const columns = () => {
     if (localStorage.getItem("locale") === "en-US") {
@@ -152,15 +161,7 @@ function UserContent() {
   };
 
   return (
-    <Layout.Content
-      style={{
-        margin: "12px",
-        padding: 12,
-        height: "auto",
-        width: "auto",
-        overflow: "auto",
-      }}
-    >
+    <Layout.Content style={style}>
       <Row justify="space-between" align="middle">
         <Col>
           <Typography.Title level={2}>{intl.get("user")}</Typography.Title>
@@ -179,40 +180,42 @@ function UserContent() {
           </Button>
         </Col>
       </Row>
-      <Form form={form} name="form" layout="vertical" onFinish={onSearch}>
-        <Row justify="center" align="middle" gutter={[16, 16]}>
-          <Col span={3}>
-            <Form.Item label={intl.get("staffId")} name="staff_id">
-              <Input size="large" id="staff_id" />
-            </Form.Item>
-          </Col>
-          {formItem(localStorage.getItem("locale"))}
-          <Col span={5}>
-            <Form.Item label={intl.get("email")} name="email">
-              <Input size="large" id="email" />
-            </Form.Item>
-          </Col>
-          <Col span={3}>
-            <Form.Item label={intl.get("phoneNumber")} name="phone_number">
-              <Input size="large" id="phone_number" />
-            </Form.Item>
-          </Col>
-          <Col span={2}>
-            <Form.Item label="&nbsp;" style={{ order: 6 }}>
-              <Button icon={<ClearOutlined />} onClick={() => onReset()}>
-                {intl.get("reset")}
-              </Button>
-            </Form.Item>
-          </Col>
-          <Col span={2}>
-            <Form.Item label="&nbsp;" style={{ order: 7 }}>
-              <Button type="primary" htmlType="submit">
-                {intl.get("submit")}
-              </Button>
-            </Form.Item>
-          </Col>
-        </Row>
-      </Form>
+      <Row justify="space-between" align="middle">
+        <Form form={form} name="userForm" layout="vertical" onFinish={onSearch}>
+          <Row justify="center" align="middle" gutter={[16, 16]}>
+            <Col span={3}>
+              <Form.Item label={intl.get("staffId")} name="staff_id">
+                <Input size="large" id="staff_id" />
+              </Form.Item>
+            </Col>
+            {formItem(localStorage.getItem("locale"))}
+            <Col span={5}>
+              <Form.Item label={intl.get("email")} name="email">
+                <Input size="large" id="email" />
+              </Form.Item>
+            </Col>
+            <Col span={3}>
+              <Form.Item label={intl.get("phoneNumber")} name="phone_number">
+                <Input size="large" id="phone_number" />
+              </Form.Item>
+            </Col>
+            <Col span={2}>
+              <Form.Item label="&nbsp;" style={{ order: 6 }}>
+                <Button icon={<ClearOutlined />} onClick={() => onReset()}>
+                  {intl.get("reset")}
+                </Button>
+              </Form.Item>
+            </Col>
+            <Col span={2}>
+              <Form.Item label="&nbsp;" style={{ order: 7 }}>
+                <Button type="primary" htmlType="submit">
+                  {intl.get("submit")}
+                </Button>
+              </Form.Item>
+            </Col>
+          </Row>
+        </Form>
+      </Row>
       <Row justify="end" align="middle">
         <Table
           dataSource={Array.isArray(data) ? data : []}
@@ -223,12 +226,12 @@ function UserContent() {
           virtual
           rowKey={(record) => record.id}
           columns={columns()}
-          name="table"
           pagination={{
             showSizeChanger: true,
             pageSizeOptions: ["10", "20", "30"],
             position: ["bottomCenter"],
           }}
+          bordered={true}
           onRow={(record) => {
             return {
               onClick: () => {

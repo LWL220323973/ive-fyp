@@ -53,8 +53,12 @@
     "loginFailed": "登入失敗",
     "logoutSuccess": "登出成功",
     "uploadSuccess": "上傳成功",
+    "uploadFailed": "上傳失敗，請檢查所有數據",
+    "submitSuccess": "提交成功",
+    "submitFail": "提交失敗，請檢查所有數據",
     "login": "登入",
     "cancel": "取消",
     "passwordRequired": "請輸入您的密碼",
-    "usernameRequired": "請輸入您的用戶名"
+    "usernameRequired": "請輸入您的用戶名",
+    "cancelUpload": "已取消上傳"
 }

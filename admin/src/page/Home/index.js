@@ -19,13 +19,15 @@ function Home() {
 }
 
 function Content() {
+  const style = {
+    padding: 12,
+    height: "auto",
+    width: "auto",
+    overflow: "auto",
+    backgroundColor: "#E2E2E2",
+  };
   return (
-    <Layout.Content
-      style={{
-        margin: "12px 8px",
-        padding: 24,
-      }}
-    >
+    <Layout.Content style={style}>
       <Flex wrap="wrap" justify="end" gap="middle">
         <Statistic title="Active Users" value={112893} />
       </Flex>

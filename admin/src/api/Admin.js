@@ -71,3 +71,25 @@ export function updateAdmin(
     address_cn,
   });
 }
+
+//Upload Admin Excel
+export function uploadExcel(file) {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  return axios.post(baseURL + "/uploadExcel", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+}
+
+//Cancel Upload Excel
+export function cancelUploadExcel() {
+  return axios.post(baseURL + "/cancelUploadExcel");
+}
+
+//Submit Admin Excel
+export function submitExcel() {
+  return axios.post(baseURL + "/submitExcel");
+}

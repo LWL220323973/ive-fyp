@@ -91,4 +91,8 @@ public class Admin {
     public void setPhone_number(String phone_number) {
         this.phone_number = phone_number;
     }
+
+    public String toString(){
+        return "Admin [ staff_id=" + staff_id + ", username=" + username + ", password=" + password + ", name_en=" + name_en + ", name_cn=" + name_cn + ", phone_number=" + phone_number + ", address_cn=" + address_cn + ", address_en=" + address_en + ", email=" + email + "]";
+    }
 }

@@ -41,6 +41,14 @@ function MenuContent() {
   const navigator = useNavigate();
   const [form] = Form.useForm(); // 確保 form 已正確初始化
 
+  const style = {
+    padding: 12,
+    height: "auto",
+    width: "auto",
+    overflow: "auto",
+    backgroundColor: "#E2E2E2",
+  };
+
   useEffect(() => {
     getDishesType().then((res) => {
       const data = res.data;
@@ -114,7 +122,6 @@ function MenuContent() {
   useEffect(() => {
     onSearch({});
   }, []);
-
 
   const onReset = () => {
     const type = form.getFieldValue("type");
@@ -261,15 +268,7 @@ function MenuContent() {
   };
 
   return (
-    <Layout.Content
-      style={{
-        margin: "12px",
-        padding: 12,
-        height: "auto",
-        width: "auto",
-        overflow: "auto",
-      }}
-    >
+    <Layout.Content style={style}>
       <Row justify="center" style={{ marginBottom: 20 }}>
         {dishesType}
       </Row>
@@ -319,7 +318,9 @@ function MenuContent() {
           </Row>
         </Form>
       </Row>
-      <Typography.Title level={3}>{type}</Typography.Title>
+      <Row justify="center" style={{ marginBottom: 20 }}>
+        <Typography.Title level={3}>{type}</Typography.Title>
+      </Row>
       <Row justify="center" style={{ marginBottom: 20 }}>
         <Col span={22}>
           <Table

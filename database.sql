@@ -9,29 +9,33 @@
 
 DROP TABLE IF EXISTS `admin`;
 CREATE TABLE IF NOT EXISTS `admin` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `staff_id` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
-  `username` varchar(50) COLLATE utf8mb4_general_ci NOT NULL COMMENT 'username',
-  `password` varchar(1000) COLLATE utf8mb4_general_ci NOT NULL COMMENT 'password',
-  `name_en` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `name_cn` varchar(100) COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Name',
-  `phone_number` varchar(8) COLLATE utf8mb4_general_ci NOT NULL COMMENT 'phoneNumber',
-  `email` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `address_cn` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `address_en` varchar(1000) COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='管理員';
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `staff_id` varchar(10) NOT NULL,
+  `username` varchar(50) NOT NULL COMMENT 'username',
+  `password` varchar(1000) NOT NULL COMMENT 'password',
+  `name_en` varchar(100) NOT NULL,
+  `name_cn` varchar(100) NOT NULL COMMENT 'Name',
+  `phone_number` varchar(8) NOT NULL COMMENT 'phoneNumber',
+  `email` varchar(100) NOT NULL,
+  `address_cn` varchar(100) NOT NULL,
+  `address_en` varchar(1000) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `admin_unique` (`staff_id`),
+  UNIQUE KEY `admin_unique_1` (`username`),
+  UNIQUE KEY `admin_unique_2` (`email`),
+  UNIQUE KEY `admin_unique_3` (`phone_number`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='管理員';
 
 DELETE FROM `admin`;
 INSERT INTO `admin` (`id`, `staff_id`, `username`, `password`, `name_en`, `name_cn`, `phone_number`, `email`, `address_cn`, `address_en`) VALUES
-	(1, '12345678', 'admin', '$2a$10$CmL8d8kv2y2pMgpgTZThE.xeaCZx1nzD5epgyWWVaodS8Gak6WBou', 'Admin_01', '管理員_1號', '28935767', 'admin01@gmail.com', '香港快活谷路123號，快活谷', '123 Happy Valley Road, Happy Valley, Hong Kong');
+	(1, '12345678', 'admin', 'KScbOGK4takecqETZmhkeVUJq8GbgxrnXYfTPVDAfkbA//FqGlQYAT577gvUGmdX', 'Admin', '管理員號', '78945612', 'admin06@gmail.com', '香港快活谷路123號，快活谷', '123 Happy Valley Road, Happy Valley, Hong Kong');
 
 DROP TABLE IF EXISTS `dishes_type`;
 CREATE TABLE IF NOT EXISTS `dishes_type` (
-  `id` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `name_Zh_HK` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
-  `name_Zh_CN` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
-  `name_Us_EN` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `id` varchar(50) NOT NULL,
+  `name_Zh_HK` varchar(10) NOT NULL,
+  `name_Zh_CN` varchar(10) NOT NULL,
+  `name_Us_EN` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -47,18 +51,18 @@ INSERT INTO `dishes_type` (`id`, `name_Zh_HK`, `name_Zh_CN`, `name_Us_EN`) VALUE
 
 DROP TABLE IF EXISTS `menu`;
 CREATE TABLE IF NOT EXISTS `menu` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `Name_zh_HK` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
-  `Name_zh_CN` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
-  `Name_en_US` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
-  `price` int NOT NULL,
-  `onSale` varchar(1) COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'Y' COMMENT 'Y= onsale, N= non -sale',
-  `path` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `type` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `Name_zh_HK` varchar(20) NOT NULL,
+  `Name_zh_CN` varchar(20) NOT NULL,
+  `Name_en_US` varchar(150) NOT NULL,
+  `price` int(11) NOT NULL,
+  `onSale` varchar(1) NOT NULL DEFAULT 'Y' COMMENT 'Y= onsale, N= non -sale',
+  `path` varchar(255) NOT NULL,
+  `type` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `menu_dishes_type_FK` (`type`),
   CONSTRAINT `menu_dishes_type_FK` FOREIGN KEY (`type`) REFERENCES `dishes_type` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=168 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 DELETE FROM `menu`;
 INSERT INTO `menu` (`id`, `Name_zh_HK`, `Name_zh_CN`, `Name_en_US`, `price`, `onSale`, `path`, `type`) VALUES
@@ -232,12 +236,12 @@ INSERT INTO `menu` (`id`, `Name_zh_HK`, `Name_zh_CN`, `Name_en_US`, `price`, `on
 
 DROP TABLE IF EXISTS `spiciness_levels`;
 CREATE TABLE IF NOT EXISTS `spiciness_levels` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name_zh_TW` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `name_zh_CN` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `name_en_US` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name_zh_TW` varchar(50) NOT NULL,
+  `name_zh_CN` varchar(50) NOT NULL,
+  `name_en_US` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='辣度';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='辣度';
 
 DELETE FROM `spiciness_levels`;
 INSERT INTO `spiciness_levels` (`id`, `name_zh_TW`, `name_zh_CN`, `name_en_US`) VALUES

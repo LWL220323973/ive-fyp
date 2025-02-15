@@ -9,7 +9,6 @@ import {
   Col,
   message,
   Upload,
-  Flex,
 } from "antd";
 import {
   ClearOutlined,
@@ -22,7 +21,13 @@ import Footer from "../../layout/Footer";
 import Header from "../../layout/Header";
 import intl from "react-intl-universal";
 import "./index.css";
-import { registerAdmin, updateAdmin } from "../../../api/Admin";
+import {
+  registerAdmin,
+  updateAdmin,
+  cancelUploadExcel,
+  uploadExcel,
+  submitExcel,
+} from "../../../api/Admin";
 import { useNavigate, useLocation } from "react-router-dom";
 
 function UserInfo() {
@@ -46,6 +51,15 @@ function UserInfoContent() {
   const navigate = useNavigate();
   // const [open, setOpen] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
+
+  const style = {
+    padding: 12,
+    height: "auto",
+    width: "auto",
+    overflow: "auto",
+    backgroundColor: "#E2E2E2",
+  };
+
   const title = (status) => {
     if (status === "add") {
       return intl.get("addUser");
@@ -109,9 +123,37 @@ function UserInfoContent() {
     }
   };
 
-  const onUpload=()=>{
-    message.success(intl.get("uploadSuccess"));
-  }
+  const onUploadExcel = async (file) => {
+    const response = await uploadExcel(file);
+    console.log(response.data);
+    if (response.data === true) {
+      message.success(intl.get("uploadSuccess"), 1);
+    } else {
+      message.error(intl.get("uploadFail"), 1);
+    }
+  };
+
+  const onCancelUpload = () => {
+    cancelUploadExcel();
+    setTimeout(() => {
+      message.success(intl.get("cancelUpload"), 1);
+    });
+  };
+
+  const onSubmit = async () => {
+    const response = await submitExcel();
+    if (response.data === false) {
+      message.error(intl.get("submitFail"), 1);
+      // remove the uploaded file
+      const uploadElement = document.querySelector('.ant-upload-list-item');
+      if (uploadElement) {
+        uploadElement.remove();
+      }
+      cancelUploadExcel();
+    } else {
+      message.success(intl.get("submitSuccess"), 1);
+    }
+  };
 
   useEffect(() => {
     if (status === "edit") {
@@ -128,15 +170,7 @@ function UserInfoContent() {
   }, [record, form, status, location]);
 
   return (
-    <Layout.Content
-      style={{
-        margin: "12px",
-        padding: 12,
-        height: "auto",
-        width: "auto",
-        overflow: "auto",
-      }}
-    >
+    <Layout.Content style={style}>
       <Row gutter={[48, 24]}>
         <Col span={10}></Col>
         <Col span={4}>
@@ -160,6 +194,7 @@ function UserInfoContent() {
           ) : null}
         </Col>
       </Row>
+      {/* add user by from */}
       <Form
         form={form}
         name="form"
@@ -191,10 +226,6 @@ function UserInfoContent() {
               label={intl.get("name_cn")}
               name="name_cn"
               rules={[
-                {
-                  required: true,
-                  message: intl.get("pleaseEnterValidName"),
-                },
                 {
                   pattern: /^[\u4e00-\u9fa5\s]*$/,
                   message: intl.get("pleaseEnterValidName"),
@@ -246,7 +277,6 @@ function UserInfoContent() {
               name="address_cn"
               rules={[
                 {
-                  required: true,
                   pattern: /^[\u4e00-\u9fa5\d\p{P}]*$/u,
                   message: intl.get("pleaseEnterValidAddress"),
                 },
@@ -286,41 +316,60 @@ function UserInfoContent() {
           </Col>
         </Row>
       </Form>
+
+      {/* add user by excel */}
       <Form hidden={!isHidden} name="form" layout="vertical">
-        <Flex justify="center">
-          <Form.Item>
-            <a
-              href="http://localhost:8080/api/admin/downloadExcel/UserInfo.xlsx"
-              download
-            >
-              <Button type="primary" icon={<DownloadOutlined />} size="large">
-                {intl.get("getTemplate")}
-              </Button>
-            </a>
-          </Form.Item>
-        </Flex>
-        <Flex justify="center">
-          <Form.Item>
-            <Upload
-              accept=".xlsx"
-              maxCount={1}
-            >
-              <Button
-                type="primary"
-                size="large"
-                icon={<UploadOutlined />}
-                style={{ width: "100%" }}
+        <Row gutter={[48, 24]}>
+          <Col span={9}></Col>
+          <Col span={4}>
+            <Form.Item>
+              <a
+                href="http://localhost:8080/api/admin/downloadExcel/UserInfo.xlsx"
+                download
               >
-                {intl.get("uploadExcel")}
-              </Button>
-            </Upload>
-          </Form.Item>
-        </Flex>
-        <Flex justify="center">
-          <Button type="primary" onClick={() => onUpload()}>
-            {intl.get("submit")}
-          </Button>
-        </Flex>
+                <Button type="primary" icon={<DownloadOutlined />} size="large">
+                  {intl.get("getTemplate")}
+                </Button>
+              </a>
+            </Form.Item>
+          </Col>
+
+        </Row>
+        <Row gutter={[48, 24]}>
+          <Col span={9}></Col>
+          <Col span={5}>
+            <Form.Item>
+              <Upload
+                accept=".xlsx"
+                maxCount={1}
+                beforeUpload={(file) => {
+                  onUploadExcel(file);
+                  return false;
+                }}
+                onRemove={() => {
+                  onCancelUpload();
+                }}
+              >
+                <Button
+                  type="primary"
+                  size="large"
+                  icon={<UploadOutlined />}
+                  style={{ width: "100%" }}
+                >
+                  {intl.get("uploadExcel")}
+                </Button>
+              </Upload>
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row gutter={[48, 24]}>
+          <Col span={10}></Col>
+          <Col>
+            <Button type="primary" onClick={() => onSubmit()}>
+              {intl.get("submit")}
+            </Button>
+          </Col>
+        </Row>
       </Form>
     </Layout.Content>
   );

@@ -2,9 +2,11 @@ package com.server.controller;
 
 import com.server.model.Admin;
 import com.server.service.AdminService;
+import com.server.service.readExcel;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,9 @@ public class AdminController {
 
     @Autowired
     private AdminService service;
+
+    @Autowired
+    private readExcel readExcel;
 
     @PostMapping("/api/admin/adminLogin")
     public boolean getAdmin(@RequestBody Admin admin) {
@@ -50,7 +55,7 @@ public class AdminController {
         return service.editAdmin(admin);
     }
 
-    //Download Excel Template
+    // Download Excel Template
     @GetMapping("/api/admin/downloadExcel/UserInfo.xlsx")
     public ResponseEntity<Resource> downloadUserInfoTemplate() {
         String filePath = "excel_template/UserInfo.xlsx";
@@ -65,10 +70,10 @@ public class AdminController {
                 .body(resource);
     }
 
-    //Upload Excel File
+    // Upload Excel File
     @PostMapping("/api/admin/uploadExcel")
-    public String uploadExcel(@RequestParam("file") MultipartFile file) {
-        String uploadDir = "C:/Users/kelvin_chang/Desktop/IVE_FYP/ive-fyp/server/excel_upload/";
+    public boolean uploadExcel(@RequestParam("file") MultipartFile file) {
+        String uploadDir = "C:/Users/kahei/Desktop/ive-fyp/server/excel_upload/";
         File uploadDirFile = new File(uploadDir);
         if (!uploadDirFile.exists()) {
             uploadDirFile.mkdirs();
@@ -76,10 +81,48 @@ public class AdminController {
 
         try {
             file.transferTo(new File(uploadDir + file.getOriginalFilename()));
-            return "File uploaded successfully: " + file.getOriginalFilename();
+            System.out.println("File uploaded successfully: " + file.getOriginalFilename());
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
-            return "File upload failed: " + e.getMessage();
+            System.out.println("File upload failed: " + file.getOriginalFilename());
+            return false;
+        }
+    }
+    
+    // Cancel Upload Excel File
+    @PostMapping("/api/admin/cancelUploadExcel")
+    public void cancelUploadExcel() {
+        String uploadDir = "C:/Users/kahei/Desktop/ive-fyp/server/excel_upload/";
+        File[] files = new File(uploadDir).listFiles();
+        for (File file : files) {
+            if (file.isFile()) {
+                System.out.println("File deleted successfully: " + file.getName());
+                file.delete();
+            }
+        }
+    }
+
+    // Read Excel File
+    @PostMapping("/api/admin/submitExcel")
+    public Object submitExcel() {
+        String uploadDir = "C:/Users/kahei/Desktop/ive-fyp/server/excel_upload/";
+        File[] files = new File(uploadDir).listFiles();
+        List<Admin> admins = new ArrayList<>();
+        for (File file : files) {
+            if (file.isFile()) {
+                admins = readExcel.readAdminExcel(file);
+                file.delete();
+            }
+        }
+        if (admins != null) {
+            int count = 0;
+            for (Admin admin : admins) {
+                // count += service.registerAdmin(admin);
+            }
+            return count;
+        } else {
+            return false;
         }
     }
 }

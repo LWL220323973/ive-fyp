@@ -53,8 +53,12 @@
     "loginFailed": "Login Failed",
     "logoutSuccess": "Logout Successfully",
     "uploadSuccess": "Upload Successfully",
+    "uploadFail": "Upload Failed, please check all the data",
+    "submitSuccess": "Submit Successfully",
+    "submitFail": "Submit Failed, please check all the data",
     "login": "Login",
     "cancel": "Cancel",
     "passwordRequired": "Please input your password!",
-    "usernameRequired": "Please input your username!"
+    "usernameRequired": "Please input your username!",
+    "cancelUpload": "Canceled Upload"
 }
