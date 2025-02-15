@@ -118,7 +118,7 @@ public class AdminController {
         if (admins != null) {
             int count = 0;
             for (Admin admin : admins) {
-                // count += service.registerAdmin(admin);
+                count += service.registerAdmin(admin);
             }
             return count;
         } else {
