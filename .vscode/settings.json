@@ -1,3 +1,5 @@
 {
-    "editor.fontFamily": "Jet Brain Mono"
+    "editor.fontFamily": "Jet Brain Mono",
+    "java.compile.nullAnalysis.mode": "automatic",
+    "java.configuration.updateBuildConfiguration": "interactive"
 }

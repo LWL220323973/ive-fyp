@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Input, Card, Row, Col, Button, Popover, Modal, message } from 'antd';
+import { Card, Row, Col, Button, Modal, message } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 import '../style/menu.css';
@@ -11,14 +11,10 @@ const MenuScreen = () => {
   const { t, i18n } = useTranslation();
   const [searchParams] = useSearchParams();
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [menuItems, setMenuItems] = useState([]);
   const [categories, setCategories] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
-  const [searching, setSearching] = useState(false);
-  const [searchInputVisible, setSearchInputVisible] = useState(false);
-  const [tempSearch, setTempSearch] = useState('');
   const [tableNumber, setTableNumber] = useState(localStorage.getItem('tableNumber') || '');
   const [selectedItem, setSelectedItem] = useState(null);
   const [itemDetailVisible, setItemDetailVisible] = useState(false);
@@ -31,7 +27,14 @@ const MenuScreen = () => {
 
   useEffect(() => {
     const urlTableNumber = searchParams.get('table');
-    if (urlTableNumber) {
+    if (urlTableNumber === '0') {
+      // Clear all local storage if table=0
+      localStorage.removeItem('tableNumber');
+      localStorage.removeItem('cart');
+      setTableNumber('');
+      setCart([]);
+      setIsModalVisible(true);
+    } else if (urlTableNumber) {
       localStorage.setItem('tableNumber', urlTableNumber);
       setTableNumber(urlTableNumber);
     } else if (!tableNumber) {
@@ -68,12 +71,8 @@ const MenuScreen = () => {
     if (selectedCategory !== 'all') {
       items = items.filter(item => item.type === selectedCategory);
     }
-    if (searchTerm) {
-      const langKey = i18n.language === 'en' ? 'Name_en_US' : (i18n.language === 'zh_CN' ? 'Name_zh_CN' : 'Name_zh_HK');
-      items = items.filter(item => item[langKey]?.toLowerCase().includes(searchTerm.toLowerCase()));
-    }
     setFilteredItems(items);
-  }, [searchTerm, selectedCategory, i18n.language, menuItems]);
+  }, [selectedCategory, menuItems]);
 
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cart));
@@ -87,30 +86,6 @@ const MenuScreen = () => {
     return acc;
   }, {});
 
-  const handleSearchButtonClick = () => {
-    setSearchInputVisible(!searchInputVisible);
-    if (!searchInputVisible) {
-      setTempSearch('');
-      setSearching(false);
-    }
-  };
-
-  const handleSearchConfirm = () => {
-    if (tempSearch.trim() === '') {
-      setSearchInputVisible(false);
-      return;
-    }
-    setSearchTerm(tempSearch);
-    setSearching(true);
-    setSearchInputVisible(false);
-  };
-
-  const handleCancelSearch = () => {
-    setSearchInputVisible(false);
-    setSearchTerm('');
-    setSearching(false);
-  };
-
   const handleItemClick = (item) => {
     setSelectedItem(item);
     setSelectedQuantity(1); // Reset quantity when opening detail
@@ -119,7 +94,7 @@ const MenuScreen = () => {
 
   const handleAddToCart = () => {
     if (!selectedItem) return;
-    
+
     const existingItem = cart.find(item => item.id === selectedItem.id);
     if (existingItem) {
       setCart(cart.map(item =>
@@ -130,7 +105,7 @@ const MenuScreen = () => {
     } else {
       setCart([...cart, { ...selectedItem, quantity: selectedQuantity }]);
     }
-    
+
     message.success(t('added_to_cart'));
     setItemDetailVisible(false);
   };
@@ -167,8 +142,8 @@ const MenuScreen = () => {
         setCart([]);
         message.success(t('clear_cart'));
       },
-      okButtonProps: { 
-        style: { background: '#b22222' } 
+      okButtonProps: {
+        style: { background: '#b22222' }
       }
     });
   };
@@ -188,40 +163,6 @@ const MenuScreen = () => {
 
       {/* 搜尋與篩選 */}
       <div className="search-filter">
-        <Popover
-          open={searchInputVisible}
-          placement="bottomRight"
-          content={
-            <div className="search-popup">
-              <Input
-                placeholder={t('search_placeholder')}
-                value={tempSearch}
-                onChange={e => setTempSearch(e.target.value)}
-                style={{ width: 200 }}
-              />
-              <Button type="primary" onClick={handleSearchConfirm} style={{ marginLeft: 8, background: '#fff', color: '#000' }}>🔍</Button>
-            </div>
-          }
-          trigger="click"
-          onOpenChange={setSearchInputVisible}
-        >
-          <Button
-            type={searching ? 'danger' : 'default'}
-            className={searching ? 'searching-button' : 'search-button'}
-            onClick={handleSearchButtonClick}
-            style={{ background: '#fff' }}
-          >
-            {searching ? (
-              <>
-                {searchTerm.length > 3 ? `${searchTerm.slice(0, 3)}...` : searchTerm}
-                <Button type="text" onClick={handleCancelSearch} size="small" style={{ marginLeft: 5 }}>X</Button>
-              </>
-            ) : (
-              <span>🔍</span>
-            )}
-          </Button>
-        </Popover>
-        <div className="search-category-separator"></div>
         <div className="category-buttons">
           <Button
             type={selectedCategory === 'all' ? 'primary' : 'default'}
@@ -242,7 +183,10 @@ const MenuScreen = () => {
       </div>
 
       {/* 桌號顯示 */}
-      <div className="table-number">{t('table_number')}: {tableNumber || 'N/A'}</div>
+      <div className="table-number">
+        <span className="table-label">{t('table_number')}:</span>
+        <span className="table-value">{tableNumber || 'N/A'}</span>
+      </div>
 
       {/* Item Detail Modal */}
       <Modal
@@ -266,17 +210,17 @@ const MenuScreen = () => {
             <div className="item-detail-price">
               ${selectedItem.price.toFixed(2)}
             </div>
-            
+
             <div className="item-detail-quantity">
-              <button 
-                className="quantity-button" 
+              <button
+                className="quantity-button"
                 onClick={() => handleDetailQuantityChange(-1)}
               >
                 -
               </button>
               <span>{selectedQuantity}</span>
-              <button 
-                className="quantity-button" 
+              <button
+                className="quantity-button"
                 onClick={() => handleDetailQuantityChange(1)}
               >
                 +
@@ -305,14 +249,22 @@ const MenuScreen = () => {
               <Col xs={24} sm={12} md={8} key={item.id}>
                 <Card
                   hoverable
-                  cover={<img alt={item[`path`]} src={item.image} />}
                   className="menu-item-card"
                   onClick={() => handleItemClick(item)}
                 >
-                  <Card.Meta
-                    title={<h3>{item[`name_${i18n.language === 'en' ? 'en_US' : (i18n.language === 'zh_CN' ? 'zh_CN' : 'zh_HK')}`]}</h3>}
-                    description={<p className="card-meta-description">{t('price')}: ${item.price.toFixed(2)}</p>}
-                  />
+                  <div className="menu-item-content">
+                    <div className="menu-item-image-container">
+                      {item.image ? (
+                        <img alt={item[`path`]} src={item.image} />
+                      ) : (
+                        <div className="menu-item-placeholder"></div>
+                      )}
+                    </div>
+                    <div className="menu-item-details">
+                      <h4>{item[`name_${i18n.language === 'en' ? 'en_US' : (i18n.language === 'zh_CN' ? 'zh_CN' : 'zh_HK')}`]}</h4>
+                      <p className="card-meta-description">{t('price')}: ${item.price.toFixed(2)}</p>
+                    </div>
+                  </div>
                 </Card>
               </Col>
             ))}
@@ -336,10 +288,13 @@ const MenuScreen = () => {
         title={
           <div style={{ position: 'relative' }}>
             {t('cart')}
+            <div className="cart-table-number">
+              {t('table_number')}: {tableNumber || 'N/A'}
+            </div>
             {cart.length > 0 && (
               <div className="cart-header-actions">
-                <DeleteOutlined 
-                  className="clear-cart-icon" 
+                <DeleteOutlined
+                  className="clear-cart-icon"
                   onClick={handleClearCart}
                 />
               </div>
@@ -380,10 +335,10 @@ const MenuScreen = () => {
             <div className="cart-total-amount">
               {t('cart_total')}: ${getTotalPrice().toFixed(2)}
             </div>
-            <Button 
-              type="primary" 
+            <Button
+              type="primary"
               style={{ background: '#b22222', width: '100%' }}
-              onClick={() => {/* TODO: Implement checkout */}}
+              onClick={() => {/* TODO: Implement checkout */ }}
             >
               {t('checkout')}
             </Button>
