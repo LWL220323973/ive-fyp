@@ -73,7 +73,7 @@ public class AdminController {
     // Upload Excel File
     @PostMapping("/api/admin/uploadExcel")
     public boolean uploadExcel(@RequestParam("file") MultipartFile file) {
-        String uploadDir = "C:/Users/kahei/Desktop/ive-fyp/server/excel_upload/";
+        String uploadDir = System.getProperty("user.dir") + "\\server\\excel_upload\\";
         File uploadDirFile = new File(uploadDir);
         if (!uploadDirFile.exists()) {
             uploadDirFile.mkdirs();
@@ -89,11 +89,11 @@ public class AdminController {
             return false;
         }
     }
-    
+
     // Cancel Upload Excel File
     @PostMapping("/api/admin/cancelUploadExcel")
     public void cancelUploadExcel() {
-        String uploadDir = "C:/Users/kahei/Desktop/ive-fyp/server/excel_upload/";
+        String uploadDir = System.getProperty("user.dir") + "\\server\\excel_upload\\";
         File[] files = new File(uploadDir).listFiles();
         for (File file : files) {
             if (file.isFile()) {
@@ -106,7 +106,7 @@ public class AdminController {
     // Read Excel File
     @PostMapping("/api/admin/submitExcel")
     public Object submitExcel() {
-        String uploadDir = "C:/Users/kahei/Desktop/ive-fyp/server/excel_upload/";
+        String uploadDir = System.getProperty("user.dir") + "\\server\\excel_upload\\";
         File[] files = new File(uploadDir).listFiles();
         List<Admin> admins = new ArrayList<>();
         for (File file : files) {
