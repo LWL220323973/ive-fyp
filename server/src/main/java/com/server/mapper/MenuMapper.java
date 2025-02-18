@@ -6,5 +6,7 @@ import com.server.model.Menu;
 
 @Mapper
 public interface MenuMapper {
-    List<Menu> findInMenu (Menu menu);
+    List<Menu> findInMenu(Menu menu);
+    
+    Menu getMenuById(Long id);
 }

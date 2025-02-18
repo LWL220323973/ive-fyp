@@ -31,4 +31,8 @@
             </if>
         </where>
     </select>
+
+    <select id="getMenuById" parameterType="long" resultType="com.server.model.Menu">
+        SELECT * FROM menu WHERE id = #{id}
+    </select>
 </mapper>

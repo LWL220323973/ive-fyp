@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import MenuScreen from './screen/MenuScreen';
+import OrderScreen from './screen/OrderScreen';
 import AppHeader from './block/Header';
 import AppFooter from './block/Footer';
 import BottomNav from './block/BottomNav';
@@ -14,7 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<MenuScreen />} />
           <Route path="/menu" element={<MenuScreen />} />
-          <Route path="/orders" element={<div style={{ padding: '20px', textAlign: 'center' }}>訂單頁面（待實現）</div>} />
+          <Route path="/orders" element={< OrderScreen />} />
         </Routes>
         {/* <AppFooter /> */}
         <BottomNav />

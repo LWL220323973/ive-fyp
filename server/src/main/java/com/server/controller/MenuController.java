@@ -1,11 +1,13 @@
 package com.server.controller;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.server.model.Menu;
@@ -16,10 +18,17 @@ public class MenuController {
 
     @Autowired
     private MenuService service;
-    
+
     @PostMapping("/api/menu/findInMenu")
     public List<Menu> findInMenu(@RequestBody Menu menu) {
         return service.findInMenu(menu);
+
+    }
+
+    @GetMapping("/api/menu/item")
+    public ResponseEntity<Menu> getMenuById(@RequestParam("id") Long id) {
+        Menu menu = service.getMenuById(id);
+        return ResponseEntity.ok(menu);
     }
 
 }
