@@ -4,6 +4,8 @@ import com.server.model.Admin;
 import com.server.service.AdminService;
 import com.server.service.readExcel;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+@Slf4j
 @RestController
 public class AdminController {
 
@@ -81,11 +84,11 @@ public class AdminController {
 
         try {
             file.transferTo(new File(uploadDir + file.getOriginalFilename()));
-            System.out.println("File uploaded successfully: " + file.getOriginalFilename());
+            log.info("File uploaded successfully: " + file.getOriginalFilename());
             return true;
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("File upload failed: " + file.getOriginalFilename());
+            log.error("File upload failed: " + file.getOriginalFilename());
             return false;
         }
     }
@@ -97,7 +100,7 @@ public class AdminController {
         File[] files = new File(uploadDir).listFiles();
         for (File file : files) {
             if (file.isFile()) {
-                System.out.println("File deleted successfully: " + file.getName());
+                log.info("File deleted successfully: " + file.getName());
                 file.delete();
             }
         }
@@ -119,6 +122,7 @@ public class AdminController {
             int count = 0;
             for (Admin admin : admins) {
                 count += service.registerAdmin(admin);
+                log.info("Admin registered successfully: " + admin.toString());
             }
             return count;
         } else {

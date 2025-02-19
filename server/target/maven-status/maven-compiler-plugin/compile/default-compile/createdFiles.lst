@@ -7,7 +7,6 @@ com\server\service\DishesTypeService.class
 com\server\controller\OrderItemController.class
 com\server\mapper\OrderStatusMapper.class
 com\server\model\OrderItem.class
-com\server\Test.class
 com\server\mapper\DishesTypeMapper.class
 com\server\ServerApplication.class
 com\server\mapper\AdminMapper.class
