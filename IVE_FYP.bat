@@ -10,7 +10,7 @@ REM 啟動Customer前端
 cd ../customer
 if not exist node_modules (
     echo Installing npm dependencies for customer...
-    npm install
+    npm install --legacy-peer-deps
 )
 start pwsh -NoExit -Command "$env:PORT=3001; npm start"
 
