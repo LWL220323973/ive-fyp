@@ -34,8 +34,7 @@ public class readExcel {
             Admin admin = new Admin();
             if (sheet.getRow(i).getCell(1).getStringCellValue().trim().isEmpty()
                     || sheet.getRow(i).getCell(3).getNumericCellValue() == 0
-                    || sheet.getRow(i).getCell(4).getStringCellValue().trim().isEmpty()
-                    || sheet.getRow(i).getCell(6).getStringCellValue().trim().isEmpty()) {
+                    || sheet.getRow(i).getCell(4).getStringCellValue().trim().isEmpty()) {
                 System.out.println("Empty");
                 return null;
             } else {
@@ -57,14 +56,6 @@ public class readExcel {
                     return null;
                 }
 
-                // Check only English characters and numbers and comma and period
-                if (sheet.getRow(i).getCell(6).getStringCellValue().trim().matches("^[a-zA-Z0-9 ,.]+$")) {
-                    admin.setAddress_en(sheet.getRow(i).getCell(6).getStringCellValue());
-                } else {
-                    System.out.println("Address_en");
-                    return null;
-                }
-
                 if (!sheet.getRow(i).getCell(2).getStringCellValue().trim().isEmpty()) {
                     // Check only Chinese characters
                     if (sheet.getRow(i).getCell(2).getStringCellValue().trim().matches("[\\u4e00-\\u9fa5]+")) {
@@ -75,15 +66,6 @@ public class readExcel {
                     }
                 }
 
-                if (!sheet.getRow(i).getCell(5).getStringCellValue().trim().isEmpty()) {
-                    // Check only Chinese characters and numbers and comma and period
-                    if (sheet.getRow(i).getCell(5).getStringCellValue().trim().matches("[\\u4e00-\\u9fa5\\d,．]+")) {
-                        admin.setAddress_cn(sheet.getRow(i).getCell(5).getStringCellValue());
-                    } else {
-                        System.out.println("Address_cn");
-                        return null;
-                    }
-                }
                 adminList.add(admin);
             }
         }
