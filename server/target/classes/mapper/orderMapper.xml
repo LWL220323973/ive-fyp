@@ -1,8 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.server.mapper.OrderMapper">
-    <select id="findAllOrders" resultType="com.server.model.Order"> SELECT * FROM `order` </select>
 
-    <select id="findOrdersByTableName" parameterType="string" resultType="com.server.model.Order">
-        SELECT * FROM `order` WHERE table_name = #{tableName} </select>
+    <select id="getOrderDetailByTableName" parameterType="String" resultMap="OrderResultMap">
+        SELECT 
+            o.id AS orderId,
+            o.order_status_id AS orderStatusId,
+            o.item_id AS itemId,
+            o.quantity,
+            o.table_name AS tableName,
+            o.created_at AS createdAt,
+            o.updated_at AS updatedAt,
+            os.status_en_US AS statusEnUS,
+            os.status_zh_HK AS statusZhHK,
+            os.status_zh_CN AS statusZhCN,
+            m.Name_zh_HK AS Name_zh_HK,
+            m.Name_zh_CN AS Name_zh_CN,
+            m.Name_en_US AS Name_en_US,
+            m.onSale AS onSale,
+            m.price,
+            m.type
+        FROM 
+            `order` o
+        JOIN 
+            order_status os ON o.order_status_id = os.id
+        JOIN 
+            menu m ON o.item_id = m.id
+        WHERE 
+            o.table_name = #{tableName}
+    </select>
+
+    <resultMap id="OrderResultMap" type="com.server.model.Order">
+        <id property="id" column="orderId"/>
+        <result property="orderStatusId" column="orderStatusId"/>
+        <result property="itemId" column="itemId"/>
+        <result property="quantity" column="quantity"/>
+        <result property="tableName" column="tableName"/>
+        <result property="createdAt" column="createdAt"/>
+        <result property="updatedAt" column="updatedAt"/>
+        
+        <association property="orderStatus" javaType="com.server.model.OrderStatus">
+            <result property="statusEnUS" column="statusEnUS"/>
+            <result property="statusZhHK" column="statusZhHK"/>
+            <result property="statusZhCN" column="statusZhCN"/>
+        </association>
+
+        <association property="menu" javaType="com.server.model.Menu">
+            <result property="Name_zh_HK" column="Name_zh_HK"/>
+            <result property="Name_zh_CN" column="Name_zh_CN"/>
+            <result property="Name_en_US" column="Name_en_US"/>
+            <result property="onSale" column="onSale"/>
+            <result property="price" column="price"/>
+            <result property="type" column="type"/>
+        </association>
+    </resultMap>
+
 </mapper>

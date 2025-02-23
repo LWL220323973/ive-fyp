@@ -1,28 +1,27 @@
 package com.server.controller;
 
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.http.ResponseEntity;
 import com.server.model.Order;
 import com.server.service.OrderService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
 
 @RestController
-@RequestMapping("/api/orders")
+@RequestMapping("api")
 public class OrderController {
 
-    @Autowired
-    private OrderService orderService;
+    private final OrderService orderService;
 
-    @GetMapping("/all")
-    public ResponseEntity<List<Order>> getAllOrders() {
-        List<Order> orders = orderService.findAllOrders();
-        return ResponseEntity.ok(orders);
+    @Autowired
+    public OrderController(OrderService orderService) {
+        this.orderService = orderService;
     }
 
-    @GetMapping("/table")
-    public ResponseEntity<List<Order>> getOrdersByTableName(@RequestParam("tablename") String tableName) {
-        List<Order> orders = orderService.findOrdersByTableName(tableName);
-        return ResponseEntity.ok(orders);
+    @GetMapping("orders/table")
+    public List<Order> getOrderDetailByTableName(@RequestParam String tableName) {
+        return orderService.getOrderDetailByTableName(tableName);
     }
 }

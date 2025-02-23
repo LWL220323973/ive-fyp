@@ -1,22 +1,22 @@
 package com.server.service;
 
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import com.server.mapper.OrderMapper;
 import com.server.model.Order;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 public class OrderService {
 
-    @Autowired
-    private OrderMapper orderMapper;
+    private final OrderMapper orderMapper;
 
-    public List<Order> findAllOrders() {
-        return orderMapper.findAllOrders();
+    @Autowired
+    public OrderService(OrderMapper orderMapper) {
+        this.orderMapper = orderMapper;
     }
 
-    public List<Order> findOrdersByTableName(String tableName) {
-        return orderMapper.findOrdersByTableName(tableName);
+    public List<Order> getOrderDetailByTableName(String tableName) {
+        return orderMapper.getOrderDetailByTableName(tableName);
     }
 }

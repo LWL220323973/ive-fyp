@@ -16,5 +16,8 @@
   "remove_item": "移除",
   "checkout": "下单",
   "clear_cart": "清空购物车",
-  "clear_cart_confirm": "您确定要清空购物车中的所有商品吗？"
+  "clear_cart_confirm": "您确定要清空购物车中的所有商品吗？",
+  "total_items": "件商品",
+  "total_price": "总计",
+  "no_orders": "没有订单"
 }

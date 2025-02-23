@@ -1,12 +1,11 @@
 import axios from "axios";
 
-const baseURL = "http://localhost:8080/api";
+const baseURL = "http://localhost:8080/api/orders";
 
-// Get orders by table name
-export function getOrdersByTable(tableName) {
-    return axios.get(`${baseURL}/orders/table`, {
-        params: {
-            tablename: tableName
-        }
-    });
+export function getOrderDetailByTableName(tableName) {
+  return axios.get(baseURL + "/table", {
+    params: {
+      tableName: tableName,
+    },
+  });
 }
