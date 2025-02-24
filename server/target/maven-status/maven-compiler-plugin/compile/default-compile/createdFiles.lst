@@ -1,12 +1,8 @@
 com\server\service\AdminService.class
 com\server\controller\AdminController.class
 com\server\controller\DishesTypeController.class
-com\server\service\OrderItemService.class
 com\server\service\readExcel.class
 com\server\service\DishesTypeService.class
-com\server\controller\OrderItemController.class
-com\server\mapper\OrderStatusMapper.class
-com\server\model\OrderItem.class
 com\server\mapper\DishesTypeMapper.class
 com\server\ServerApplication.class
 com\server\mapper\AdminMapper.class
@@ -16,12 +12,9 @@ com\server\mapper\MenuMapper.class
 com\server\model\OrderStatus.class
 com\server\model\DishesType.class
 com\server\model\Order.class
-com\server\controller\OrderStatusController.class
 com\server\service\MenuService.class
 com\server\mapper\OrderMapper.class
 com\server\ServerApplication$1.class
 com\server\service\OrderService.class
 com\server\controller\OrderController.class
-com\server\mapper\OrderItemMapper.class
 com\server\model\Admin.class
-com\server\service\OrderStatusService.class

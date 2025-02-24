@@ -152,6 +152,9 @@ function UserInfoContent() {
       cancelUploadExcel();
     } else {
       message.success(intl.get("submitSuccess"), 1);
+      setTimeout(() => {
+        navigate("..");
+      }, 3000);
     }
   };
 

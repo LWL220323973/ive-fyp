@@ -50,8 +50,8 @@
     </select>
 
     <insert id="registerAdmin" parameterType="com.server.model.Admin">
-        INSERT INTO admin (staff_id, username, password, name_en, name_cn, phone_number, email, address_cn, address_en)
-        VALUES (#{staff_id}, #{username}, #{password}, #{name_en}, #{name_cn}, #{phone_number}, #{email}, #{address_cn}, #{address_en})
+        INSERT INTO admin (staff_id, username, password, name_en, name_cn, phone_number, email, userRole)
+        VALUES (#{staff_id}, #{username}, #{password}, #{name_en}, #{name_cn}, #{phone_number}, #{email}, #{userRole})
     </insert>
 
     <update id="editAdmin" parameterType="com.server.model.Admin">
@@ -69,11 +69,8 @@
             <if test="email != null and email != ''">
                 email = #{email},
             </if>
-            <if test="address_cn != null and address_cn != ''">
-                address_cn = #{address_cn},
-            </if>
-            <if test="address_en != null and address_en != ''">
-                address_en = #{address_en},
+            <if test="userRole != null and userRole != ''">
+                userRole = #{userRole},
             </if>
         </set>
         WHERE staff_id = #{staff_id} AND id = #{id}

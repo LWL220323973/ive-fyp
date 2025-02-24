@@ -30,14 +30,21 @@ public class readExcel {
         return null;
     }
 
+    public static void main(String[] args) {
+        File file = new File("server\\excel_template\\UserInfo.xlsx");
+        readExcel read = new readExcel();
+        read.readAdminExcel(file);
+    }
+
     public List<Admin> loopSheet(XSSFWorkbook wb) {
         List<Admin> adminList = new ArrayList<>();
         XSSFSheet sheet = wb.getSheet("Add User");
-        for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+        for (int i = 1; i <= 30; i++) {
             Admin admin = new Admin();
             if (sheet.getRow(i).getCell(1).getStringCellValue().trim().isEmpty()
-                    || sheet.getRow(i).getCell(3).getNumericCellValue() == 0
-                    || sheet.getRow(i).getCell(4).getStringCellValue().trim().isEmpty()) {
+                    || sheet.getRow(i).getCell(3).getStringCellValue().trim().isEmpty()
+                    || sheet.getRow(i).getCell(4).getStringCellValue().trim().isEmpty()
+                    || sheet.getRow(i).getCell(5).getStringCellValue().trim().isEmpty()) {
                 log.info("Empty");
                 return null;
             } else {
@@ -49,7 +56,8 @@ public class readExcel {
                     return null;
                 }
                 admin.setPhone_number(
-                        String.valueOf((int) sheet.getRow(i).getCell(3).getNumericCellValue()).replace(".0", ""));
+                        sheet.getRow(i).getCell(3).getStringCellValue().trim().replace("'", "").replace(" ", ""));
+                admin.setUserRole(sheet.getRow(i).getCell(5).getStringCellValue().toLowerCase());
                 // Check email format
                 if (sheet.getRow(i).getCell(4).getStringCellValue().trim()
                         .matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
@@ -68,7 +76,6 @@ public class readExcel {
                         return null;
                     }
                 }
-
                 adminList.add(admin);
             }
         }

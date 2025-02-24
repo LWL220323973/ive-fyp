@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 import com.server.mapper.AdminMapper;
 import com.server.model.Admin;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class AdminService {
 
@@ -23,9 +26,10 @@ public class AdminService {
         }
         for (Admin admin : account) {
             AES256TextEncryptor textEncryptor = new AES256TextEncryptor();
-            textEncryptor.setPassword("ive_fyp_20242025_admin_password_encryption_password");
+            textEncryptor.setPassword("ive_fyp_20242025_admin_password_encryption_password" + admin.getStaff_id());
             String passwordDecrypted = textEncryptor.decrypt(admin.getPassword());
             if (passwordDecrypted.equals(password) && admin.getUsername().equals(username)) {
+                log.info(admin.getName_en() + " logged in");
                 return true;
             }
         }
@@ -78,7 +82,7 @@ public class AdminService {
     // Generate password
     public String generatePassword(Admin admin) {
         AES256TextEncryptor textEncryptor = new AES256TextEncryptor();
-        textEncryptor.setPassword("ive_fyp_20242025_admin_password_encryption_password");
+        textEncryptor.setPassword("ive_fyp_20242025_admin_password_encryption_password" + admin.getStaff_id());
         String password = admin.getUsername().substring(0, 3) + admin.getPhone_number().substring(4, 8);
         String passwordEncrypted = textEncryptor.encrypt(password);
         return passwordEncrypted;
