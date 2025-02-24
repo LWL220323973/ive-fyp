@@ -55,4 +55,10 @@
         </association>
     </resultMap>
 
+    <insert id="CreateOrder" parameterType="map">
+        INSERT INTO `order` (order_status_id, item_id, quantity, table_name, created_at, updated_at)
+        VALUES (1, #{item_id}, #{quantity}, #{table_name}, NOW(), NOW())
+    </insert>
+
+
 </mapper>

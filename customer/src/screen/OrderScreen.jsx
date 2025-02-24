@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { getOrderDetailByTableName } from '../api/Order';
+import { getOrderDetailByTableName } from '../api/GetOrderDetailByTableName';
 import { useTranslation } from 'react-i18next';
 import '../style/order.css'; // Import CSS file for styling
 
 const OrderScreen = () => {
     const { t, i18n } = useTranslation();
     const [orders, setOrders] = useState([]);
-    const tableName = localStorage.getItem('tableNumber') || ''; // Get table name from local storage
+    const tableName = localStorage.getItem('tableNumber') || '';
+    // State to store the table number, retrieved from localStorage if available
+    const [tableNumber, setTableNumber] = useState(localStorage.getItem('tableNumber') || '');
 
     const fetchOrders = async () => {
         try {
@@ -51,7 +53,19 @@ const OrderScreen = () => {
     const filteredOrders = orders.filter(order => order.orderStatusId === 1);
 
     return (
+
+
         <div className="order-screen">
+
+
+            {/* Display the current table number */}
+            <div className="table-number">
+                <span className="table-label">{t('table_number')}:</span>
+                <span className="table-value">{tableNumber || 'N/A'}</span>
+            </div>
+
+
+
             <h1 className="title">{t('orders')}</h1>
             {filteredOrders.length > 0 ? (
                 <>

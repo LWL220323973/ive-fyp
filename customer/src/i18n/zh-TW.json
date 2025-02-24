@@ -19,5 +19,9 @@
   "clear_cart_confirm": "您確定要清空購物車中的所有商品嗎？",
   "total_items": "件商品",
   "total_price": "總計",
-  "no_orders": "沒有訂單"
+  "no_orders": "沒有訂單",
+  "confirm_order_title": "確認訂單",
+  "confirm_order_content": "您確定要下單嗎？下單後不可取消。",
+  "order_placed_successfully": "下單成功",
+  "order_placement_failed": "下單失敗"
 }

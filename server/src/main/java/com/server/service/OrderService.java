@@ -19,4 +19,8 @@ public class OrderService {
     public List<Order> getOrderDetailByTableName(String tableName) {
         return orderMapper.getOrderDetailByTableName(tableName);
     }
+
+    public int CreateOrder(int item_id, int quantity, String table_name) {
+        return orderMapper.CreateOrder(item_id, quantity, table_name);
+    }
 }

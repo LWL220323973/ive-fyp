@@ -6,6 +6,7 @@ import '../style/menu.css'; // Import custom CSS styles
 import { findInMenu } from '../api/Menu'; // Import API function to fetch menu items
 import { getDishesType } from '../api/DishesType'; // Import API function to fetch dish categories
 import { DeleteOutlined } from '@ant-design/icons'; // Import delete icon from antd icons
+import { createOrder } from '../api/CreateOrder'; // Import createOrder API function
 
 const MenuScreen = () => {
   // Initialize translation hook (t for translation function and i18n for language info)
@@ -189,6 +190,30 @@ const MenuScreen = () => {
       onOk: () => {
         setCart([]);
         message.success(t('clear_cart'));
+      },
+      okButtonProps: {
+        style: { background: '#b22222' }
+      }
+    });
+  };
+
+  // Handler to confirm and place the order
+  const handleConfirmOrder = async () => {
+    Modal.confirm({
+      title: t('confirm_order_title'),
+      content: t('confirm_order_content'),
+      onOk: async () => {
+        try {
+          for (const item of cart) {
+            await createOrder(item.id, item.quantity, tableNumber);
+          }
+          message.success(t('order_placed_successfully'));
+          setCart([]); // Clear the cart after successful order placement
+          setCartModalVisible(false); // Close the cart modal
+        } catch (error) {
+          message.error(t('order_placement_failed'));
+          console.error('Failed to place order:', error);
+        }
       },
       okButtonProps: {
         style: { background: '#b22222' }
@@ -398,7 +423,7 @@ const MenuScreen = () => {
             <Button
               type="primary"
               style={{ background: '#b22222', width: '100%' }}
-              onClick={() => {/* TODO: Implement checkout */ }}
+              onClick={handleConfirmOrder} // Call handleConfirmOrder on click
             >
               {t('checkout')}
             </Button>
