@@ -7,10 +7,6 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-DROP DATABASE IF EXISTS `ive_fyp`;
-CREATE DATABASE IF NOT EXISTS `ive_fyp` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
-USE `ive_fyp`;
-
 DROP TABLE IF EXISTS `admin`;
 CREATE TABLE IF NOT EXISTS `admin` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -21,16 +17,17 @@ CREATE TABLE IF NOT EXISTS `admin` (
   `name_cn` varchar(100) NOT NULL COMMENT 'Name',
   `phone_number` varchar(8) NOT NULL COMMENT 'phoneNumber',
   `email` varchar(100) NOT NULL,
+  `userRole` varchar(10) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `admin_unique` (`staff_id`),
   UNIQUE KEY `admin_unique_1` (`username`),
   UNIQUE KEY `admin_unique_2` (`email`),
   UNIQUE KEY `admin_unique_3` (`phone_number`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='管理員';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='管理員';
 
 DELETE FROM `admin`;
-INSERT INTO `admin` (`id`, `staff_id`, `username`, `password`, `name_en`, `name_cn`, `phone_number`, `email`) VALUES
-	(1, '12345678', 'admin', 'KScbOGK4takecqETZmhkeVUJq8GbgxrnXYfTPVDAfkbA//FqGlQYAT577gvUGmdX', 'Admin', '管理員號', '78945612', 'admin06@gmail.com');
+INSERT INTO `admin` (`id`, `staff_id`, `username`, `password`, `name_en`, `name_cn`, `phone_number`, `email`, `userRole`) VALUES
+	(1, '12345678', 'admin', 'c18iSDP/2zxbh+NRB8bJJ+TrIEhtSafdW7KwOgMXOx6npzBCBaZ2n42sa3/K5xsv', 'Admin', '管理員號', '78945612', 'admin06@gmail.com', 'admin');
 
 DROP TABLE IF EXISTS `dishes_type`;
 CREATE TABLE IF NOT EXISTS `dishes_type` (
@@ -127,7 +124,7 @@ INSERT INTO `menu` (`id`, `Name_zh_HK`, `Name_zh_CN`, `Name_en_US`, `price`, `on
 	(57, '娃娃菜（份）', '娃娃菜（份）', 'Baby Cabbage(A Serving)', 28, 'Y', '娃娃菜.jpg', 'side_dish'),
 	(58, '豆卜（份）', '豆卜（份）', 'Tofu Puff(A Serving)', 38, 'Y', '豆卜.jpg', 'side_dish'),
 	(59, '幼薯粉（份）', '幼薯粉（份）', 'Potato Starch Noodles(A Serving)', 28, 'Y', '幼薯粉.jpg', 'side_dish'),
-	(60, '豬紅（份）', '猪红（份）', 'Curdled Pig''s Blood(A Serving)', 28, 'Y', '豬紅.jpg', 'side_dish'),
+	(60, '豬紅（份）', '猪红（份）', 'Curdled Pig\'s Blood(A Serving)', 28, 'Y', '豬紅.jpg', 'side_dish'),
 	(61, '黑椒牛丸（份）', '黑椒牛丸（份）', 'Black Pepper Beef(A Serving)', 45, 'Y', '黑椒牛丸.jpg', 'side_dish'),
 	(62, '牛肉丸（份）', '牛肉丸（份）', 'Beef Ball(A Serving)', 45, 'Y', '牛肉丸.jpg', 'side_dish'),
 	(63, '豬肉丸（份）', '猪肉丸（份）', 'Pork Ball(A Serving)', 45, 'Y', '豬肉丸.jpg', 'side_dish'),
@@ -236,6 +233,37 @@ INSERT INTO `menu` (`id`, `Name_zh_HK`, `Name_zh_CN`, `Name_en_US`, `price`, `on
 	(166, '青椒炒肉（份）', '青椒炒肉（份）', 'Stir Fried Green Peppers with Pork(A Serving)', 68, 'Y', '青椒炒肉.jpg', 'stir_fry'),
 	(167, '苦瓜炒肉（份）', '苦瓜炒肉（份）', 'Stir Fried Bitter Melon with Pork(A Serving)', 88, 'Y', '苦瓜炒肉.jpg', 'stir_fry');
 
+DROP TABLE IF EXISTS `order`;
+CREATE TABLE IF NOT EXISTS `order` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_status_id` int(11) NOT NULL,
+  `table_name` varchar(50) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `order_status_id` (`order_status_id`),
+  CONSTRAINT `order_ibfk_1` FOREIGN KEY (`order_status_id`) REFERENCES `order_status` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+DELETE FROM `order`;
+
+DROP TABLE IF EXISTS `order_item`;
+CREATE TABLE IF NOT EXISTS `order_item` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) NOT NULL,
+  `dish_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `order_id` (`order_id`),
+  KEY `dish_id` (`dish_id`),
+  CONSTRAINT `order_item_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`),
+  CONSTRAINT `order_item_ibfk_2` FOREIGN KEY (`dish_id`) REFERENCES `menu` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+DELETE FROM `order_item`;
+
 DROP TABLE IF EXISTS `order_status`;
 CREATE TABLE IF NOT EXISTS `order_status` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -251,24 +279,21 @@ INSERT INTO `order_status` (`id`, `status_en_US`, `status_zh_HK`, `status_zh_CN`
 	(2, 'Completed', '已完成', '已完成'),
 	(3, 'Cancelled', '已取消', '已取消');
 
-
-
-DROP TABLE IF EXISTS `order`;
-CREATE TABLE IF NOT EXISTS `order` (
+DROP TABLE IF EXISTS `spiciness_levels`;
+CREATE TABLE IF NOT EXISTS `spiciness_levels` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `order_status_id` int(11) NOT NULL,
-  `item_id` int(11) NOT NULL,
-  `quantity` int(11) NOT NULL,
-  `table_name` varchar(50) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (`id`),
-  KEY `order_status_id` (`order_status_id`),
-  KEY `item_id` (`item_id`),
-  CONSTRAINT `order_fk_1` FOREIGN KEY (`order_status_id`) REFERENCES `order_status` (`id`),
-  CONSTRAINT `order_fk_2` FOREIGN KEY (`item_id`) REFERENCES `menu` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `name_zh_TW` varchar(50) NOT NULL,
+  `name_zh_CN` varchar(50) NOT NULL,
+  `name_en_US` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='辣度';
 
+DELETE FROM `spiciness_levels`;
+INSERT INTO `spiciness_levels` (`id`, `name_zh_TW`, `name_zh_CN`, `name_en_US`) VALUES
+	(1, '小辣', '小辣', 'Mild'),
+	(2, '中辣', '中辣', 'Medium'),
+	(3, '大辣', '大辣', 'Hot'),
+	(4, '特辣', '特辣', 'Special');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
