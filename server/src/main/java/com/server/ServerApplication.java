@@ -1,5 +1,10 @@
 package com.server;
 
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +20,13 @@ import org.springframework.lang.NonNull;
 public class ServerApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ServerApplication.class, args);
+        try {
+            String date = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
+            System.setOut(new PrintStream("log/server" + date + ".log"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        System.out.println(SpringApplication.run(ServerApplication.class, args));
         log.info("Server is running on port 8080");
     }
 

@@ -1,3 +1,4 @@
+com\server\test.class
 com\server\service\AdminService.class
 com\server\controller\AdminController.class
 com\server\controller\DishesTypeController.class
