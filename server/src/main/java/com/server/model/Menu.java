@@ -11,4 +11,5 @@ public class Menu {
     private String onSale;
     private int price;
     private String type;
+    private String path;
 }
