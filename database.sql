@@ -7,13 +7,22 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+/* Order */
 DROP TABLE IF EXISTS `order`;
 DROP TABLE IF EXISTS `order_status`;
+
+/* custom option */
+DROP TABLE IF EXISTS `menuItem_customOptions`;
+DROP TABLE IF EXISTS `custom_option_value`;
+DROP TABLE IF EXISTS `custom_option`;
+
+/* menu */
 DROP TABLE IF EXISTS `menu`;
 DROP TABLE IF EXISTS `dishes_type`;
+
+/* admin */
 DROP TABLE IF EXISTS `admin`;
 DROP TABLE IF EXISTS `systems_profile`;
-
 
 
 CREATE TABLE IF NOT EXISTS `admin` (
@@ -235,6 +244,61 @@ INSERT INTO `menu` (`id`, `Name_zh_HK`, `Name_zh_CN`, `Name_en_US`, `price`, `on
 	(165, '藕片炒肉（份）', '藕片炒肉（份）', 'Stir Fried Lotus Root Slices with Pork(A Serving)', 88, 'Y', '藕片炒肉.jpg', 'stir_fry'),
 	(166, '青椒炒肉（份）', '青椒炒肉（份）', 'Stir Fried Green Peppers with Pork(A Serving)', 68, 'Y', '青椒炒肉.jpg', 'stir_fry'),
 	(167, '苦瓜炒肉（份）', '苦瓜炒肉（份）', 'Stir Fried Bitter Melon with Pork(A Serving)', 88, 'Y', '苦瓜炒肉.jpg', 'stir_fry');
+
+CREATE TABLE IF NOT EXISTS `custom_option` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name_Zh_HK` varchar(255) NOT NULL,
+  `name_Zh_CN` varchar(255) NOT NULL,
+  `name_Us_EN` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+INSERT INTO `custom_option` (`id` ,`name_Zh_HK`, `name_Zh_CN`, `name_Us_EN`) VALUES
+	(1, '辣度', '辣度', 'Spicy Level'),
+	(2, '洋葱', '洋葱', 'Onion'),
+	(3, '芫荽', '香菜', 'Coriander');
+
+
+
+
+CREATE TABLE IF NOT EXISTS `custom_option_value` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `custom_option_id` INT NOT NULL,
+    `value_Zh_HK` VARCHAR(255) NOT NULL,
+	`value_Zh_CN` VARCHAR(255) NOT NULL,
+	`value_Us_EN` VARCHAR(255) NOT NULL,
+    `price_adjustment` DECIMAL(10, 2) DEFAULT 0,
+    FOREIGN KEY (`custom_option_id`) REFERENCES `custom_option`(`id`)
+);
+
+INSERT INTO `custom_option_value` (`custom_option_id`, `value_Zh_HK`, `value_Zh_CN`, `value_Us_EN`, `price_adjustment`) VALUES
+	(1, '不辣', '不辣', 'Not Spicy', 0),
+	(1, '微辣', '微辣', 'Mild Spicy', 0),
+	(1, '特辣', '特辣', 'Extra Spicy', 0),
+	(2, '額外洋葱', '额外洋葱', 'Extra Onion', 5),
+	(2, '沒有洋葱', '没有洋葱', 'No Onion', 0),
+	(3, '額外芫荽', '额外香菜', 'Extra Coriander', 5),
+	(3, '沒有芫荽', '没有香菜', 'No Coriander', 0);
+
+
+CREATE TABLE IF NOT EXISTS `menuItem_customOptions` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `menu_item_id` INT NOT NULL,
+    `custom_option_id` INT NOT NULL,
+    FOREIGN KEY (`menu_item_id`) REFERENCES `menu`(`id`),
+    FOREIGN KEY (`custom_option_id`) REFERENCES `custom_option`(`id`)
+);
+
+INSERT INTO `menuItem_customOptions` (`menu_item_id`, `custom_option_id`) VALUES
+	(1, 1),
+	(1, 2),
+	(1, 3),
+	(2, 1),
+	(2, 2),
+	(3, 1),
+	(4, 1);
+	
 
 CREATE TABLE IF NOT EXISTS `order_status` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
