@@ -160,11 +160,6 @@
   border-radius: 8px;
   margin-bottom: 16px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-}
-
-.item-detail-image:hover {
-  transform: scale(1.02);
 }
 
 .item-detail-price {
@@ -510,4 +505,44 @@
   margin: 4px 0 0;
   color: #b22222;
   font-weight: bold;
+}
+
+.ordering-disabled-modal .ant-modal-content {
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+
+.ordering-disabled-modal .ant-modal-header {
+  background-color: #f5c6cb;
+  border-bottom: 1px solid #f5c6cb;
+}
+
+.ordering-disabled-modal .ant-modal-title {
+  color: #721c24;
+}
+
+.ordering-disabled-modal .ant-modal-body {
+  color: #721c24;
+  text-align: center;
+  font-size: 16px;
+}
+
+.scan-failed-modal .ant-modal-content {
+  background-color: #fff3cd;
+  border-color: #ffeeba;
+}
+
+.scan-failed-modal .ant-modal-header {
+  background-color: #ffeeba;
+  border-bottom: 1px solid #ffeeba;
+}
+
+.scan-failed-modal .ant-modal-title {
+  color: #856404;
+}
+
+.scan-failed-modal .ant-modal-body {
+  color: #856404;
+  text-align: center;
+  font-size: 16px;
 }

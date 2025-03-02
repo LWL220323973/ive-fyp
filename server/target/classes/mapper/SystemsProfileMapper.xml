@@ -1,0 +1,18 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.server.mapper.SystemsProfileMapper">
+
+  <resultMap id="SystemsProfileResultMap" type="com.server.model.SystemsProfile">
+    <id property="id" column="id" />
+    <result property="restaurantName" column="restaurant_name" />
+    <result property="isOrderingDisabled" column="is_ordering_disabled" />
+    <result property="isServiceChargeRequired" column="is_service_charge_required" />
+  </resultMap>
+
+  <select id="getSystemsProfile" resultMap="SystemsProfileResultMap">
+    SELECT * FROM systems_profile LIMIT 1
+  </select>
+
+</mapper>

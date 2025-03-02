@@ -12,6 +12,7 @@ DROP TABLE IF EXISTS `order_status`;
 DROP TABLE IF EXISTS `menu`;
 DROP TABLE IF EXISTS `dishes_type`;
 DROP TABLE IF EXISTS `admin`;
+DROP TABLE IF EXISTS `systems_profile`;
 
 
 
@@ -314,6 +315,18 @@ INSERT INTO `order` (order_status_id, item_id, quantity, table_name, created_at,
 (2, 90, 3, '3', '2024-01-23 09:10:00', '2024-01-23 09:15:00'),
 (1, 45, 4, '4', '2025-02-23 16:30:00', '2025-02-23 16:35:00'),
 (2, 22, 2, '5', '2024-01-31 14:50:00', '2024-01-31 14:55:00');
+
+
+CREATE TABLE IF NOT EXISTS `systems_profile` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `restaurant_name` varchar(100) NOT NULL,
+  `is_ordering_disabled` boolean NOT NULL DEFAULT FALSE,
+  `is_service_charge_required` boolean NOT NULL DEFAULT FALSE,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO `systems_profile` (`id`, `restaurant_name`, `is_ordering_disabled`, `is_service_charge_required`) VALUES
+	(1, 'BOS', 0, 0);
 
 
 

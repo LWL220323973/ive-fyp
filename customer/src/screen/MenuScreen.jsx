@@ -8,6 +8,7 @@ import { getDishesType } from '../api/DishesType';
 import { DeleteOutlined } from '@ant-design/icons';
 import { createOrder } from '../api/CreateOrder';
 import { getPhoto } from '../api/GetPhoto';
+import { getSystemsProfile } from '../api/GetSystemsProfile';
 
 const MenuScreen = () => {
   const { t, i18n } = useTranslation();
@@ -26,6 +27,7 @@ const MenuScreen = () => {
   });
   const [cartModalVisible, setCartModalVisible] = useState(false);
   const [selectedQuantity, setSelectedQuantity] = useState(1);
+  const [isOrderingDisabled, setIsOrderingDisabled] = useState(false);
 
   useEffect(() => {
     const urlTableNumber = searchParams.get('table');
@@ -80,8 +82,19 @@ const MenuScreen = () => {
       }
     };
 
+    const fetchSystemsProfile = async () => {
+      try {
+        const response = await getSystemsProfile();
+        const profile = response.data;
+        setIsOrderingDisabled(profile.orderingDisabled);
+      } catch (error) {
+        console.error('Failed to fetch systems profile:', error);
+      }
+    };
+
     fetchMenuData();
     fetchCategoriesData();
+    fetchSystemsProfile();
   }, []);
 
   useEffect(() => {
@@ -189,16 +202,35 @@ const MenuScreen = () => {
 
   return (
     <div className="menu-screen">
+      {/* Modal to display ordering disabled message */}
       <Modal
-        title="掃描失敗"
+        title="下單已停用 / 下单已停用 / Ordering Disabled"
+        open={isOrderingDisabled}
+        footer={null}
+        closable={false}
+        centered
+        className="ordering-disabled-modal"
+      >
+        <p>暫時無法下單，請稍後再試！</p>
+        <p>暂时无法下单，请稍后再试！</p>
+        <p>Ordering is currently disabled. Please try again later!</p>
+      </Modal>
+
+      {/* Modal to display scan failure or missing table information */}
+      <Modal
+        title="掃描失敗 / 扫描失败 / Snap Failed"
         open={isModalVisible}
         footer={null}
         closable={false}
         centered
+        className="scan-failed-modal"
       >
         <p>掃描失敗，請重新再試！</p>
+        <p>扫描失败，请重新再试！</p>
+        <p>Snap failed, please try again!</p>
       </Modal>
 
+      {/* Section for category filter buttons */}
       <div className="search-filter">
         <div className="category-buttons">
           <Button
@@ -219,11 +251,13 @@ const MenuScreen = () => {
         </div>
       </div>
 
+      {/* Display current table number */}
       <div className="table-number">
         <span className="table-label">{t('table_number')}:</span>
         <span className="table-value">{tableNumber || 'N/A'}</span>
       </div>
 
+      {/* Modal for displaying item details when an item is selected */}
       <Modal
         visible={itemDetailVisible}
         onCancel={() => setItemDetailVisible(false)}
@@ -234,17 +268,21 @@ const MenuScreen = () => {
       >
         {selectedItem && (
           <>
+            {/* Display the selected item's image */}
             <img
               src={selectedItem.imageUrl}
               alt={selectedItem[`Name_${i18n.language === 'en' ? 'en_US' : (i18n.language === 'zh_CN' ? 'zh_CN' : 'zh_HK')}`]}
               className="item-detail-image"
             />
+            {/* Display the selected item's name/description */}
             <div className="item-detail-description">
               <h2>{selectedItem[`name_${i18n.language === 'en' ? 'en_US' : (i18n.language === 'zh_CN' ? 'zh_CN' : 'zh_HK')}`]}</h2>
             </div>
+            {/* Display the selected item's price */}
             <div className="item-detail-price">
               ${selectedItem.price.toFixed(2)}
             </div>
+            {/* Quantity selector for the item detail view */}
             <div className="item-detail-quantity">
               <button
                 className="quantity-button"
@@ -260,9 +298,11 @@ const MenuScreen = () => {
                 +
               </button>
             </div>
+            {/* Display total price for the selected quantity */}
             <div className="item-detail-total">
               {t('cart_total')}: ${(selectedItem.price * selectedQuantity).toFixed(2)}
             </div>
+            {/* Button to add the item to the cart */}
             <Button className="add-to-cart-button" onClick={handleAddToCart}>
               {t('add_to_cart')}
             </Button>
@@ -270,6 +310,7 @@ const MenuScreen = () => {
         )}
       </Modal>
 
+      {/* Loop through each grouped category to display items */}
       {Object.keys(groupedItems).map(category => (
         <div key={category}>
           <h2 className="category-title">
@@ -288,6 +329,7 @@ const MenuScreen = () => {
                       {item.imageUrl ? (
                         <img src={item.imageUrl} alt="" className="top-image" />
                       ) : (
+                        // Placeholder for items without an image
                         <div className="menu-item-placeholder"></div>
                       )}
                     </div>
@@ -304,6 +346,7 @@ const MenuScreen = () => {
         </div>
       ))}
 
+      {/* Floating cart icon displayed when there are items in the cart */}
       {cart.length > 0 && (
         <div className="floating-cart" onClick={() => setCartModalVisible(true)}>
           <span className="cart-count">{getTotalItems()} {t('cart_items')}</span>
@@ -311,6 +354,7 @@ const MenuScreen = () => {
         </div>
       )}
 
+      {/* Modal to display the shopping cart details */}
       <Modal
         visible={cartModalVisible}
         onCancel={() => setCartModalVisible(false)}
@@ -323,6 +367,7 @@ const MenuScreen = () => {
             </div>
             {cart.length > 0 && (
               <div className="cart-header-actions">
+                {/* Icon to clear the cart */}
                 <DeleteOutlined
                   className="clear-cart-icon"
                   onClick={handleClearCart}
@@ -340,6 +385,7 @@ const MenuScreen = () => {
               {t('empty_cart')}
             </div>
           ) : (
+            // Display each item in the cart
             cart.map(item => (
               <div key={item.id} className="cart-item">
                 <img
@@ -365,6 +411,7 @@ const MenuScreen = () => {
             <div className="cart-total-amount">
               {t('cart_total')}: ${getTotalPrice().toFixed(2)}
             </div>
+            {/* Button to confirm and place the order */}
             <Button
               type="primary"
               style={{ background: '#b22222', width: '100%' }}
