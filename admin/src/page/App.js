@@ -5,6 +5,7 @@ import Home from "./Home";
 import Menu from "./Menu";
 import User from "./User/index";
 import UserInfo from "./User/Info";
+import ManageDishesType from "./Manage/manageDishesType";
 
 function App() {
   return (
@@ -17,6 +18,10 @@ function App() {
           <Route path="user/">
             <Route index element={<User />} />
             <Route path="userInfo" element={<UserInfo />} />
+          </Route>
+          <Route path="manage/">
+            <Route path="userPermission"  />
+            <Route path="dishesType"  element={<ManageDishesType/>}/>
           </Route>
         </Route>
       </Routes>

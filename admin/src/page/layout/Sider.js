@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Layout, Menu, Image } from "antd";
-import { HomeOutlined, MenuOutlined, UserOutlined } from "@ant-design/icons";
+import { HomeOutlined, MenuOutlined, SettingOutlined, UserOutlined } from "@ant-design/icons";
 import { useNavigate, useLocation } from "react-router-dom";
 import intl from "react-intl-universal";
 
@@ -13,28 +13,68 @@ function Sider() {
     setCollapsed(collapsed);
     sessionStorage.setItem("siderCollapsed", collapsed);
   };
-  const selectedKey = location.pathname.startsWith("/menu") ? "/menu" : location.pathname;
+  const selectedKey = location.pathname.startsWith("/menu")
+    ? "/menu"
+    : location.pathname;
 
-  const menuItems = [
-    {
-      key: "/home",
-      icon: <HomeOutlined />,
-      label: intl.get("home"),
-      onClick: () => navigate("/home"),
-    },
-    {
-      key: "/menu",
-      icon: <MenuOutlined />,
-      label: intl.get("menu"),
-      onClick: () => navigate("/menu"),
-    },
-    {
-      key:"/user",
-      icon: <UserOutlined />,
-      label: intl.get("user"),
-      onClick: () => navigate("/user"),
+  const menuItems = () => {
+    if (sessionStorage.getItem("userRole") === "admin") {
+      return [
+        {
+          key: "/home",
+          icon: <HomeOutlined />,
+          label: intl.get("home"),
+          onClick: () => navigate("/home"),
+        },
+        {
+          key: "/menu",
+          icon: <MenuOutlined />,
+          label: intl.get("menu"),
+          onClick: () => navigate("/menu"),
+        },
+        {
+          key: "/user",
+          icon: <UserOutlined />,
+          label: intl.get("user"),
+          onClick: () => navigate("/user"),
+        },
+        {
+          key: "/Manage",
+          label: intl.get("manage"),
+          icon: <SettingOutlined />,
+          children:[
+            {
+              key: "/manageUser",
+              label: intl.get("UserPermission"),
+              icon: <UserOutlined />,
+              onClick: () => navigate("/manage/userPermission"),
+            },
+            {
+              key: "/manageDishesType",
+              label: intl.get("DishesType"),
+              icon: <MenuOutlined />,
+              onClick: () => navigate("/manage/dishesType"),
+            }
+          ]
+        }
+      ];
+    } else {
+      return [
+        {
+          key: "/home",
+          icon: <HomeOutlined />,
+          label: intl.get("home"),
+          onClick: () => navigate("/home"),
+        },
+        {
+          key: "/menu",
+          icon: <MenuOutlined />,
+          label: intl.get("menu"),
+          onClick: () => navigate("/menu"),
+        },
+      ];
     }
-  ];
+  };
 
   return (
     <Layout.Sider
@@ -50,7 +90,7 @@ function Sider() {
         theme="dark"
         mode="inline"
         selectedKeys={[selectedKey]}
-        items={menuItems}
+        items={menuItems()}
       />
     </Layout.Sider>
   );

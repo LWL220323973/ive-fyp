@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Layout, Form, Typography, Table, Input, Button, Row, Col } from "antd";
+import {
+  Layout,
+  Form,
+  Typography,
+  Table,
+  Input,
+  Button,
+  Row,
+  Col,
+  message,
+} from "antd";
 import { ClearOutlined, UserAddOutlined } from "@ant-design/icons";
 import intl from "react-intl-universal";
 import Sider from "../../layout/Sider";
@@ -26,6 +36,13 @@ function UserContent() {
   const [form] = Form.useForm(); // 確保 form 已正確初始化
   const [data, setData] = useState([]); //the list of dishes
   const navigate = useNavigate();
+
+  if (sessionStorage.getItem("userRole") !== "admin") {
+    message.error(intl.get("noPermission"));
+    setTimeout(() => {
+      navigate("/home");
+    }, 2000);
+  }
 
   const style = {
     padding: 12,

@@ -20,7 +20,13 @@ function Login() {
     const { username, password } = values;
     const response = await login(username, password);
     if (response.data) {
-      sessionStorage.setItem("user", findCurrentAdmin(username).data);
+      const currentAdmin = async (username) => {
+        const response = await findCurrentAdmin(username);
+        return response.data[0];
+      }
+      const user = await currentAdmin(username);
+      sessionStorage.setItem("user", JSON.stringify(user));
+      sessionStorage.setItem("userRole", JSON.parse(sessionStorage.getItem("user")).userRole);
       sessionStorage.setItem("siderCollapsed", false);
       message.success(intl.get("loginSuccess"),1);
       setTimeout(() => {

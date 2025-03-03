@@ -2,6 +2,7 @@ com\server\model\OrderStatus.class
 com\server\mapper\OrderMapper.class
 com\server\service\OrderService.class
 com\server\controller\OrderController.class
+com\server\test.class
 com\server\service\AdminService.class
 com\server\model\Menu.class
 com\server\mapper\MenuMapper.class

@@ -6,13 +6,6 @@
     "no": "No",
     "home": "Home",
     "menu": "Menu",
-    "capsicumAnnuum": "Capsicum Annuum",
-    "drinks": "Drinks",
-    "coldFood": "Cold Food",
-    "sideDish": "Side Dish",
-    "signatureDish": "Signature Dish",
-    "stapleFood": "Staple Food",
-    "stirFry": "Stir Fry",
     "name": "Name",
     "nameCN": "Chinese Name",
     "nameEN": "English Name",
@@ -60,5 +53,9 @@
     "cancel": "Cancel",
     "passwordRequired": "Please input your password!",
     "usernameRequired": "Please input your username!",
-    "cancelUpload": "Canceled Upload"
+    "cancelUpload": "Canceled Upload",
+    "noPermission": "You have no permission to access this page",
+    "manage": "Manage",
+    "UserPermission": "User Permission",
+    "DishesType": "Dishes Type"
 }

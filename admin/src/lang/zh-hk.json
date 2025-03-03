@@ -6,13 +6,6 @@
     "no": "否",
     "home": "首頁",
     "menu": "菜單",
-    "capsicumAnnuum": "泡椒",
-    "drinks": "飲品",
-    "coldFood": "冷盤",
-    "sideDish": "配菜",
-    "signatureDish": "招牌菜",
-    "stapleFood": "主食",
-    "stirFry": "精美小炒",
     "name": "名稱",
     "nameCN": "名稱(簡)",
     "nameEN": "名稱(英)",
@@ -60,5 +53,9 @@
     "cancel": "取消",
     "passwordRequired": "請輸入您的密碼",
     "usernameRequired": "請輸入您的用戶名",
-    "cancelUpload": "已取消上傳"
+    "cancelUpload": "已取消上傳",
+    "noPermission": "您沒有權限訪問此頁面",
+    "manage": "管理",
+    "UserPermission": "用戶權限",
+    "DishesType": "菜品類型"
 }
