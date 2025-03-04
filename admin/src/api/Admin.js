@@ -31,16 +31,14 @@ export function registerAdmin(
   name_cn,
   email,
   phone_number,
-  address_en,
-  address_cn
+  userRole
 ) {
   return axios.post(baseURL + "/registerAdmin", {
     name_en,
     name_cn,
     email,
     phone_number,
-    address_en,
-    address_cn,
+    userRole,
   });
 }
 
@@ -57,8 +55,6 @@ export function updateAdmin(
   name_cn,
   email,
   phone_number,
-  address_en,
-  address_cn
 ) {
   return axios.post(baseURL + "/updateAdmin", {
     id,
@@ -67,8 +63,6 @@ export function updateAdmin(
     name_cn,
     email,
     phone_number,
-    address_en,
-    address_cn,
   });
 }
 
@@ -92,4 +86,13 @@ export function cancelUploadExcel() {
 //Submit Admin Excel
 export function submitExcel() {
   return axios.post(baseURL + "/submitExcel");
+}
+
+//Delete Admin
+export function deleteAdmin(record) {
+  const {id, staff_id} = record;
+  return axios.post(baseURL + "/deleteAdmin", {
+    id,
+    staff_id
+  });
 }

@@ -20,7 +20,6 @@ function App() {
             <Route path="userInfo" element={<UserInfo />} />
           </Route>
           <Route path="manage/">
-            <Route path="userPermission"  />
             <Route path="dishesType"  element={<ManageDishesType/>}/>
           </Route>
         </Route>

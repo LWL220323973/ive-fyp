@@ -124,4 +124,8 @@ public class AdminService {
         }
     }
 
+    //Delete User By ID
+    public int deleteAdminById(Admin admin) {
+        return mapper.deleteAdminById(admin.getId());
+    }
 }

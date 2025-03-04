@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import {
   Form,
   Input,
@@ -9,12 +9,16 @@ import {
   Col,
   message,
   Upload,
+  Select,
+  Modal,
 } from "antd";
 import {
   ClearOutlined,
   UserAddOutlined,
   DownloadOutlined,
   UploadOutlined,
+  DeleteOutlined,
+  CloseCircleOutlined,
 } from "@ant-design/icons";
 import Sider from "../../layout/Sider";
 import Footer from "../../layout/Footer";
@@ -27,6 +31,7 @@ import {
   cancelUploadExcel,
   uploadExcel,
   submitExcel,
+  deleteAdmin,
 } from "../../../api/Admin";
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -46,12 +51,14 @@ function UserInfo() {
 function UserInfoContent() {
   const status = sessionStorage.getItem("userInfoStatus");
   const location = useLocation();
-  const { record } = location.state || {};
+  const record = useMemo(() => location.state.record || {}, [location]);
   const [form] = Form.useForm();
   const navigate = useNavigate();
   // const [open, setOpen] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
-
+  const [isOpenConfirm, setIsOpenConfirm] = useState(false);
+  console.log(status);
+  console.log(record);
   const style = {
     padding: 12,
     height: "auto",
@@ -75,8 +82,6 @@ function UserInfoContent() {
         name_cn: record.name_cn,
         email: record.email,
         phone_number: record.phone_number,
-        address_en: record.address_en,
-        address_cn: record.address_cn,
       });
     } else {
       form.resetFields();
@@ -85,35 +90,16 @@ function UserInfoContent() {
 
   const onFinish = async (values) => {
     if (status === "add") {
-      const { name_en, name_cn, email, phone_number, address_en, address_cn } =
-        values;
-      registerAdmin(
-        name_en,
-        name_cn,
-        email,
-        phone_number,
-        address_en,
-        address_cn
-      );
+      const { name_en, name_cn, email, phone_number, userRole } = values;
+      registerAdmin(name_en, name_cn, email, phone_number, userRole);
       message.success(intl.get("addSuccess"));
     } else {
-      const { name_en, name_cn, email, phone_number, address_en, address_cn } =
-        values;
+      const { name_en, name_cn, email, phone_number } = values;
       const id = record.id;
       const staff_id = record.staff_id;
       if (
-        (
-          await updateAdmin(
-            id,
-            staff_id,
-            name_en,
-            name_cn,
-            email,
-            phone_number,
-            address_en,
-            address_cn
-          )
-        ).data === 1
+        (await updateAdmin(id, staff_id, name_en, name_cn, email, phone_number))
+          .data === 1
       ) {
         message.success(intl.get("editSuccess"));
         setTimeout(() => {
@@ -140,12 +126,22 @@ function UserInfoContent() {
     });
   };
 
+  const onDelete = async (record) => {
+    const response = await deleteAdmin(record);
+    if (response.data === 1) {
+      message.success(intl.get("deleteSuccess"), 1);
+      setTimeout(() => {
+        navigate("..");
+      }, 3000);
+    }
+  };
+
   const onSubmit = async () => {
     const response = await submitExcel();
     if (response.data === false) {
       message.error(intl.get("submitFail"), 1);
       // remove the uploaded file
-      const uploadElement = document.querySelector('.ant-upload-list-item');
+      const uploadElement = document.querySelector(".ant-upload-list-item");
       if (uploadElement) {
         uploadElement.remove();
       }
@@ -158,15 +154,67 @@ function UserInfoContent() {
     }
   };
 
+  const buttonGrp = (status) => {
+    if (status === "add") {
+      return (
+        <>
+          <Col span={10}>
+            <Button
+              icon={<CloseCircleOutlined />}
+              onClick={() => navigate("..")}
+            >
+              {intl.get("cancel")}
+            </Button>
+          </Col>
+          <Col span={2}>
+            <Button icon={<ClearOutlined />} onClick={() => onReset()}>
+              {intl.get("reset")}
+            </Button>
+          </Col>
+          <Col span={12}>
+            <Button icon={<UserAddOutlined />} type="primary" htmlType="submit">
+              {intl.get("submit")}
+            </Button>
+          </Col>
+        </>
+      );
+    } else if (status === "edit") {
+      return (
+        <>
+          <Col span={10}>
+            <Button
+              icon={<DeleteOutlined />}
+              onClick={() => setIsOpenConfirm(true)}
+            >
+              {intl.get("delete")}
+            </Button>
+          </Col>
+          <Col span={2}>
+            <Button icon={<ClearOutlined />} onClick={() => onReset()}>
+              {intl.get("reset")}
+            </Button>
+          </Col>
+          <Col span={12}>
+            <Button icon={<UserAddOutlined />} type="primary" htmlType="submit">
+              {intl.get("submit")}
+            </Button>
+          </Col>
+        </>
+      );
+    } else {
+      message.error(intl.get("plsfollowinstruction"));
+      navigate("..");
+    }
+  };
+
   useEffect(() => {
-    if (status === "edit") {
+    if (status === "edit" && record) {
       form.setFieldsValue({
         name_en: record.name_en,
         name_cn: record.name_cn,
         email: record.email,
         phone_number: record.phone_number,
-        address_en: record.address_en,
-        address_cn: record.address_cn,
+        userRole: record.userRole,
       });
       location.state = {};
     }
@@ -273,55 +321,24 @@ function UserInfoContent() {
           </Col>
         </Row>
 
-        <Row gutter={[48, 24]}>
-          <Col span={12}>
-            <Form.Item
-              label={intl.get("address_cn")}
-              name="address_cn"
-              rules={[
-                {
-                  pattern: /^[\u4e00-\u9fa5\d\p{P}]*$/u,
-                  message: intl.get("pleaseEnterValidAddress"),
-                },
-              ]}
-            >
-              <Input size="large" id="address_cn" />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item
-              label={intl.get("address_en")}
-              name="address_en"
-              rules={[
-                {
-                  required: true,
-                  pattern: /^[a-zA-Z0-9\s\p{P}]*$/u,
-                  message: intl.get("pleaseEnterValidAddress"),
-                },
-              ]}
-            >
-              <Input size="large" id="address_en" />
+        <Row gutter={[48, 24]} justify={"center"}>
+          <Col>
+            <Form.Item label={intl.get("userRole")} name="userRole" required>
+              <Select defaultValue="staff">
+                <Select.Option value="admin">{intl.get("admin")}</Select.Option>
+                <Select.Option value="staff">{intl.get("staff")}</Select.Option>
+              </Select>
             </Form.Item>
           </Col>
         </Row>
 
         <Row gutter={[48, 24]} justify="center">
-          <Col span={10}></Col>
-          <Col span={2}>
-            <Button icon={<ClearOutlined />} onClick={() => onReset()}>
-              {intl.get("reset")}
-            </Button>
-          </Col>
-          <Col span={12}>
-            <Button icon={<UserAddOutlined />} type="primary" htmlType="submit">
-              {intl.get("submit")}
-            </Button>
-          </Col>
+          {buttonGrp(status)}
         </Row>
       </Form>
 
       {/* add user by excel */}
-      <Form hidden={!isHidden} name="form" layout="vertical">
+      <Form hidden={!isHidden} name="excelForm" layout="vertical">
         <Row gutter={[48, 24]}>
           <Col span={9}></Col>
           <Col span={4}>
@@ -336,7 +353,6 @@ function UserInfoContent() {
               </a>
             </Form.Item>
           </Col>
-
         </Row>
         <Row gutter={[48, 24]}>
           <Col span={9}></Col>
@@ -374,6 +390,17 @@ function UserInfoContent() {
           </Col>
         </Row>
       </Form>
+
+      <Modal
+        open={isOpenConfirm}
+        title={intl.get("deleteUser")}
+        okText={intl.get("yes")}
+        cancelText={intl.get("no")}
+        onCancel={() => setIsOpenConfirm(false)}
+        onOk={() => onDelete(record)}
+      >
+        <Typography.Text>{intl.get("ConfirmDelete")}</Typography.Text>
+      </Modal>
     </Layout.Content>
   );
 }

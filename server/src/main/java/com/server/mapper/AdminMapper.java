@@ -19,4 +19,6 @@ public interface AdminMapper {
     Admin getLatestAdmin();
 
     int editAdmin(Admin admin);
+
+    int deleteAdminById(int id);
 }

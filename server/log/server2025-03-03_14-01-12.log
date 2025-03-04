@@ -57,3 +57,7 @@ org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApp
 2025-03-03T14:24:56.027+08:00  INFO 3880 --- [server] [nio-8080-exec-6] com.server.service.AdminService          : Admin logged in
 2025-03-03T14:25:19.302+08:00  INFO 3880 --- [server] [nio-8080-exec-7] com.server.service.AdminService          : Admin logged in
 2025-03-03T15:52:42.446+08:00  INFO 3880 --- [server] [nio-8080-exec-3] com.server.service.AdminService          : Admin logged in
+2025-03-03T18:29:58.561+08:00  INFO 3880 --- [server] [ionShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-03-03T18:29:58.566+08:00  INFO 3880 --- [server] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-03-03T18:29:58.569+08:00  INFO 3880 --- [server] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-03-03T18:30:00.390+08:00  INFO 3880 --- [server] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

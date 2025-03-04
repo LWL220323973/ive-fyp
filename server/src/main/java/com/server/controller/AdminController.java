@@ -129,4 +129,14 @@ public class AdminController {
             return false;
         }
     }
+
+    @PostMapping("/api/admin/deleteAdmin")
+    public int deleteAdmmin(@RequestBody Admin admin) {
+        if (service.deleteAdminById(admin) == 1) {
+            log.info("Admin(" + admin.getStaff_id() + ") deleted successfully");
+            return 1;
+        } else {
+            return 0;
+        }
+    }
 }

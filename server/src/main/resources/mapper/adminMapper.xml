@@ -76,4 +76,9 @@
         WHERE staff_id = #{staff_id} AND id = #{id}
     </update>
 
+    <delete id="deleteAdminById" parameterType="com.server.model.Admin">
+        DELETE FROM admin
+        WHERE id = #{id}
+    </delete>
+    
 </mapper>

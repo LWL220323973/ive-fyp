@@ -27,7 +27,7 @@ function Content() {
     backgroundColor: "#E2E2E2",
   };
 
-  if(sessionStorage.getItem("userRole") === "admin"){
+  if(sessionStorage.getItem("userRole") !== "admin"){
     message.error(intl.get("noPermission"));
     setTimeout(() => {
       navigate("../../home")

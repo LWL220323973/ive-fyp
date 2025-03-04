@@ -21,7 +21,7 @@ public class ServerApplication {
 
     public static void main(String[] args) {
         try {
-            String date = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
+            String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
             System.setOut(new PrintStream("log/server" + date + ".log"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
