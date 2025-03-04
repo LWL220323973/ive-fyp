@@ -386,11 +386,12 @@ CREATE TABLE IF NOT EXISTS `systems_profile` (
   `restaurant_name` varchar(100) NOT NULL,
   `is_ordering_disabled` boolean NOT NULL DEFAULT FALSE,
   `is_service_charge_required` boolean NOT NULL DEFAULT FALSE,
+  `is_factory_employee_check_required` boolean NOT NULL DEFAULT FALSE,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `systems_profile` (`id`, `restaurant_name`, `is_ordering_disabled`, `is_service_charge_required`) VALUES
-	(1, 'BOS', 0, 0);
+INSERT INTO `systems_profile` (`id`, `restaurant_name`, `is_ordering_disabled`, `is_service_charge_required`, `is_factory_employee_check_required`) VALUES
+	(1, 'BOS', 0, 0, 0);
 
 
 

@@ -9,6 +9,7 @@
     <result property="restaurantName" column="restaurant_name" />
     <result property="isOrderingDisabled" column="is_ordering_disabled" />
     <result property="isServiceChargeRequired" column="is_service_charge_required" />
+    <result property="isFactoryEmployeeCheckRequired" column="is_factory_employee_check_required" />
   </resultMap>
 
   <select id="getSystemsProfile" resultMap="SystemsProfileResultMap">

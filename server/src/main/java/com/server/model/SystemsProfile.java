@@ -8,4 +8,5 @@ public class SystemsProfile {
     private String restaurantName;
     private boolean isOrderingDisabled;
     private boolean isServiceChargeRequired;
+    private boolean isFactoryEmployeeCheckRequired;
 }
