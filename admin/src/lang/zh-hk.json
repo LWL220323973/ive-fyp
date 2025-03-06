@@ -65,5 +65,6 @@
   "admin": "管理員",
   "deleteSuccess": "刪除成功",
   "deleteUser": "刪除用戶",
-  "ConfirmDelete": "確定要刪除嗎？"
+  "ConfirmDelete": "確定要刪除嗎？",
+  "specialItem": "特製項目"
 }

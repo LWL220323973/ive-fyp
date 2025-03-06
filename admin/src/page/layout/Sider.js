@@ -1,6 +1,13 @@
 import { useState } from "react";
 import { Layout, Menu, Image } from "antd";
-import { HomeOutlined, MenuOutlined, SettingOutlined, UserOutlined } from "@ant-design/icons";
+import {
+  HomeOutlined,
+  MenuOutlined,
+  SettingOutlined,
+  UserOutlined,
+  BarsOutlined,
+  StarOutlined,
+} from "@ant-design/icons";
 import { useNavigate, useLocation } from "react-router-dom";
 import intl from "react-intl-universal";
 
@@ -42,21 +49,21 @@ function Sider() {
           key: "/Manage",
           label: intl.get("manage"),
           icon: <SettingOutlined />,
-          children:[
+          children: [
             {
-              key: "/manageUser",
-              label: intl.get("UserPermission"),
-              icon: <UserOutlined />,
-              onClick: () => navigate("/manage/userPermission"),
+              key: "/manageCustomization",
+              label: intl.get("specialItem"),
+              icon: <StarOutlined />,
+              onClick: () => navigate("/manage/customization"),
             },
             {
               key: "/manageDishesType",
               label: intl.get("DishesType"),
-              icon: <MenuOutlined />,
+              icon: <BarsOutlined />,
               onClick: () => navigate("/manage/dishesType"),
-            }
-          ]
-        }
+            },
+          ],
+        },
       ];
     } else {
       return [
