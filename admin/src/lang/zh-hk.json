@@ -66,5 +66,11 @@
   "deleteSuccess": "刪除成功",
   "deleteUser": "刪除用戶",
   "ConfirmDelete": "確定要刪除嗎？",
-  "specialItem": "特製項目"
+  "specialItem": "特製項目",
+  "zh-hk": "繁體中文",
+  "zh-cn": "簡體中文",
+  "en-us": "英文",
+  "addOption": "新增選項",
+  "editOption": "編輯選項",
+  "pleaseEnterValidInfo": "請輸入有效資料"
 }

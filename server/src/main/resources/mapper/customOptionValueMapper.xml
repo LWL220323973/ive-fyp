@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.server.mapper.CustomOptionValueMapper">
+
+    <select id="getCustomOptionValue" resultType="com.server.model.CustomOptionValue">
+        SELECT * FROM custom_option_value
+        <where>
+            1 = 1
+            
+            AND custom_option_id = #{custom_option_id}
+        </where>
+    </select>
+</mapper>
