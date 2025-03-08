@@ -11,4 +11,15 @@
             AND custom_option_id = #{custom_option_id}
         </where>
     </select>
+
+    <delete id="deleteCustomOptionValueByCustomOptionID" parameterType="com.server.model.CustomOptionValue">
+        DELETE FROM custom_option_value
+        WHERE custom_option_id = #{custom_option_id}
+    </delete>
+
+    <insert id="addCustomOptionValue" parameterType="com.server.model.CustomOptionValue">
+        INSERT INTO custom_option_value (custom_option_id, value_Zh_HK, value_Us_EN, value_Zh_CN, price_adjustment)
+        VALUES (#{custom_option_id}, #{value_zh_hk}, #{value_us_en}, #{value_zh_cn}, #{price_adjustment})
+    </insert>
+
 </mapper>

@@ -17,4 +17,12 @@ public class CustomOptionService {
     public List<CustomOption> getAllCustomOptions() {
         return mapper.getAllCustomOptions();
     }
+
+    public int editCustomOption(CustomOption customOption) {
+        return mapper.editCustomOption(customOption);
+    }
+
+    public int deleteCustomOption(int id) {
+        return mapper.deleteCustomOption(id);
+    }
 }

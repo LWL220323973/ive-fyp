@@ -1,11 +1,5 @@
 package com.server.controller;
 
-import com.server.model.Admin;
-import com.server.service.AdminService;
-import com.server.service.readExcel;
-
-import lombok.extern.slf4j.Slf4j;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,6 +16,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.server.model.Admin;
+import com.server.service.AdminService;
+import com.server.service.readExcel;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
@@ -87,7 +87,6 @@ public class AdminController {
             log.info("File uploaded successfully: " + file.getOriginalFilename());
             return true;
         } catch (IOException e) {
-            e.printStackTrace();
             log.error("File upload failed: " + file.getOriginalFilename());
             return false;
         }

@@ -72,5 +72,8 @@
   "en-us": "英文",
   "addOption": "新增選項",
   "editOption": "編輯選項",
-  "pleaseEnterValidInfo": "請輸入有效資料"
+  "pleaseEnterValidInfo": "請輸入有效資料",
+  "priceAdjustment": "價格調整",
+  "deleteCustomOption": "刪除特製選項",
+  "deleteOptionFailed": "刪除失敗，此特製選項正在使用"
 }

@@ -23,9 +23,9 @@ public class readExcel {
             XSSFWorkbook wb = new XSSFWorkbook(file);
             return loopSheet(wb);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("IOException occurred while reading the Excel file", e);
         } catch (InvalidFormatException e) {
-            e.printStackTrace();
+            log.error("InvalidFormatException occurred while reading the Excel file", e);
         }
         return null;
     }

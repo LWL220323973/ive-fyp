@@ -7,4 +7,8 @@ import com.server.model.CustomOptionValue;
 @Mapper
 public interface CustomOptionValueMapper {
     List<CustomOptionValue> getCustomOptionValue(int custom_option_id);
+
+    int deleteCustomOptionValueByCustomOptionID(int custom_option_id);
+
+    int addCustomOptionValue(CustomOptionValue customOptionValue);
 }

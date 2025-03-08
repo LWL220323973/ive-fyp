@@ -23,4 +23,19 @@ public class CustomOptionValueController {
     public List<CustomOptionValue> getCustomOptionsValue(@RequestBody CustomOptionValue customOptionValue) {
         return service.getCustomOptionValue(customOptionValue.getCustom_option_id());
     }
+
+    @PostMapping("/api/customOptionValue/deleteCustomOptionValueByCustomOptionID")
+    public int deleteCustomOptionValueByCustomOptionID(@RequestBody CustomOptionValue customOptionValue) {
+        int result = service.deleteCustomOptionValueByCustomOptionID(customOptionValue);
+        if (result > 0) {
+            log.info("Custom Option Value [custom_option_id=" + customOptionValue.getCustom_option_id() + "] deleted successfully");
+        }
+        return result;
+    }
+
+    @PostMapping("/api/customOptionValue/addCustomOptionValue")
+    public int addCustomOptionValue(@RequestBody CustomOptionValue customOptionValue) {
+        log.info("Adding " + customOptionValue.toString());
+        return service.addCustomOptionValue(customOptionValue);
+    }
 }

@@ -14,6 +14,7 @@ public class Admin {
     private String userRole;
     private String email;
 
+    @Override
     public String toString() {
         return "Admin [ staff_id=" + staff_id + ", username=" + username + ", password=" + password + ", name_en="
                 + name_en + ", name_cn=" + name_cn + ", phone_number=" + phone_number + " email=" + email

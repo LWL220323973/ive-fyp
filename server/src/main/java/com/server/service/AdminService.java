@@ -21,7 +21,7 @@ public class AdminService {
     // Login
     public Boolean getAdmin(String username, String password) {
         List<Admin> account = mapper.getAdmin(username);
-        if (account.size() == 0) {
+        if (account.isEmpty()) {
             return false;
         }
         for (Admin admin : account) {
@@ -104,7 +104,7 @@ public class AdminService {
                 }
             }
             if (repeatCount > 0) {
-                return (username += ("0" + repeatCount)).toLowerCase();
+                return (username + ("0" + repeatCount)).toLowerCase();
             } else {
                 return username.toLowerCase();
             }
@@ -117,7 +117,7 @@ public class AdminService {
                 }
             }
             if (repeatCount > 0) {
-                return (username += ("0" + repeatCount)).toLowerCase();
+                return (username + ("0" + repeatCount)).toLowerCase();
             } else {
                 return username.toLowerCase();
             }

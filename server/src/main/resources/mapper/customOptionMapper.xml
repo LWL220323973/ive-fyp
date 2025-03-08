@@ -6,4 +6,19 @@
     <select id="getAllCustomOptions" resultType="com.server.model.CustomOption">
         SELECT * FROM custom_option
     </select>
+
+    <update id="editCustomOption" parameterType="com.server.model.CustomOption">
+        UPDATE custom_option
+        <set>
+            name_Zh_HK = #{name_zh_hk},
+            name_Us_EN = #{name_us_en},
+            name_Zh_CN = #{name_zh_cn},
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteCustomOption" parameterType="com.server.model.CustomOption">
+        DELETE FROM custom_option
+        WHERE id = #{id}
+    </delete>
 </mapper>

@@ -72,5 +72,8 @@
   "en-us": "English",
   "addOption": "Add Option",
   "editOption": "Edit Option",
-  "pleaseEnterValidInfo": "Please enter valid information"
+  "pleaseEnterValidInfo": "Please enter valid information",
+  "priceAdjustment" : "Price Adjustment",
+  "deleteCustomOption": "Delete Custom Option",
+  "deleteOptionFailed": "Delete Failed, this option is in use"
 }
