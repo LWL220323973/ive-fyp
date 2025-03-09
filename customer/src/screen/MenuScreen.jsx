@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useReducer } from 'react';
 import { Card, Row, Col, Button, Modal, message } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
@@ -10,30 +10,106 @@ import { createOrder } from '../api/CreateOrder';
 import { getPhoto } from '../api/GetPhoto';
 import { getSystemsProfile } from '../api/GetSystemsProfile';
 
+const initialState = {
+  cart: JSON.parse(localStorage.getItem('cart') || '[]'),
+  selectedItem: null,
+  selectedQuantity: 1,
+  modalStates: {
+    itemDetail: false,
+    cart: false,
+    employeeCheck: false,
+    nonEmployee: false,
+    scanFailed: false,
+    orderingDisabled: false
+  }
+};
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'SET_CART':
+      return { ...state, cart: action.payload };
+    case 'SET_SELECTED_ITEM':
+      return { ...state, selectedItem: action.payload, selectedQuantity: 1 };
+    case 'SET_QUANTITY':
+      return { ...state, selectedQuantity: action.payload };
+    case 'SET_MODAL':
+      return {
+        ...state,
+        modalStates: { ...state.modalStates, [action.modal]: action.value }
+      };
+    default:
+      return state;
+  }
+};
+
 const MenuScreen = () => {
   const { t, i18n } = useTranslation();
   const [searchParams] = useSearchParams();
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const [isLoading, setIsLoading] = useState(true);
   const [menuItems, setMenuItems] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [filteredItems, setFilteredItems] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const [tableNumber, setTableNumber] = useState(localStorage.getItem('tableNumber') || '');
-  const [selectedItem, setSelectedItem] = useState(null);
-  const [itemDetailVisible, setItemDetailVisible] = useState(false);
-  const [cart, setCart] = useState(() => {
-    const savedCart = localStorage.getItem('cart');
-    return savedCart ? JSON.parse(savedCart) : [];
-  });
-  const [cartModalVisible, setCartModalVisible] = useState(false);
-  const [selectedQuantity, setSelectedQuantity] = useState(1);
-  const [isOrderingDisabled, setIsOrderingDisabled] = useState(false);
-  const [isEmployeeCheckModalVisible, setIsEmployeeCheckModalVisible] = useState(false);
-  const [isNonEmployeeModalVisible, setIsNonEmployeeModalVisible] = useState(false);
   const [isEmployee, setIsEmployee] = useState(localStorage.getItem('isEmployee') || null);
   const [factoryEmployeeCheckRequired, setFactoryEmployeeCheckRequired] = useState(false);
+  const [imageStatus, setImageStatus] = useState({});
 
-  // 處理 URL 中的 tableNumber，並檢查是否需要重置
+  // Filter items by selected category
+  const filteredItems = useMemo(() => {
+    if (selectedCategory === 'all') return menuItems;
+    return menuItems.filter(item => item.type === selectedCategory);
+  }, [selectedCategory, menuItems]);
+
+  // Fetch image function
+  const fetchImage = async (path, itemId) => {
+    try {
+      setImageStatus(prev => ({ ...prev, [itemId]: 'loading' }));
+      const response = await getPhoto(path);
+      const url = URL.createObjectURL(response.data);
+      setImageStatus(prev => ({ ...prev, [itemId]: 'success' }));
+      return url;
+    } catch (error) {
+      setImageStatus(prev => ({ ...prev, [itemId]: 'error' }));
+      console.error('Failed to fetch image:', error);
+      return null;
+    }
+  };
+
+  // Initial data loading
+  useEffect(() => {
+    const fetchInitialData = async () => {
+      try {
+        setIsLoading(true);
+        const [menuResponse, categoriesResponse, profileResponse] = await Promise.all([
+          findInMenu('', '', '', '', '', ''),
+          getDishesType(),
+          getSystemsProfile()
+        ]);
+
+        const updatedItems = await Promise.all(
+          menuResponse.data.map(async (item) => ({
+            ...item,
+            imageUrl: await fetchImage(item.path, item.id)
+          }))
+        );
+
+        setMenuItems(updatedItems);
+        setCategories(categoriesResponse.data);
+
+        const profile = profileResponse.data;
+        dispatch({ type: 'SET_MODAL', modal: 'orderingDisabled', value: profile.orderingDisabled });
+        setFactoryEmployeeCheckRequired(profile.factoryEmployeeCheckRequired);
+      } catch (error) {
+        message.error(t('data_load_failed'));
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchInitialData();
+  }, [t]);
+
+  // Handle table number from URL
   useEffect(() => {
     const urlTableNumber = searchParams.get('table');
     if (urlTableNumber === '0') {
@@ -41,185 +117,117 @@ const MenuScreen = () => {
       localStorage.removeItem('cart');
       localStorage.removeItem('isEmployee');
       setTableNumber('');
-      setCart([]);
+      dispatch({ type: 'SET_CART', payload: [] });
       setIsEmployee(null);
-      setIsModalVisible(true);
+      dispatch({ type: 'SET_MODAL', modal: 'scanFailed', value: true });
     } else if (urlTableNumber) {
       localStorage.setItem('tableNumber', urlTableNumber);
       setTableNumber(urlTableNumber);
     } else if (!tableNumber) {
-      setIsModalVisible(true);
+      dispatch({ type: 'SET_MODAL', modal: 'scanFailed', value: true });
     }
   }, [searchParams, tableNumber]);
 
-  // 檢查是否需要顯示員工確認彈窗
+  // Check if employee verification is required
   useEffect(() => {
     if (factoryEmployeeCheckRequired && (isEmployee === null || isEmployee === 'false')) {
-      setIsEmployeeCheckModalVisible(true);
+      dispatch({ type: 'SET_MODAL', modal: 'employeeCheck', value: true });
     }
   }, [isEmployee, factoryEmployeeCheckRequired]);
 
-  // 處理用戶的員工狀態選擇
+  // Sync cart to localStorage
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(state.cart));
+  }, [state.cart]);
+
+  // Confirm employee check
   const handleEmployeeConfirm = (isEmp) => {
     setIsEmployee(isEmp);
     localStorage.setItem('isEmployee', isEmp);
-    setIsEmployeeCheckModalVisible(false);
+    dispatch({ type: 'SET_MODAL', modal: 'employeeCheck', value: false });
     if (!isEmp) {
-      setIsNonEmployeeModalVisible(true);
+      dispatch({ type: 'SET_MODAL', modal: 'nonEmployee', value: true });
     }
   };
 
-  // 獲取圖片
-  const fetchImage = async (path) => {
-    try {
-      const response = await getPhoto(path);
-      return URL.createObjectURL(response.data);
-    } catch (error) {
-      console.error('Failed to fetch image:', error);
-      return null;
-    }
-  };
-
-  // 初始數據加載
-  useEffect(() => {
-    const fetchMenuData = async () => {
-      try {
-        const response = await findInMenu('', '', '', '', '', '');
-        const fetchedItems = response.data;
-        const updatedItems = await Promise.all(
-          fetchedItems.map(async (item) => {
-            const imageUrl = await fetchImage(item.path);
-            return { ...item, imageUrl };
-          })
-        );
-        setMenuItems(updatedItems);
-        setFilteredItems(updatedItems);
-      } catch (error) {
-        console.error('Failed to fetch menu items:', error);
-      }
-    };
-
-    const fetchCategoriesData = async () => {
-      try {
-        const response = await getDishesType();
-        setCategories(response.data);
-      } catch (error) {
-        console.error('Failed to fetch categories:', error);
-      }
-    };
-
-    const fetchSystemsProfile = async () => {
-      try {
-        const response = await getSystemsProfile();
-        const profile = response.data;
-        setIsOrderingDisabled(profile.orderingDisabled);
-        setFactoryEmployeeCheckRequired(profile.factoryEmployeeCheckRequired);
-      } catch (error) {
-        console.error('Failed to fetch systems profile:', error);
-      }
-    };
-
-    fetchMenuData();
-    fetchCategoriesData();
-    fetchSystemsProfile();
-  }, []);
-
-  useEffect(() => {
-    let items = menuItems;
-    if (selectedCategory !== 'all') {
-      items = items.filter((item) => item.type === selectedCategory);
-    }
-    setFilteredItems(items);
-  }, [selectedCategory, menuItems]);
-
-  useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cart));
-  }, [cart]);
-
-  const groupedItems = filteredItems.reduce((acc, item) => {
-    if (!acc[item.type]) {
-      acc[item.type] = [];
-    }
-    acc[item.type].push(item);
-    return acc;
-  }, {});
-
+  // Click on an item card
   const handleItemClick = (item) => {
-    setSelectedItem(item);
-    setSelectedQuantity(1);
-    setItemDetailVisible(true);
+    dispatch({ type: 'SET_SELECTED_ITEM', payload: item });
+    dispatch({ type: 'SET_MODAL', modal: 'itemDetail', value: true });
   };
 
+  // Add selected item to cart
   const handleAddToCart = () => {
-    if (!selectedItem) return;
-    const existingItem = cart.find((item) => item.id === selectedItem.id);
+    if (!state.selectedItem) return;
+    const existingItem = state.cart.find(item => item.id === state.selectedItem.id);
+    let newCart;
     if (existingItem) {
-      setCart(
-        cart.map((item) =>
-          item.id === selectedItem.id
-            ? { ...item, quantity: item.quantity + selectedQuantity }
-            : item
-        )
+      newCart = state.cart.map(item =>
+        item.id === state.selectedItem.id
+          ? { ...item, quantity: item.quantity + state.selectedQuantity }
+          : item
       );
     } else {
-      setCart([...cart, { ...selectedItem, quantity: selectedQuantity }]);
+      newCart = [...state.cart, { ...state.selectedItem, quantity: state.selectedQuantity }];
     }
+    dispatch({ type: 'SET_CART', payload: newCart });
     message.success(t('added_to_cart'));
-    setItemDetailVisible(false);
+    dispatch({ type: 'SET_MODAL', modal: 'itemDetail', value: false });
   };
 
+  // Update quantity in cart modal
   const handleUpdateQuantity = (itemId, delta) => {
-    setCart(
-      cart
-        .map((item) => {
-          if (item.id === itemId) {
-            const newQuantity = item.quantity + delta;
-            return newQuantity > 0 ? { ...item, quantity: newQuantity } : null;
-          }
-          return item;
-        })
-        .filter(Boolean)
-    );
+    const newCart = state.cart
+      .map(item => {
+        if (item.id === itemId) {
+          const newQuantity = item.quantity + delta;
+          return newQuantity > 0 ? { ...item, quantity: newQuantity } : null;
+        }
+        return item;
+      })
+      .filter(Boolean);
+    dispatch({ type: 'SET_CART', payload: newCart });
   };
 
+  // Update quantity in detail modal
   const handleDetailQuantityChange = (delta) => {
-    const newQuantity = selectedQuantity + delta;
+    const newQuantity = state.selectedQuantity + delta;
     if (newQuantity > 0) {
-      setSelectedQuantity(newQuantity);
+      dispatch({ type: 'SET_QUANTITY', payload: newQuantity });
     }
   };
 
-  const getTotalPrice = () => {
-    return cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  };
+  // Get total price in cart
+  const getTotalPrice = () => state.cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-  const getTotalItems = () => {
-    return cart.reduce((sum, item) => sum + item.quantity, 0);
-  };
+  // Get total items in cart
+  const getTotalItems = () => state.cart.reduce((sum, item) => sum + item.quantity, 0);
 
+  // Clear cart
   const handleClearCart = () => {
     Modal.confirm({
       title: t('clear_cart_confirm'),
       onOk: () => {
-        setCart([]);
+        dispatch({ type: 'SET_CART', payload: [] });
         message.success(t('clear_cart'));
       },
       okButtonProps: { style: { background: '#b22222' } },
     });
   };
 
+  // Confirm order
   const handleConfirmOrder = async () => {
     Modal.confirm({
       title: t('confirm_order_title'),
       content: t('confirm_order_content'),
       onOk: async () => {
         try {
-          for (const item of cart) {
-            await createOrder(item.id, item.quantity, tableNumber);
-          }
+          await Promise.all(
+            state.cart.map(item => createOrder(item.id, item.quantity, tableNumber))
+          );
           message.success(t('order_placed_successfully'));
-          setCart([]);
-          setCartModalVisible(false);
+          dispatch({ type: 'SET_CART', payload: [] });
+          dispatch({ type: 'SET_MODAL', modal: 'cart', value: false });
         } catch (error) {
           message.error(t('order_placement_failed'));
           console.error('Failed to place order:', error);
@@ -229,49 +237,53 @@ const MenuScreen = () => {
     });
   };
 
+  // Group items by category for display
+  const groupedItems = useMemo(() => {
+    return filteredItems.reduce((acc, item) => {
+      acc[item.type] = acc[item.type] || [];
+      acc[item.type].push(item);
+      return acc;
+    }, {});
+  }, [filteredItems]);
+
+  if (isLoading) {
+    return <div className="menu-screen">Loading...</div>;
+  }
+
   return (
     <div className="menu-screen">
+      {/* Ordering Disabled Modal */}
       <Modal
         title="下單已停用 / 下单已停用 / Ordering Disabled"
-        open={isOrderingDisabled}
+        open={state.modalStates.orderingDisabled}
         footer={null}
         closable={false}
         centered
-        className="ordering-disabled-modal"
       >
         <p>暫時無法下單，請稍後再試！</p>
         <p>暂时无法下单，请稍后再试！</p>
         <p>Ordering is currently disabled. Please try again later!</p>
       </Modal>
 
+      {/* Scan Failed Modal */}
       <Modal
         title="掃描失敗 / 扫描失败 / Snap Failed"
-        open={isModalVisible}
+        open={state.modalStates.scanFailed}
         footer={null}
         closable={false}
         centered
-        className="scan-failed-modal"
       >
         <p>掃描失敗，請重新再試！</p>
         <p>扫描失败，请重新再试！</p>
         <p>Snap failed, please try again!</p>
       </Modal>
 
+      {/* Employee Check Modal */}
       <Modal
-        open={isEmployeeCheckModalVisible}
+        open={state.modalStates.employeeCheck}
         footer={[
-          <Button
-            key="yes"
-            onClick={() => handleEmployeeConfirm(true)}
-            icon={<CheckOutlined />}
-          >
-          </Button>,
-          <Button
-            key="no"
-            onClick={() => handleEmployeeConfirm(false)}
-            icon={<CloseOutlined />}
-          >
-          </Button>,
+          <Button key="yes" onClick={() => handleEmployeeConfirm(true)} icon={<CheckOutlined />} />,
+          <Button key="no" onClick={() => handleEmployeeConfirm(false)} icon={<CloseOutlined />} />
         ]}
         closable={false}
       >
@@ -280,15 +292,11 @@ const MenuScreen = () => {
         <p>Are you a factory employee of this building?</p>
       </Modal>
 
+      {/* Non-Employee Modal */}
       <Modal
-        open={isNonEmployeeModalVisible}
+        open={state.modalStates.nonEmployee}
         footer={[
-          <Button
-            key="refresh"
-            onClick={() => window.location.reload()}
-            icon={<ReloadOutlined />}
-          >
-          </Button>,
+          <Button key="refresh" onClick={() => window.location.reload()} icon={<ReloadOutlined />} />
         ]}
         closable={false}
       >
@@ -297,6 +305,7 @@ const MenuScreen = () => {
         <p>Sorry, Factory Employee of this building only</p>
       </Modal>
 
+      {/* Category Buttons */}
       <div className="search-filter">
         <div className="category-buttons">
           <Button
@@ -305,7 +314,7 @@ const MenuScreen = () => {
           >
             {t('all_categories')}
           </Button>
-          {categories.map((cat) => (
+          {categories.map(cat => (
             <Button
               key={cat.id}
               type={selectedCategory === cat.id ? 'primary' : 'default'}
@@ -313,12 +322,13 @@ const MenuScreen = () => {
             >
               {t(
                 cat[
-                `name_${i18n.language === 'en'
-                  ? 'Us_En'
-                  : i18n.language === 'zh_CN'
-                    ? 'Zh_CN'
-                    : 'Zh_HK'
-                }`
+                  `name_${
+                    i18n.language === 'en'
+                      ? 'Us_En'
+                      : i18n.language === 'zh_CN'
+                      ? 'Zh_CN'
+                      : 'Zh_HK'
+                  }`
                 ]
               )}
             </Button>
@@ -326,118 +336,140 @@ const MenuScreen = () => {
         </div>
       </div>
 
+      {/* Table Number */}
       <div className="table-number">
         <span className="table-label">{t('table_number')}:</span>
         <span className="table-value">{tableNumber || 'N/A'}</span>
       </div>
 
       <Modal
-        visible={itemDetailVisible}
-        onCancel={() => setItemDetailVisible(false)}
+        visible={state.modalStates.itemDetail}
         footer={null}
         centered
         className="item-detail-modal"
-        title={selectedItem?.[
-          `Name_${i18n.language === 'en'
-            ? 'en_US'
-            : i18n.language === 'zh_CN'
-              ? 'zh_CN'
-              : 'zh_HK'
-          }`
-        ]}
+        // We'll hide the default title to create our own header
+        title={null}
+        onCancel={() => dispatch({ type: 'SET_MODAL', modal: 'itemDetail', value: false })}
       >
-        {selectedItem && (
-          <>
-            <img
-              src={selectedItem.imageUrl}
-              alt={selectedItem[
-                `Name_${i18n.language === 'en'
-                  ? 'en_US'
-                  : i18n.language === 'zh_CN'
-                    ? 'zh_CN'
-                    : 'zh_HK'
-                }`
-              ]}
-              className="item-detail-image"
-            />
-            <div className="item-detail-description">
-              <h2>
-                {selectedItem[
-                  `name_${i18n.language === 'en'
-                    ? 'en_US'
-                    : i18n.language === 'zh_CN'
-                      ? 'zh_CN'
-                      : 'zh_HK'
-                  }`
-                ]}
-              </h2>
+        {state.selectedItem && (
+          <div className="item-detail-container">
+
+            {/* Top area: Photo + Item Name & Price */}
+            <div className="item-detail-top">
+              <div className="item-detail-photo">
+                <img
+                  src={state.selectedItem.imageUrl}
+                  alt={state.selectedItem[
+                    `Name_${
+                      i18n.language === 'en'
+                        ? 'en_US'
+                        : i18n.language === 'zh_CN'
+                        ? 'zh_CN'
+                        : 'zh_HK'
+                    }`
+                  ]}
+                />
+              </div>
+              <div className="item-detail-right">
+                <div className="item-detail-name">
+                  {
+                    state.selectedItem[
+                      `name_${
+                        i18n.language === 'en'
+                          ? 'en_US'
+                          : i18n.language === 'zh_CN'
+                          ? 'zh_CN'
+                          : 'zh_HK'
+                      }`
+                    ]
+                  }
+                </div>
+                <div className="item-detail-price">
+                  ${state.selectedItem.price.toFixed(2)}
+                </div>
+              </div>
             </div>
-            <div className="item-detail-price">
-              ${selectedItem.price.toFixed(2)}
+
+            {/* Middle scrollable area */}
+            <div className="item-detail-scrollable">
+              <p style={{ color: '#666' }}>
+                {/* You can replace this paragraph with any custom content you need. */}
+                這裡可以放置自訂的內容，例如商品詳細介紹、注意事項、或額外功能。
+                如果文字很多，這個區域會出現捲動條以方便瀏覽。
+                這裡可以放置自訂的內容，例如商品詳細介紹、注意事項、或額外功能。
+                如果文字很多，這個區域會出現捲動條以方便瀏覽。
+                這裡可以放置自訂的內容，例如商品詳細介紹、注意事項、或額外功能。
+  
+              </p>
             </div>
-            <div className="item-detail-quantity">
-              <button
-                className="quantity-button"
-                onClick={() => handleDetailQuantityChange(-1)}
+
+            {/* Bottom area */}
+            <div className="item-detail-bottom">
+              {/* First row: quantity + total price */}
+              <div className="bottom-row">
+                <div className="detail-quantity">
+                  <button onClick={() => handleDetailQuantityChange(-1)}>-</button>
+                  <span>{state.selectedQuantity}</span>
+                  <button onClick={() => handleDetailQuantityChange(1)}>+</button>
+                </div>
+                <div className="detail-total-price">
+                  {t('cart_total')}:{' '}
+                  ${(state.selectedItem.price * state.selectedQuantity).toFixed(2)}
+                </div>
+              </div>
+              {/* Second row: add-to-cart button */}
+              <Button
+                className="detail-add-to-cart-btn"
+                onClick={handleAddToCart}
               >
-                -
-              </button>
-              <span>{selectedQuantity}</span>
-              <button
-                className="quantity-button"
-                onClick={() => handleDetailQuantityChange(1)}
-              >
-                +
-              </button>
+                {t('add_to_cart')}
+              </Button>
             </div>
-            <div className="item-detail-total">
-              {t('cart_total')}: ${(selectedItem.price * selectedQuantity).toFixed(2)}
-            </div>
-            <Button className="add-to-cart-button" onClick={handleAddToCart}>
-              {t('add_to_cart')}
-            </Button>
-          </>
+          </div>
         )}
       </Modal>
 
-      {Object.keys(groupedItems).map((category) => (
+      {/* Display grouped items by category */}
+      {Object.keys(groupedItems).map(category => (
         <div key={category}>
           <h2 className="category-title">
-            {categories.find((cat) => cat.id === category)?.[
-              `name_${i18n.language === 'en'
-                ? 'Us_En'
-                : i18n.language === 'zh_CN'
+            {categories.find(cat => cat.id === category)?.[
+              `name_${
+                i18n.language === 'en'
+                  ? 'Us_En'
+                  : i18n.language === 'zh_CN'
                   ? 'Zh_CN'
                   : 'Zh_HK'
               }`
             ]}
           </h2>
           <Row gutter={[16, 16]} className="menu-items">
-            {groupedItems[category].map((item) => (
+            {groupedItems[category].map(item => (
               <Col xs={24} sm={12} md={8} key={item.id}>
-                <Card
-                  hoverable
-                  className="menu-item-card"
-                  onClick={() => handleItemClick(item)}
-                >
+                <Card hoverable className="menu-item-card" onClick={() => handleItemClick(item)}>
                   <div className="menu-item-content">
                     <div className="menu-item-image-container">
                       {item.imageUrl ? (
                         <img src={item.imageUrl} alt="" className="top-image" />
                       ) : (
-                        <div className="menu-item-placeholder"></div>
+                        <div className="menu-item-placeholder">
+                          {imageStatus[item.id] === 'loading' ? 'Loading...' : 'No Image'}
+                        </div>
                       )}
                     </div>
                     <div className="menu-item-details">
                       <h4>
-                        {item[
-                          `name_${i18n.language === 'en'
-                            ? 'en_US'
-                            : i18n.language === 'zh_CN'
-                              ? 'zh_CN'
-                              : 'zh_HK'
-                          }`
-                        ]}
+                        {
+                          item[
+                            `name_${
+                              i18n.language === 'en'
+                                ? 'en_US'
+                                : i18n.language === 'zh_CN'
+                                ? 'zh_CN'
+                                : 'zh_HK'
+                            }`
+                          ]
+                        }
                       </h4>
                       <p className="card-meta-description">
                         {t('price')}: ${item.price.toFixed(2)}
@@ -452,8 +484,12 @@ const MenuScreen = () => {
         </div>
       ))}
 
-      {cart.length > 0 && (
-        <div className="floating-cart" onClick={() => setCartModalVisible(true)}>
+      {/* Floating Cart */}
+      {state.cart.length > 0 && (
+        <div
+          className="floating-cart"
+          onClick={() => dispatch({ type: 'SET_MODAL', modal: 'cart', value: true })}
+        >
           <span className="cart-count">
             {getTotalItems()} {t('cart_items')}
           </span>
@@ -461,9 +497,10 @@ const MenuScreen = () => {
         </div>
       )}
 
+      {/* Cart Modal */}
       <Modal
-        visible={cartModalVisible}
-        onCancel={() => setCartModalVisible(false)}
+        visible={state.modalStates.cart}
+        onCancel={() => dispatch({ type: 'SET_MODAL', modal: 'cart', value: false })}
         footer={null}
         title={
           <div style={{ position: 'relative' }}>
@@ -471,12 +508,9 @@ const MenuScreen = () => {
             <div className="cart-table-number">
               {t('table_number')}: {tableNumber || 'N/A'}
             </div>
-            {cart.length > 0 && (
+            {state.cart.length > 0 && (
               <div className="cart-header-actions">
-                <DeleteOutlined
-                  className="clear-cart-icon"
-                  onClick={handleClearCart}
-                />
+                <DeleteOutlined className="clear-cart-icon" onClick={handleClearCart} />
               </div>
             )}
           </div>
@@ -485,35 +519,39 @@ const MenuScreen = () => {
         style={{ top: 20 }}
       >
         <div className="cart-items-container">
-          {cart.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: '20px' }}>
-              {t('empty_cart')}
-            </div>
+          {state.cart.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '20px' }}>{t('empty_cart')}</div>
           ) : (
-            cart.map((item) => (
+            state.cart.map(item => (
               <div key={item.id} className="cart-item">
                 <img
                   src={item.imageUrl}
-                  alt={item[
-                    `Name_${i18n.language === 'en'
-                      ? 'en_US'
-                      : i18n.language === 'zh_CN'
-                        ? 'zh_CN'
-                        : 'zh_HK'
-                    }`
-                  ]}
+                  alt={
+                    item[
+                      `Name_${
+                        i18n.language === 'en'
+                          ? 'en_US'
+                          : i18n.language === 'zh_CN'
+                          ? 'zh_CN'
+                          : 'zh_HK'
+                      }`
+                    ]
+                  }
                   className="cart-item-image"
                 />
                 <div className="cart-item-info">
                   <div>
-                    {item[
-                      `name_${i18n.language === 'en'
-                        ? 'en_US'
-                        : i18n.language === 'zh_CN'
-                          ? 'zh_CN'
-                          : 'zh_HK'
-                      }`
-                    ]}
+                    {
+                      item[
+                        `name_${
+                          i18n.language === 'en'
+                            ? 'en_US'
+                            : i18n.language === 'zh_CN'
+                            ? 'zh_CN'
+                            : 'zh_HK'
+                        }`
+                      ]
+                    }
                   </div>
                   <div>${(item.price * item.quantity).toFixed(2)}</div>
                 </div>
@@ -536,7 +574,7 @@ const MenuScreen = () => {
             ))
           )}
         </div>
-        {cart.length > 0 && (
+        {state.cart.length > 0 && (
           <div className="cart-footer">
             <div className="cart-total-amount">
               {t('cart_total')}: ${getTotalPrice().toFixed(2)}
