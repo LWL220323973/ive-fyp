@@ -34,6 +34,7 @@ import {
   editCustomOption,
   deleteCustomOption,
 } from "../../../../api/CustomOption";
+import { deleteMenuItemCustomOptionByCustomOptionId } from "../../../../api/MenuItemCustomOptions";
 
 function ManageCustomizationInfo() {
   return (
@@ -469,11 +470,17 @@ function Content() {
   const onDelete = async () => {
     const res = await deleteCustomOptionValueByCustomOptionID(record.id);
     if (res.data > 0) {
-      const result = await deleteCustomOption(record.id);
-      console.log(result.data);
-      if(result.data === 2){
-        navigate("..");
-        message.error(intl.get("deleteOptionFailed"));
+      const result = await deleteMenuItemCustomOptionByCustomOptionId(
+        record.id
+      );
+      if (result.data > 0) {
+        const result = await deleteCustomOption(record.id);
+        if (result.data === 1) {
+          message.success(intl.get("deleteSuccess"));
+          setTimeout(() => {
+            navigate("..");
+          }, 2000);
+        }
       }
     }
   };

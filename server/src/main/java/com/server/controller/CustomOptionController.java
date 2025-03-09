@@ -37,16 +37,11 @@ public class CustomOptionController {
 
     @PostMapping("/api/customOption/deleteCustomOption")
     public int deleteCustomOption(@RequestBody CustomOption customOption) {
-        try {
-            log.info("Deleting Custom Option (" + customOption.getId() + ") " + customOption.toString());
-            int result = service.deleteCustomOption(customOption.getId());
-            if (result == 1) {
-                log.info("Custom Option (" + customOption.getId() + ") deleted successfully");
-            }
-            return result;
-        } catch (Exception e) {
-            log.error("Custom Option (" + customOption.getId() + ") is in use and cannot be deleted");
-            return 2;
+        log.info("Deleting Custom Option (" + customOption.getId() + ") " + customOption.toString());
+        int result = service.deleteCustomOption(customOption.getId());
+        if (result == 1) {
+            log.info("Custom Option (" + customOption.getId() + ") deleted successfully");
         }
+        return result;
     }
 }
