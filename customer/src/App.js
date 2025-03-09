@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import MenuScreen from './screen/MenuScreen';
 import OrderScreen from './screen/OrderScreen';
 import AppHeader from './block/Header';
-import AppFooter from './block/Footer';
 import BottomNav from './block/BottomNav';
 import './i18n'; // 初始化 i18n
 
@@ -17,7 +16,6 @@ function App() {
           <Route path="/menu" element={<MenuScreen />} />
           <Route path="/orders" element={< OrderScreen />} />
         </Routes>
-        {/* <AppFooter /> */}
         <BottomNav />
       </div>
     </Router>
