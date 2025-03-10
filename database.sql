@@ -1,12 +1,19 @@
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
-
 DROP TABLE IF EXISTS `admin`;
+DROP TABLE IF EXISTS `systems_profile`;
+
+DROP TABLE IF EXISTS `menuitem_customoptions`;
+DROP TABLE IF EXISTS `custom_option_value`;
+DROP TABLE IF EXISTS `custom_option`;
+
+DROP TABLE IF EXISTS `order`;
+DROP TABLE IF EXISTS `order_status`;
+
+DROP TABLE IF EXISTS `menu`;
+DROP TABLE IF EXISTS `dishes_type`;
+
+
 CREATE TABLE `admin` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `staff_id` varchar(10) NOT NULL,
   `username` varchar(50) NOT NULL COMMENT 'username',
   `password` varchar(1000) NOT NULL COMMENT 'password',
@@ -14,50 +21,39 @@ CREATE TABLE `admin` (
   `name_cn` varchar(100) NOT NULL COMMENT 'Name',
   `phone_number` varchar(8) NOT NULL COMMENT 'phoneNumber',
   `email` varchar(100) NOT NULL,
-  `userRole` varchar(10) NOT NULL
+  `userRole` varchar(10) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `admin_unique` (`staff_id`),
+  UNIQUE KEY `admin_unique_1` (`username`),
+  UNIQUE KEY `admin_unique_2` (`email`),
+  UNIQUE KEY `admin_unique_3` (`phone_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='管理員';
 
-INSERT INTO `admin` (`id`, `staff_id`, `username`, `password`, `name_en`, `name_cn`, `phone_number`, `email`, `userRole`) VALUES
-(1, '12345678', 'admin', 'c18iSDP/2zxbh+NRB8bJJ+TrIEhtSafdW7KwOgMXOx6npzBCBaZ2n42sa3/K5xsv', 'Admin', '管理員號', '78945612', 'admin06@gmail.com', 'admin');
+INSERT INTO `admin` (`staff_id`, `username`, `password`, `name_en`, `name_cn`, `phone_number`, `email`, `userRole`) VALUES
+('12345678', 'admin', 'c18iSDP/2zxbh+NRB8bJJ+TrIEhtSafdW7KwOgMXOx6npzBCBaZ2n42sa3/K5xsv', 'Admin', '管理員號', '78945612', 'admin06@gmail.com', 'admin');
 
-DROP TABLE IF EXISTS `custom_option`;
-CREATE TABLE `custom_option` (
-  `id` int(11) NOT NULL,
-  `name_Zh_HK` varchar(255) NOT NULL,
-  `name_Zh_CN` varchar(255) NOT NULL,
-  `name_Us_EN` varchar(255) NOT NULL
+CREATE TABLE `systems_profile` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `restaurant_name` varchar(100) NOT NULL,
+  `is_ordering_disabled` tinyint(1) NOT NULL DEFAULT 0,
+  `is_service_charge_required` tinyint(1) NOT NULL DEFAULT 0,
+  `is_factory_employee_check_required` tinyint(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `custom_option` (`id`, `name_Zh_HK`, `name_Zh_CN`, `name_Us_EN`) VALUES
-(1, '辣度', '辣度', 'Spicy Level'),
-(2, '洋葱', '洋葱', 'Onion'),
-(3, '芫荽', '香菜', 'Coriander');
+INSERT INTO `systems_profile` (`restaurant_name`, `is_ordering_disabled`, `is_service_charge_required`, `is_factory_employee_check_required`) VALUES
+('BOS', 0, 0, 0);
 
-DROP TABLE IF EXISTS `custom_option_value`;
-CREATE TABLE `custom_option_value` (
-  `id` int(11) NOT NULL,
-  `custom_option_id` int(11) NOT NULL,
-  `value_Zh_HK` varchar(255) NOT NULL,
-  `value_Zh_CN` varchar(255) NOT NULL,
-  `value_Us_EN` varchar(255) NOT NULL,
-  `price_adjustment` decimal(10,2) DEFAULT 0.00
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `custom_option_value` (`id`, `custom_option_id`, `value_Zh_HK`, `value_Zh_CN`, `value_Us_EN`, `price_adjustment`) VALUES
-(1, 1, '不辣', '不辣', 'Not Spicy', 0.00),
-(2, 1, '微辣', '微辣', 'Mild Spicy', 0.00),
-(3, 1, '特辣', '特辣', 'Extra Spicy', 0.00),
-(4, 2, '額外洋葱', '额外洋葱', 'Extra Onion', 5.00),
-(5, 2, '沒有洋葱', '没有洋葱', 'No Onion', 0.00),
-(6, 3, '額外芫荽', '额外香菜', 'Extra Coriander', 5.00),
-(7, 3, '沒有芫荽', '没有香菜', 'No Coriander', 0.00);
-
-DROP TABLE IF EXISTS `dishes_type`;
 CREATE TABLE `dishes_type` (
   `id` varchar(50) NOT NULL,
   `name_Zh_HK` varchar(10) NOT NULL,
   `name_Zh_CN` varchar(10) NOT NULL,
-  `name_Us_EN` varchar(50) NOT NULL
+  `name_Us_EN` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `dishes_type_unique(name_Zh_HK)` (`name_Zh_HK`),
+  UNIQUE KEY `dishes_type_unique(name_Zh_CN)` (`name_Zh_CN`),
+  UNIQUE KEY `dishes_type_unique(name_Us_EN)` (`name_Us_EN`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `dishes_type` (`id`, `name_Zh_HK`, `name_Zh_CN`, `name_Us_EN`) VALUES
@@ -69,379 +65,438 @@ INSERT INTO `dishes_type` (`id`, `name_Zh_HK`, `name_Zh_CN`, `name_Us_EN`) VALUE
 ('staple_food', '主食', '主食', 'Staple Food'),
 ('stir_fry', '精美小炒', '精美小炒', 'Stir Fry');
 
-DROP TABLE IF EXISTS `menu`;
+
 CREATE TABLE `menu` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `Name_zh_HK` varchar(20) NOT NULL,
   `Name_zh_CN` varchar(20) NOT NULL,
   `Name_en_US` varchar(150) NOT NULL,
   `price` int(11) NOT NULL,
   `onSale` varchar(1) NOT NULL DEFAULT 'Y' COMMENT 'Y= onsale, N= non -sale',
   `path` varchar(255) NOT NULL,
-  `type` varchar(50) NOT NULL
+  `type` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `menu_dishes_type_FK` (`type`),
+  CONSTRAINT `menu_dishes_type_FK` FOREIGN KEY (`type`) REFERENCES `dishes_type` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `menu` (`id`, `Name_zh_HK`, `Name_zh_CN`, `Name_en_US`, `price`, `onSale`, `path`, `type`) VALUES
-(1, '泡椒肥腸（份）', '泡椒肥肠（份）', 'Pork Intestines stri fried with Pickled Peppers(A Serving)', 168, 'Y', '泡椒肥腸.jpg', 'capsicum_annuum'),
-(2, '泡椒黃喉（份）', '泡椒黄喉（份）', 'Stir Fried Yellow Throat with Pickled Peppers(A Serving)', 168, 'Y', '泡椒黃喉.jpg', 'capsicum_annuum'),
-(3, '泡椒耗兒魚（份）', '泡椒耗儿鱼（份）', 'Stir Fried Smelt Fish with Pickled Peppers(A Serving)', 168, 'Y', '泡椒耗兒魚.jpg', 'capsicum_annuum'),
-(4, '泡椒脆腸（份）', '泡椒脆肠（份）', 'Stir Fried Crispy Intestines with Pickled Peppers(A Serving)', 168, 'Y', '泡椒脆腸.jpg', 'capsicum_annuum'),
-(5, '泡椒魔芋（份）', '泡椒魔芋（份）', 'Stir Fried Konjac with Pickled Peppers(A Serving)', 78, 'Y', '泡椒魔芋.jpg', 'capsicum_annuum'),
-(6, '泡椒腰花（份）', '泡椒腰花（份）', 'Stir Fried Pork Kidneys with Pickled Peppers(A Serving)', 88, 'Y', '泡椒腰花.jpg', 'capsicum_annuum'),
-(7, '泡椒魚卜（份）', '泡椒鱼卜（份）', 'Stir Fried Fish Maw with Pickled Peppers(A Serving)', 98, 'Y', '泡椒魚卜.jpg', 'capsicum_annuum'),
-(8, '泡椒雞腎（份）', '泡椒鸡肾（份）', 'Stir Fried Chicken Kidneys with Pickled Peppers(A Serving)', 78, 'Y', '泡椒雞腎.jpg', 'capsicum_annuum'),
-(9, '泡椒田雞（份）', '泡椒田鸡（份）', 'Stir Fried Frog with Pickled Peppers(A Serving)', 168, 'Y', '泡椒田雞.jpg', 'capsicum_annuum'),
-(10, '泡椒豬潤（份）', '泡椒猪润（份）', 'Stir Fried Pork Intestines with Pickled Peppers(A Serving)', 88, 'Y', '泡椒豬潤.jpg', 'capsicum_annuum'),
-(11, '涼拌青瓜（份）', '凉拌青瓜（份）', 'Shredded Cucumber with Sauce(A Serving)', 38, 'Y', '涼拌青瓜.jpg', 'cold_food'),
-(12, '涼拌秋葵（份）', '凉拌秋葵（份）', 'Shredded Orka with Sauce(A Serving)', 38, 'Y', '涼拌秋葵.jpg', 'cold_food'),
-(13, '涼拌豆干（份）', '凉拌豆干（份）', 'Cold Dried Tofu(A Serving)', 48, 'Y', '涼拌豆干.jpg', 'cold_food'),
-(14, '涼拌藕片（份）', '凉拌藕片（份）', 'Cold-Spiced Lotus Root Slices(A Serving)', 48, 'Y', '涼拌藕片.jpg', 'cold_food'),
-(15, '尖椒皮蛋（份）', '尖椒皮蛋（份）', 'Spicy Pepper Preserved Egg(A Serving)', 48, 'Y', '尖椒皮蛋.jpg', 'cold_food'),
-(16, '口水雞（份）', '口水鸡（份）', 'Saliva Chicken(A Serving)', 58, 'Y', '口水雞.jpg', 'cold_food'),
-(17, '夫妻肺片（份）', '夫妻肺片（份）', 'Sliced Beef and Ox Tongue in Chili Sauce(A Serving)', 58, 'Y', '夫妻肺片.jpg', 'cold_food'),
-(18, '四川臘腸（條）', '四川腊肠（条）', 'Sichuan Sausage(A Piece)', 88, 'Y', '四川臘腸.jpg', 'cold_food'),
-(19, '藤椒魚皮（份）', '藤椒鱼皮（份）', 'Rattan Pepper Fish Skin(A Serving)', 68, 'Y', '藤椒魚皮.jpg', 'cold_food'),
-(20, '麻辣牛腱（份）', '麻辣牛腱（份）', 'Spicy Beef Shank(A Serving)', 68, 'Y', '麻辣牛腱.jpg', 'cold_food'),
-(21, '涼拌蕨根粉（碗）', '凉拌蕨根粉（碗）', 'Shredded fern root noodles(A Serving)', 68, 'Y', '涼拌蕨根粉.jpg', 'cold_food'),
-(22, '香辣酥肉（份）', '香辣酥肉（份）', 'Spicy Deep-Fired Crispy Pork(A Serving)', 88, 'Y', '香辣酥肉.jpg', 'cold_food'),
-(23, '黑糖糍粑（份）', '黑糖糍粑（份）', 'Rice Cakes with Brown Sugar(A Serving)', 68, 'Y', '黑糖糍粑.jpg', 'cold_food'),
-(24, '涼拌萵筍絲（份）', '凉拌莴笋丝（份）', 'Stem Lettuce Salad(A Serving)', 48, 'Y', '涼拌萵筍絲.jpg', 'cold_food'),
-(25, '涼拌土豆絲（份）', '凉拌土豆丝（份）', 'Chinese Potato Salad(A Serving)', 48, 'Y', '涼拌土豆絲.jpg', 'cold_food'),
-(26, '涼拌豬肚絲（份）', '凉拌猪肚丝（份）', 'Cold shredded pork belly(A Serving)', 58, 'Y', '涼拌豬肚絲.jpg', 'cold_food'),
-(27, '紅油豬耳（份）', '红油猪耳（份）', 'Pig Ear in in Hot and Spicy Sauce(A Serving)', 58, 'Y', '紅油豬耳.jpg', 'cold_food'),
-(28, '泡椒雞腳（份）', '泡椒鸡脚（份）', 'Chicken Feet with Pickled Pepper(A Serving)', 58, 'Y', '泡椒雞腳.jpg', 'cold_food'),
-(29, '川北涼粉（碗）', '川北凉粉（碗）', 'Tossed Clear Noodles with Chili Sauce(A Serving)', 48, 'Y', '川北涼粉.jpg', 'cold_food'),
-(30, '涼拌長豆角（份）', '凉拌长豆角（份）', 'Shredded Chinese Long Bean with Sauce(A Serving)', 48, 'Y', '涼拌長豆角.jpg', 'cold_food'),
-(31, '豆花（份）', '豆花（份）', 'Tofu Pudding(A Serving)', 58, 'Y', '豆花.jpg', 'cold_food'),
-(32, '烏龍茶（支）', '乌龙茶（支）', 'Oolong(Bottle)', 15, 'Y', '烏龍茶.jpg', 'drink'),
-(33, '菊花茶（支）', '菊花茶（支）', 'Chrysanthemum Tea(Bottle)', 15, 'Y', '菊花茶.jpg', 'drink'),
-(34, '竹蔗水（支）', '竹蔗水（支）', 'Bamboo cane Water(Bottle)', 15, 'Y', '竹蔗水.jpg', 'drink'),
-(35, '天地壹號（罐裝）', '天地壹号（罐装）', 'Tian Di No.1(Canned)', 20, 'Y', '天地壹號（罐裝）.jpg', 'drink'),
-(36, '加多寶（罐裝）', '加多宝（罐装）', 'Jia Duo Bao(Canned)', 15, 'Y', '加多寶（罐裝）.jpg', 'drink'),
-(37, '可樂（罐裝）', '可乐（罐装）', 'Coke(Canned)', 15, 'Y', '可樂（罐裝）.jpg', 'drink'),
-(38, '七喜（罐裝）', '七喜（罐裝）', '7-Up (Canned)', 15, 'Y', '七喜（罐裝）.jpg', 'drink'),
-(39, '雪碧（罐裝）', '雪碧（罐装）', 'Sprite (Canned)', 15, 'Y', '雪碧（罐裝）.jpg', 'drink'),
-(40, '玉泉忌廉（罐裝）', '玉泉忌廉（罐装）', 'Schweppes Cream Soda(Canned)', 15, 'Y', '玉泉忌廉（罐裝）.jpg', 'drink'),
-(41, '無糖可樂（罐裝）', '无糖可乐（罐装）', 'Coca-Cola No Sugar(Canned)', 15, 'Y', '無糖可樂（罐裝）.jpg', 'drink'),
-(42, '芬達橙味（罐裝）', '芬达橙味（罐装）', 'Fanta Orange(Canned)', 15, 'Y', '芬達橙味（罐裝）.jpg', 'drink'),
-(43, '礦泉水（支）', '矿泉水（支）', 'Mineral Water(Bottle)', 10, 'Y', '礦泉水.jpg', 'drink'),
-(44, '維他檸檬茶（支）', '维他柠檬茶（支）', 'Vita Lemon Tea(Bottle)', 12, 'Y', '維他檸檬茶.jpg', 'drink'),
-(45, '青島（大樽）', '青岛（大瓶）', 'Tsingtao Beer(Large)', 28, 'Y', '（大樽）青島.jpg', 'drink'),
-(46, '藍妹（大樽）', '蓝妹（大瓶）', 'Blue Girl Beer(Large)', 28, 'Y', '（大樽）藍妹.jpg', 'drink'),
-(47, '江小白（支）', '江小白（支）', 'Jiang Xiaobai(Bottle)', 58, 'Y', '江小白.jpg', 'drink'),
-(48, 'Hoegaarden（支）', '豪格登（支）', 'Hoegaarden(Bottle)', 42, 'Y', 'Hoegaarden.jpg', 'drink'),
-(49, '雪花啤酒（支）', '雪花啤酒（支）', 'Snow Beer(Bottle)', 20, 'Y', '雪花啤酒.jpg', 'drink'),
-(50, '哈爾濱啤酒（支）', '哈尔滨啤酒（支）', 'Harbin Beer(Bottle)', 25, 'Y', '哈爾濱啤酒.jpg', 'drink'),
-(51, '生力黑啤（大樽）', '生力黑啤（大瓶）', 'San Miguel Cerveza Negra(Large)', 38, 'Y', '（大樽）生力黑啤.jpg', 'drink'),
-(52, '真露燒酒（支）', '真露烧酒（支）', 'Jinro-Clhamisul Soju(Bottle)', 40, 'Y', '真露燒酒.jpg', 'drink'),
-(53, '萵筍（份）', '莴笋（份）', 'Celtuce(A Serving)', 38, 'Y', '萵筍.jpg', 'side_dish'),
-(54, '淮山（份）', '山药（份）', 'Common Yam Rhizome(A Serving)', 38, 'Y', '淮山.jpg', 'side_dish'),
-(55, '鮮木耳（份）', '鲜木耳（份）', 'Wood Ear(A Serving)', 28, 'Y', '鮮木耳.jpg', 'side_dish'),
-(56, '油麥菜（份）', '油麦菜（份）', 'Indian Lettuce(A Serving)', 28, 'Y', '油麥菜.jpg', 'side_dish'),
-(57, '娃娃菜（份）', '娃娃菜（份）', 'Baby Cabbage(A Serving)', 28, 'Y', '娃娃菜.jpg', 'side_dish'),
-(58, '豆卜（份）', '豆卜（份）', 'Tofu Puff(A Serving)', 38, 'Y', '豆卜.jpg', 'side_dish'),
-(59, '幼薯粉（份）', '幼薯粉（份）', 'Potato Starch Noodles(A Serving)', 28, 'Y', '幼薯粉.jpg', 'side_dish'),
-(60, '豬紅（份）', '猪红（份）', 'Curdled Pig\'s Blood(A Serving)', 28, 'Y', '豬紅.jpg', 'side_dish'),
-(61, '黑椒牛丸（份）', '黑椒牛丸（份）', 'Black Pepper Beef(A Serving)', 45, 'Y', '黑椒牛丸.jpg', 'side_dish'),
-(62, '牛肉丸（份）', '牛肉丸（份）', 'Beef Ball(A Serving)', 45, 'Y', '牛肉丸.jpg', 'side_dish'),
-(63, '豬肉丸（份）', '猪肉丸（份）', 'Pork Ball(A Serving)', 45, 'Y', '豬肉丸.jpg', 'side_dish'),
-(64, '牛筋丸（份）', '牛筋丸（份）', 'Beef Tendon Ball(A Serving)', 45, 'Y', '牛筋丸.jpg', 'side_dish'),
-(65, '芝士丸（份）', '芝士丸（份）', 'Fish Ball with Cheese Stuffing(A Serving)', 45, 'Y', '芝士丸.jpg', 'side_dish'),
-(66, '墨魚丸（份）', '墨鱼丸（份）', 'Cuttlefish Flavour Fish Ball(A Serving)', 45, 'Y', '墨魚丸.jpg', 'side_dish'),
-(67, '花枝丸（份）', '花枝丸（份）', 'Cuttlefish Flavour Fish Ball in Taiwanese Style(A Serving)', 45, 'Y', '花枝丸.jpg', 'side_dish'),
-(68, '芝士腸（份）', '芝士肠（份）', 'Cheese Cocktail Sausage(A Serving)', 42, 'Y', '芝士腸.jpg', 'side_dish'),
-(69, '肥牛（份）', '肥牛（份）', 'Sliced Beef(A Serving)', 58, 'Y', '肥牛.jpg', 'side_dish'),
-(70, '午餐肉（份）', '午餐肉（份）', 'Luncheon(A Serving)', 42, 'Y', '午餐肉.jpg', 'side_dish'),
-(71, '酸豆角（份）', '酸豆角（份）', 'Sour Chinese Long Bean(A Serving)', 38, 'Y', '酸豆角.jpg', 'side_dish'),
-(72, '魚卜（份）', '鱼卜（份）', 'Fish Maw(A Serving)', 68, 'Y', '魚卜.jpg', 'side_dish'),
-(73, '肥腸（份）', '肥肠（份）', 'Pig Intestine(A Serving)', 88, 'Y', '肥腸.jpg', 'side_dish'),
-(74, '土豆片（份）', '土豆片（份）', 'Potato Chips(A Serving)', 28, 'Y', '土豆片.jpg', 'side_dish'),
-(75, '藕片（份）', '藕片（份）', 'Lotus Root Slices(A Serving)', 38, 'Y', '藕片.jpg', 'side_dish'),
-(76, '腐竹（份）', '腐竹（份）', 'Dried Beancurd Sticks(A Serving)', 38, 'Y', '腐竹.jpg', 'side_dish'),
-(77, '海帶（份）', '海带（份）', 'Kelp(A Serving)', 28, 'Y', '海帶.jpg', 'side_dish'),
-(78, '生菜（份）', '生菜（份）', 'Lettuce(A Serving)', 28, 'Y', '生菜.jpg', 'side_dish'),
-(79, '洋蔥（份）', '洋葱（份）', 'Onion(A Serving)', 38, 'Y', '洋蔥.jpg', 'side_dish'),
-(80, '豆腐（份）', '豆腐（份）', 'Tofu(A Serving)', 28, 'Y', '豆腐.jpg', 'side_dish'),
-(81, '寬粉（份）', '宽粉（份）', 'Wide Rice Noodles(A Serving)', 28, 'Y', '寬粉.jpg', 'side_dish'),
-(82, '魔芋（份）', '魔芋（份）', 'Konjac(A Serving)', 38, 'Y', '魔芋.jpg', 'side_dish'),
-(83, '貢丸（份）', '贡丸（份）', 'Gongwan Meatballs(A Serving)', 45, 'Y', '貢丸.jpg', 'side_dish'),
-(84, '手切牛肉（份）', '手切牛肉（份）', 'Hand-Sliced Beef(A Serving)', 168, 'Y', '手切牛肉.jpg', 'side_dish'),
-(85, '豆皮（份）', '豆皮（份）', 'Tofu Skin(A Serving)', 38, 'Y', '豆皮.jpg', 'side_dish'),
-(86, '腰花（份）', '腰花（份）', 'Pork Kidney(A Serving)', 58, 'Y', '腰花.jpg', 'side_dish'),
-(87, '兒菜（份）', '儿菜（份）', 'B. j. var. Gemminfera(A Serving)', 38, 'Y', '兒菜.jpg', 'side_dish'),
-(88, '豬潤（份）', '猪润（份）', 'Pork Liver(A Serving)', 48, 'Y', '豬潤.jpg', 'side_dish'),
-(89, '牛百葉（份）', '牛百叶（份）', 'Beef Omasum(A Serving)', 58, 'Y', '牛百葉.jpg', 'side_dish'),
-(90, '雞腎（份）', '鸡肾（份）', 'Chicken Gizzard(A Serving)', 48, 'Y', '雞腎.jpg', 'side_dish'),
-(91, '清江魚（例）', '清江鱼（例）', 'Steamed Mandarin Fish(Portion)', 378, 'Y', '清江魚.jpg', 'signature_dish'),
-(92, '紙包魚（大）', '纸包鱼（大）', 'Steamed Fish in Paper (Large)', 238, 'Y', '紙包魚(大).jpg', 'signature_dish'),
-(93, '紙包魚（小）', '纸包鱼（小）', 'Steamed Fish in Paper (Small)', 218, 'Y', '紙包魚(小).jpg', 'signature_dish'),
-(94, '紙包魚（整條）', '纸包鱼（整条）', 'Steamed Fish in Paper (1 piece)', 408, 'Y', '紙包魚(整條).jpg', 'signature_dish'),
-(95, '紙包海鱸魚（整條）', '纸包海鲈鱼（整条）', 'Steamed Sea Bass in Paper (1 piece)', 378, 'Y', '紙包海鱸魚(整條).jpg', 'signature_dish'),
-(96, '酸菜魚（半條）', '酸菜鱼（半条）', 'Sour and Spicy Fish (Half fish)', 268, 'Y', '酸菜魚(半條).jpg', 'signature_dish'),
-(97, '金湯魚片（份）', '金汤鱼片（份）', 'Fish Fillet in Golden Soup', 268, 'Y', '金湯魚片.jpg', 'signature_dish'),
-(98, '水煮魚（整條）', '水煮鱼（整条）', 'Boiled Fish (Whole fish)', 468, 'Y', '水煮魚(整條).jpg', 'signature_dish'),
-(99, '水煮魚（半條）', '水煮鱼（半条）', 'Boiled Fish (Half fish)', 268, 'Y', '水煮魚(半條).jpg', 'signature_dish'),
-(100, '酸菜魚（整條）', '酸菜鱼（整条）', 'Sour and Spicy Fish (Whole fish)', 468, 'Y', '酸菜魚(整條).jpg', 'signature_dish'),
-(101, '酸菜魚（半條）', '酸菜鱼（半条）', 'Sour and Spicy Fish (Half fish)', 268, 'Y', '酸菜魚(半條).jpg', 'signature_dish'),
-(102, '酸菜海鱸魚（整條）', '酸菜海鲈鱼（整条）', 'Sour and Spicy Sea Bass (Whole fish)', 468, 'Y', '酸菜海鱸魚(整條).jpg', 'signature_dish'),
-(103, '酸菜海鱸魚（半條）', '酸菜海鲈鱼（半条）', 'Sour and Spicy Sea Bass (Half fish)', 268, 'Y', '酸菜海鱸魚(半條).jpg', 'signature_dish'),
-(104, '金湯海鱸魚（例）', '金汤海鲈鱼（例）', 'Sea Bass in Golden Soup (Portion)', 238, 'Y', '金湯海鱸魚(例).jpg', 'signature_dish'),
-(105, '水煮海鱸魚（整條）', '水煮海鲈鱼（整条）', 'Boiled Sea Bass (Whole fish)', 468, 'Y', '水煮海鱸魚(整條).jpg', 'signature_dish'),
-(106, '水煮海鱸魚（半條）', '水煮海鲈鱼（半条）', 'Boiled Sea Bass (Half fish)', 238, 'Y', '水煮海鱸魚(半條).jpg', 'signature_dish'),
-(107, '毛血旺（例）', '毛血旺（例）', 'Spicy Hot Pot with Blood Curd(Portion)', 158, 'Y', '毛血旺.jpg', 'signature_dish'),
-(108, '麻辣蝦（例）', '麻辣虾（例）', 'Spicy Sichuan Shrimp(Portion)', 188, 'Y', '麻辣蝦.jpg', 'signature_dish'),
-(109, '水煮牛肉（例）', '水煮牛肉（例）', 'Boiled Beef Slices(Portion)', 198, 'Y', '水煮牛肉.jpg', 'signature_dish'),
-(110, '水煮肥牛（例）', '水煮肥牛（例）', 'Boiled Sliced Beef Brisket(Portion)', 158, 'Y', '水煮肥牛.jpg', 'signature_dish'),
-(111, '水煮田雞（例）', '水煮田鸡（例）', 'Boiled Frog(Portion)', 168, 'Y', '水煮田雞.jpg', 'signature_dish'),
-(112, '水煮肉片（例）', '水煮肉片（例）', 'Boiled Pork Slices(Portion)', 198, 'Y', '水煮肉片.jpg', 'signature_dish'),
-(113, '啤酒鴨（整隻）', '啤酒鸭（整只）', 'Beer Duck (Whole duck)', 318, 'Y', '啤酒鴨(整隻).jpg', 'signature_dish'),
-(114, '啤酒鴨（半隻）', '啤酒鸭（半只）', 'Beer Duck (Half duck)', 188, 'Y', '啤酒鴨(半隻).jpg', 'signature_dish'),
-(115, '奇味雞煲（整隻）', '奇味鸡煲（整只）', 'Flavorful Chicken Hot Pot (Whole Chicken)', 268, 'Y', '奇味雞煲(整隻).jpg', 'signature_dish'),
-(116, '奇味雞煲（半隻）', '奇味鸡煲（半只）', 'Flavorful Chicken Hot Pot (Half Chicken)', 158, 'Y', '奇味雞煲(半隻).jpg', 'signature_dish'),
-(117, '麻辣雞煲（整隻）', '麻辣鸡煲（整只）', 'Spicy Chicken Hot Pot (Whole Chicken)', 268, 'Y', '麻辣雞煲(整隻).jpg', 'signature_dish'),
-(118, '麻辣雞煲（半隻）', '麻辣鸡煲（半只）', 'Spicy Chicken Hot Pot (Half Chicken)', 158, 'Y', '麻辣雞煲(半隻).jpg', 'signature_dish'),
-(119, '紅油抄手（份）', '红油抄手（份）', 'Wonton Soup in Hot and Spicy Sauce(A Serving)', 35, 'Y', '紅油抄手.jpg', 'staple_food'),
-(120, '重慶酸辣粉（碗）', '重庆酸辣粉（碗）', 'Chongqing Hot and Sour Rice Noodles(Bowl)', 26, 'Y', '重慶酸辣粉.jpg', 'staple_food'),
-(121, '重慶酸辣麵（碗）', '重庆酸辣面（碗）', 'Chongqing Hot and Sour Noodles(Bowl)', 26, 'Y', '重慶酸辣麵.jpg', 'staple_food'),
-(122, '白飯（碗）', '白饭（碗）', 'Rice(Bowl)', 10, 'Y', '白飯.jpg', 'staple_food'),
-(123, '蛋炒飯（份）', '蛋炒饭（份）', 'Egg Fried Rice(A Serving)', 26, 'Y', '蛋炒飯.jpg', 'staple_food'),
-(124, '螞蟻上樹（份）', '蚂蚁上树（份）', 'spicy vermicelli stir-fry(A Serving)', 58, 'Y', '螞蟻上樹.jpg', 'stir_fry'),
-(125, '辣子雞（例）', '辣子鸡（例）', 'Spicy Chicken(Portion)', 158, 'Y', '辣子雞.jpg', 'stir_fry'),
-(126, '尖椒雞（半隻）', '尖椒鸡（半只）', 'Half Spicy Chicken with Bell Peppers(Whole Chicken)', 178, 'Y', '尖椒雞(半隻).jpg', 'stir_fry'),
-(127, '尖椒雞（整隻）', '尖椒鸡（整只）', 'Whole Spicy Chicken with Bell Peppers(Half Chicken)', 318, 'Y', '尖椒雞(整隻).jpg', 'stir_fry'),
-(128, '梅菜扣肉（份）', '梅菜扣肉（份）', 'Braised Pork Belly with Preserved Mustard Greens(A Serving)', 88, 'Y', '梅菜扣肉.jpg', 'stir_fry'),
-(129, '西芹炒豆干（份）', '西芹炒豆干（份）', 'Stir Fried Celery with Tofu(A Serving)', 78, 'Y', '西芹炒豆干.jpg', 'stir_fry'),
-(130, '酸豆角炒豆干（份）', '酸豆角炒豆干（份）', 'Stir Fried Green Beans with Tofu and Pickled Green Beans(A Serving)', 78, 'Y', '酸豆角炒豆干.jpg', 'stir_fry'),
-(131, '粉蒸肉（份）', '粉蒸肉（份）', 'Steamed Pork with Rice Flour(A Serving)', 88, 'Y', '粉蒸肉.jpg', 'stir_fry'),
-(132, '尖椒豬肚（份）', '尖椒猪肚（份）', 'Stir Fried Pork Stomach with Bell Peppers(A Serving)', 88, 'Y', '尖椒豬肚.jpg', 'stir_fry'),
-(133, '白油肚條（份）', '白油肚条（份）', 'Stir Fried Pork Tripe in White Sauce(A Serving)', 88, 'Y', '白油肚條.jpg', 'stir_fry'),
-(134, '辣子雞軟骨（份）', '辣子鸡软骨（份）', 'Spicy Chicken Cartilage(A Serving)', 168, 'Y', '辣子雞軟骨.jpg', 'stir_fry'),
-(135, '干煸肥腸（份）', '干煸肥肠（份）', 'Stir Fried Pig Intestine(A Serving)', 168, 'Y', '干煸肥腸.jpg', 'stir_fry'),
-(136, '大碗花菜（份）', '大碗花菜（份）', 'Stir Fried Cauliflower(A Serving)', 78, 'Y', '大碗花菜.jpg', 'stir_fry'),
-(137, '干煸耗兒魚（份）', '干煸耗儿鱼（份）', 'Stir Fried Dried Fish(A Serving)', 168, 'Y', '干煸耗兒魚.jpg', 'stir_fry'),
-(138, '鹹蛋黃土豆絲（份）', '咸蛋黄土豆丝（份）', 'Salted Egg Yolk Shredded Potatoes(A Serving)', 78, 'Y', '鹹蛋黃土豆絲.jpg', 'stir_fry'),
-(139, '鹹蛋黃炒蝦（份）', '咸蛋黄炒虾（份）', 'Salted Egg Yolk Stir Fried Shrimp(A Serving)', 188, 'Y', '鹹蛋黃炒蝦.jpg', 'stir_fry'),
-(140, '家常豆腐（份）', '家常豆腐（份）', 'Home-style Tofu(A Serving)', 78, 'Y', '家常豆腐.jpg', 'stir_fry'),
-(141, '清炒兒菜（份）', '清炒儿菜（份）', 'Stir Fried Baby Vegetables(A Serving)', 78, 'Y', '清炒兒菜.jpg', 'stir_fry'),
-(142, '清炒土豆絲（份）', '清炒土豆丝（份）', 'Stir Fried Shredded Potatoes(A Serving)', 68, 'Y', '清炒土豆絲.jpg', 'stir_fry'),
-(143, '熗炒土豆絲（份）', '炝炒土豆丝（份）', 'Stir Fried Shredded Potatoes(A Serving)', 68, 'Y', '熗炒土豆絲.jpg', 'stir_fry'),
-(144, '清炒娃娃菜（份）', '清炒娃娃菜（份）', 'Stir Fried Baby Bok Choy(A Serving)', 68, 'Y', '清炒娃娃菜.jpg', 'stir_fry'),
-(145, '熗炒娃娃菜（份）', '炝炒娃娃菜（份）', 'Stir Fried Baby Bok Choy(A Serving)', 68, 'Y', '熗炒娃娃菜.jpg', 'stir_fry'),
-(146, '手撕包菜（份）', '手撕包菜（份）', 'Hand-Torn Cabbage(A Serving)', 68, 'Y', '手撕包菜.jpg', 'stir_fry'),
-(147, '蒜苗炒臘肉（份）', '蒜苗炒腊肉（份）', 'Stir Fried Garlic Sprouts with Bacon(A Serving)', 98, 'Y', '蒜苗炒臘肉.jpg', 'stir_fry'),
-(148, '番茄炒蛋（份）', '番茄炒蛋（份）', 'Stir Fried Tomatoes with Eggs(A Serving)', 68, 'Y', '番茄炒蛋.jpg', 'stir_fry'),
-(149, '麻婆豆腐（份）', '麻婆豆腐（份）', 'Mapo Tofu(A Serving)', 68, 'Y', '麻婆豆腐.jpg', 'stir_fry'),
-(150, '干煸四季豆（份）', '干煸四季豆（份）', 'Dry-Fried Green Beans(A Serving)', 78, 'Y', '干煸四季豆.jpg', 'stir_fry'),
-(151, '川式回鍋肉（份）', '川式回锅肉（份）', 'Sichuan Twice-Cooked Pork(A Serving)', 88, 'Y', '川式回鍋肉.jpg', 'stir_fry'),
-(152, '豆豉鯪魚油麥菜（份）', '豆豉鲮鱼油麦菜（份）', 'Stir Fried Water Spinach with Fermented Black Beans and Silver Fish(A Serving)', 78, 'Y', '豆豉鯪魚油麥菜.jpg', 'stir_fry'),
-(153, '清炒時蔬（份）', '清炒时蔬（份）', 'Stir Fried Seasonal Vegetables(A Serving)', 68, 'Y', '清炒時蔬.jpg', 'stir_fry'),
-(154, '酸豆角肉沫（份）', '酸豆角肉沫（份）', 'Stir Fried Minced Pork with Pickled Green Beans(A Serving)', 78, 'Y', '酸豆角肉沫.jpg', 'stir_fry'),
-(155, '泡椒雞腎（份）', '泡椒鸡肾（份）', 'Stir Fried Chicken Kidneys with Pickled Peppers(A Serving)', 78, 'Y', '泡椒雞腎.jpg', 'stir_fry'),
-(156, '萵筍炒肉絲（份）', '莴笋炒肉丝（份）', 'Stir Fried Pork with Lettuce Stem(A Serving)', 88, 'Y', '萵筍炒肉絲.jpg', 'stir_fry'),
-(157, '清炒萵筍絲（份）', '清炒莴笋丝（份）', 'Stir Fried Shredded Lettuce Stem(A Serving)', 78, 'Y', '清炒萵筍絲.jpg', 'stir_fry'),
-(158, '花菜炒臘肉（份）', '花菜炒腊肉（份）', 'Stir Fried Cauliflower with Bacon(A Serving)', 98, 'Y', '花菜炒臘肉.jpg', 'stir_fry'),
-(159, '兒菜炒臘肉（份）', '儿菜炒腊肉（份）', 'Stir Fried Baby Bok Choy with Bacon(A Serving)', 98, 'Y', '兒菜炒臘肉.jpg', 'stir_fry'),
-(160, '酸辣土豆絲（份）', '酸辣土豆丝（份）', 'Spicy and Sour Shredded Potatoes(A Serving)', 68, 'Y', '酸辣土豆絲.jpg', 'stir_fry'),
-(161, '薑蔥雪花牛肉（份）', '姜葱雪花牛肉（份）', 'Ginger and Scallion Beef(A Serving)', 198, 'Y', '薑蔥雪花牛肉.jpg', 'stir_fry'),
-(162, '夾沙肉（份）', '夹沙肉（份）', 'Stuffed Belly Pork(A Serving)', 88, 'Y', '夾沙肉.jpg', 'stir_fry'),
-(163, '淮山炒木耳（份）', '淮山炒木耳（份）', 'Stir Fried Huai Shan with Black Fungus(A Serving)', 78, 'Y', '淮山炒木耳.jpg', 'stir_fry'),
-(164, '農家小炒肉（份）', '农家小炒肉（份）', 'Home-style Stir Fried Pork(A Serving)', 88, 'Y', '農家小炒肉.jpg', 'stir_fry'),
-(165, '藕片炒肉（份）', '藕片炒肉（份）', 'Stir Fried Lotus Root Slices with Pork(A Serving)', 88, 'Y', '藕片炒肉.jpg', 'stir_fry'),
-(166, '青椒炒肉（份）', '青椒炒肉（份）', 'Stir Fried Green Peppers with Pork(A Serving)', 68, 'Y', '青椒炒肉.jpg', 'stir_fry'),
-(167, '苦瓜炒肉（份）', '苦瓜炒肉（份）', 'Stir Fried Bitter Melon with Pork(A Serving)', 88, 'Y', '苦瓜炒肉.jpg', 'stir_fry');
+	(1, '泡椒肥腸（份）', '泡椒肥肠（份）', 'Pork Intestines stri fried with Pickled Peppers(A Serving)', 168, 'Y', '泡椒肥腸.jpg', 'capsicum_annuum'),
+	(2, '泡椒黃喉（份）', '泡椒黄喉（份）', 'Stir Fried Yellow Throat with Pickled Peppers(A Serving)', 168, 'Y', '泡椒黃喉.jpg', 'capsicum_annuum'),
+	(3, '泡椒耗兒魚（份）', '泡椒耗儿鱼（份）', 'Stir Fried Smelt Fish with Pickled Peppers(A Serving)', 168, 'Y', '泡椒耗兒魚.jpg', 'capsicum_annuum'),
+	(4, '泡椒脆腸（份）', '泡椒脆肠（份）', 'Stir Fried Crispy Intestines with Pickled Peppers(A Serving)', 168, 'Y', '泡椒脆腸.jpg', 'capsicum_annuum'),
+	(5, '泡椒魔芋（份）', '泡椒魔芋（份）', 'Stir Fried Konjac with Pickled Peppers(A Serving)', 78, 'Y', '泡椒魔芋.jpg', 'capsicum_annuum'),
+	(6, '泡椒腰花（份）', '泡椒腰花（份）', 'Stir Fried Pork Kidneys with Pickled Peppers(A Serving)', 88, 'Y', '泡椒腰花.jpg', 'capsicum_annuum'),
+	(7, '泡椒魚卜（份）', '泡椒鱼卜（份）', 'Stir Fried Fish Maw with Pickled Peppers(A Serving)', 98, 'Y', '泡椒魚卜.jpg', 'capsicum_annuum'),
+	(8, '泡椒雞腎（份）', '泡椒鸡肾（份）', 'Stir Fried Chicken Kidneys with Pickled Peppers(A Serving)', 78, 'Y', '泡椒雞腎.jpg', 'capsicum_annuum'),
+	(9, '泡椒田雞（份）', '泡椒田鸡（份）', 'Stir Fried Frog with Pickled Peppers(A Serving)', 168, 'Y', '泡椒田雞.jpg', 'capsicum_annuum'),
+	(10, '泡椒豬潤（份）', '泡椒猪润（份）', 'Stir Fried Pork Intestines with Pickled Peppers(A Serving)', 88, 'Y', '泡椒豬潤.jpg', 'capsicum_annuum'),
+	(11, '涼拌青瓜（份）', '凉拌青瓜（份）', 'Shredded Cucumber with Sauce(A Serving)', 38, 'Y', '涼拌青瓜.jpg', 'cold_food'),
+	(12, '涼拌秋葵（份）', '凉拌秋葵（份）', 'Shredded Orka with Sauce(A Serving)', 38, 'Y', '涼拌秋葵.jpg', 'cold_food'),
+	(13, '涼拌豆干（份）', '凉拌豆干（份）', 'Cold Dried Tofu(A Serving)', 48, 'Y', '涼拌豆干.jpg', 'cold_food'),
+	(14, '涼拌藕片（份）', '凉拌藕片（份）', 'Cold-Spiced Lotus Root Slices(A Serving)', 48, 'Y', '涼拌藕片.jpg', 'cold_food'),
+	(15, '尖椒皮蛋（份）', '尖椒皮蛋（份）', 'Spicy Pepper Preserved Egg(A Serving)', 48, 'Y', '尖椒皮蛋.jpg', 'cold_food'),
+	(16, '口水雞（份）', '口水鸡（份）', 'Saliva Chicken(A Serving)', 58, 'Y', '口水雞.jpg', 'cold_food'),
+	(17, '夫妻肺片（份）', '夫妻肺片（份）', 'Sliced Beef and Ox Tongue in Chili Sauce(A Serving)', 58, 'Y', '夫妻肺片.jpg', 'cold_food'),
+	(18, '四川臘腸（條）', '四川腊肠（条）', 'Sichuan Sausage(A Piece)', 88, 'Y', '四川臘腸.jpg', 'cold_food'),
+	(19, '藤椒魚皮（份）', '藤椒鱼皮（份）', 'Rattan Pepper Fish Skin(A Serving)', 68, 'Y', '藤椒魚皮.jpg', 'cold_food'),
+	(20, '麻辣牛腱（份）', '麻辣牛腱（份）', 'Spicy Beef Shank(A Serving)', 68, 'Y', '麻辣牛腱.jpg', 'cold_food'),
+	(21, '涼拌蕨根粉（碗）', '凉拌蕨根粉（碗）', 'Shredded fern root noodles(A Serving)', 68, 'Y', '涼拌蕨根粉.jpg', 'cold_food'),
+	(22, '香辣酥肉（份）', '香辣酥肉（份）', 'Spicy Deep-Fired Crispy Pork(A Serving)', 88, 'Y', '香辣酥肉.jpg', 'cold_food'),
+	(23, '黑糖糍粑（份）', '黑糖糍粑（份）', 'Rice Cakes with Brown Sugar(A Serving)', 68, 'Y', '黑糖糍粑.jpg', 'cold_food'),
+	(24, '涼拌萵筍絲（份）', '凉拌莴笋丝（份）', 'Stem Lettuce Salad(A Serving)', 48, 'Y', '涼拌萵筍絲.jpg', 'cold_food'),
+	(25, '涼拌土豆絲（份）', '凉拌土豆丝（份）', 'Chinese Potato Salad(A Serving)', 48, 'Y', '涼拌土豆絲.jpg', 'cold_food'),
+	(26, '涼拌豬肚絲（份）', '凉拌猪肚丝（份）', 'Cold shredded pork belly(A Serving)', 58, 'Y', '涼拌豬肚絲.jpg', 'cold_food'),
+	(27, '紅油豬耳（份）', '红油猪耳（份）', 'Pig Ear in in Hot and Spicy Sauce(A Serving)', 58, 'Y', '紅油豬耳.jpg', 'cold_food'),
+	(28, '泡椒雞腳（份）', '泡椒鸡脚（份）', 'Chicken Feet with Pickled Pepper(A Serving)', 58, 'Y', '泡椒雞腳.jpg', 'cold_food'),
+	(29, '川北涼粉（碗）', '川北凉粉（碗）', 'Tossed Clear Noodles with Chili Sauce(A Serving)', 48, 'Y', '川北涼粉.jpg', 'cold_food'),
+	(30, '涼拌長豆角（份）', '凉拌长豆角（份）', 'Shredded Chinese Long Bean with Sauce(A Serving)', 48, 'Y', '涼拌長豆角.jpg', 'cold_food'),
+	(31, '豆花（份）', '豆花（份）', 'Tofu Pudding(A Serving)', 58, 'Y', '豆花.jpg', 'cold_food'),
+	(32, '烏龍茶（支）', '乌龙茶（支）', 'Oolong(Bottle)', 15, 'Y', '烏龍茶.jpg', 'drink'),
+	(33, '菊花茶（支）', '菊花茶（支）', 'Chrysanthemum Tea(Bottle)', 15, 'Y', '菊花茶.jpg', 'drink'),
+	(34, '竹蔗水（支）', '竹蔗水（支）', 'Bamboo cane Water(Bottle)', 15, 'Y', '竹蔗水.jpg', 'drink'),
+	(35, '天地壹號（罐裝）', '天地壹号（罐装）', 'Tian Di No.1(Canned)', 20, 'Y', '天地壹號（罐裝）.jpg', 'drink'),
+	(36, '加多寶（罐裝）', '加多宝（罐装）', 'Jia Duo Bao(Canned)', 15, 'Y', '加多寶（罐裝）.jpg', 'drink'),
+	(37, '可樂（罐裝）', '可乐（罐装）', 'Coke(Canned)', 15, 'Y', '可樂（罐裝）.jpg', 'drink'),
+	(38, '七喜（罐裝）', '七喜（罐裝）', '7-Up (Canned)', 15, 'Y', '七喜（罐裝）.jpg', 'drink'),
+	(39, '雪碧（罐裝）', '雪碧（罐装）', 'Sprite (Canned)', 15, 'Y', '雪碧（罐裝）.jpg', 'drink'),
+	(40, '玉泉忌廉（罐裝）', '玉泉忌廉（罐装）', 'Schweppes Cream Soda(Canned)', 15, 'Y', '玉泉忌廉（罐裝）.jpg', 'drink'),
+	(41, '無糖可樂（罐裝）', '无糖可乐（罐装）', 'Coca-Cola No Sugar(Canned)', 15, 'Y', '無糖可樂（罐裝）.jpg', 'drink'),
+	(42, '芬達橙味（罐裝）', '芬达橙味（罐装）', 'Fanta Orange(Canned)', 15, 'Y', '芬達橙味（罐裝）.jpg', 'drink'),
+	(43, '礦泉水（支）', '矿泉水（支）', 'Mineral Water(Bottle)', 10, 'Y', '礦泉水.jpg', 'drink'),
+	(44, '維他檸檬茶（支）', '维他柠檬茶（支）', 'Vita Lemon Tea(Bottle)', 12, 'Y', '維他檸檬茶.jpg', 'drink'),
+	(45, '青島（大樽）', '青岛（大瓶）', 'Tsingtao Beer(Large)', 28, 'Y', '（大樽）青島.jpg', 'drink'),
+	(46, '藍妹（大樽）', '蓝妹（大瓶）', 'Blue Girl Beer(Large)', 28, 'Y', '（大樽）藍妹.jpg', 'drink'),
+	(47, '江小白（支）', '江小白（支）', 'Jiang Xiaobai(Bottle)', 58, 'Y', '江小白.jpg', 'drink'),
+	(48, 'Hoegaarden（支）', '豪格登（支）', 'Hoegaarden(Bottle)', 42, 'Y', 'Hoegaarden.jpg', 'drink'),
+	(49, '雪花啤酒（支）', '雪花啤酒（支）', 'Snow Beer(Bottle)', 20, 'Y', '雪花啤酒.jpg', 'drink'),
+	(50, '哈爾濱啤酒（支）', '哈尔滨啤酒（支）', 'Harbin Beer(Bottle)', 25, 'Y', '哈爾濱啤酒.jpg', 'drink'),
+	(51, '生力黑啤（大樽）', '生力黑啤（大瓶）', 'San Miguel Cerveza Negra(Large)', 38, 'Y', '（大樽）生力黑啤.jpg', 'drink'),
+	(52, '真露燒酒（支）', '真露烧酒（支）', 'Jinro-Clhamisul Soju(Bottle)', 40, 'Y', '真露燒酒.jpg', 'drink'),
+	(53, '萵筍（份）', '莴笋（份）', 'Celtuce(A Serving)', 38, 'Y', '萵筍.jpg', 'side_dish'),
+	(54, '淮山（份）', '山药（份）', 'Common Yam Rhizome(A Serving)', 38, 'Y', '淮山.jpg', 'side_dish'),
+	(55, '鮮木耳（份）', '鲜木耳（份）', 'Wood Ear(A Serving)', 28, 'Y', '鮮木耳.jpg', 'side_dish'),
+	(56, '油麥菜（份）', '油麦菜（份）', 'Indian Lettuce(A Serving)', 28, 'Y', '油麥菜.jpg', 'side_dish'),
+	(57, '娃娃菜（份）', '娃娃菜（份）', 'Baby Cabbage(A Serving)', 28, 'Y', '娃娃菜.jpg', 'side_dish'),
+	(58, '豆卜（份）', '豆卜（份）', 'Tofu Puff(A Serving)', 38, 'Y', '豆卜.jpg', 'side_dish'),
+	(59, '幼薯粉（份）', '幼薯粉（份）', 'Potato Starch Noodles(A Serving)', 28, 'Y', '幼薯粉.jpg', 'side_dish'),
+	(60, '豬紅（份）', '猪红（份）', 'Curdled Pig''s Blood(A Serving)', 28, 'Y', '豬紅.jpg', 'side_dish'),
+	(61, '黑椒牛丸（份）', '黑椒牛丸（份）', 'Black Pepper Beef(A Serving)', 45, 'Y', '黑椒牛丸.jpg', 'side_dish'),
+	(62, '牛肉丸（份）', '牛肉丸（份）', 'Beef Ball(A Serving)', 45, 'Y', '牛肉丸.jpg', 'side_dish'),
+	(63, '豬肉丸（份）', '猪肉丸（份）', 'Pork Ball(A Serving)', 45, 'Y', '豬肉丸.jpg', 'side_dish'),
+	(64, '牛筋丸（份）', '牛筋丸（份）', 'Beef Tendon Ball(A Serving)', 45, 'Y', '牛筋丸.jpg', 'side_dish'),
+	(65, '芝士丸（份）', '芝士丸（份）', 'Fish Ball with Cheese Stuffing(A Serving)', 45, 'Y', '芝士丸.jpg', 'side_dish'),
+	(66, '墨魚丸（份）', '墨鱼丸（份）', 'Cuttlefish Flavour Fish Ball(A Serving)', 45, 'Y', '墨魚丸.jpg', 'side_dish'),
+	(67, '花枝丸（份）', '花枝丸（份）', 'Cuttlefish Flavour Fish Ball in Taiwanese Style(A Serving)', 45, 'Y', '花枝丸.jpg', 'side_dish'),
+	(68, '芝士腸（份）', '芝士肠（份）', 'Cheese Cocktail Sausage(A Serving)', 42, 'Y', '芝士腸.jpg', 'side_dish'),
+	(69, '肥牛（份）', '肥牛（份）', 'Sliced Beef(A Serving)', 58, 'Y', '肥牛.jpg', 'side_dish'),
+	(70, '午餐肉（份）', '午餐肉（份）', 'Luncheon(A Serving)', 42, 'Y', '午餐肉.jpg', 'side_dish'),
+	(71, '酸豆角（份）', '酸豆角（份）', 'Sour Chinese Long Bean(A Serving)', 38, 'Y', '酸豆角.jpg', 'side_dish'),
+	(72, '魚卜（份）', '鱼卜（份）', 'Fish Maw(A Serving)', 68, 'Y', '魚卜.jpg', 'side_dish'),
+	(73, '肥腸（份）', '肥肠（份）', 'Pig Intestine(A Serving)', 88, 'Y', '肥腸.jpg', 'side_dish'),
+	(74, '土豆片（份）', '土豆片（份）', 'Potato Chips(A Serving)', 28, 'Y', '土豆片.jpg', 'side_dish'),
+	(75, '藕片（份）', '藕片（份）', 'Lotus Root Slices(A Serving)', 38, 'Y', '藕片.jpg', 'side_dish'),
+	(76, '腐竹（份）', '腐竹（份）', 'Dried Beancurd Sticks(A Serving)', 38, 'Y', '腐竹.jpg', 'side_dish'),
+	(77, '海帶（份）', '海带（份）', 'Kelp(A Serving)', 28, 'Y', '海帶.jpg', 'side_dish'),
+	(78, '生菜（份）', '生菜（份）', 'Lettuce(A Serving)', 28, 'Y', '生菜.jpg', 'side_dish'),
+	(79, '洋蔥（份）', '洋葱（份）', 'Onion(A Serving)', 38, 'Y', '洋蔥.jpg', 'side_dish'),
+	(80, '豆腐（份）', '豆腐（份）', 'Tofu(A Serving)', 28, 'Y', '豆腐.jpg', 'side_dish'),
+	(81, '寬粉（份）', '宽粉（份）', 'Wide Rice Noodles(A Serving)', 28, 'Y', '寬粉.jpg', 'side_dish'),
+	(82, '魔芋（份）', '魔芋（份）', 'Konjac(A Serving)', 38, 'Y', '魔芋.jpg', 'side_dish'),
+	(83, '貢丸（份）', '贡丸（份）', 'Gongwan Meatballs(A Serving)', 45, 'Y', '貢丸.jpg', 'side_dish'),
+	(84, '手切牛肉（份）', '手切牛肉（份）', 'Hand-Sliced Beef(A Serving)', 168, 'Y', '手切牛肉.jpg', 'side_dish'),
+	(85, '豆皮（份）', '豆皮（份）', 'Tofu Skin(A Serving)', 38, 'Y', '豆皮.jpg', 'side_dish'),
+	(86, '腰花（份）', '腰花（份）', 'Pork Kidney(A Serving)', 58, 'Y', '腰花.jpg', 'side_dish'),
+	(87, '兒菜（份）', '儿菜（份）', 'B. j. var. Gemminfera(A Serving)', 38, 'Y', '兒菜.jpg', 'side_dish'),
+	(88, '豬潤（份）', '猪润（份）', 'Pork Liver(A Serving)', 48, 'Y', '豬潤.jpg', 'side_dish'),
+	(89, '牛百葉（份）', '牛百叶（份）', 'Beef Omasum(A Serving)', 58, 'Y', '牛百葉.jpg', 'side_dish'),
+	(90, '雞腎（份）', '鸡肾（份）', 'Chicken Gizzard(A Serving)', 48, 'Y', '雞腎.jpg', 'side_dish'),
+	(91, '清江魚（例）', '清江鱼（例）', 'Steamed Mandarin Fish(Portion)', 378, 'Y', '清江魚.jpg', 'signature_dish'),
+	(92, '紙包魚（大）', '纸包鱼（大）', 'Steamed Fish in Paper (Large)', 238, 'Y', '紙包魚(大).jpg', 'signature_dish'),
+	(93, '紙包魚（小）', '纸包鱼（小）', 'Steamed Fish in Paper (Small)', 218, 'Y', '紙包魚(小).jpg', 'signature_dish'),
+	(94, '紙包魚（整條）', '纸包鱼（整条）', 'Steamed Fish in Paper (1 piece)', 408, 'Y', '紙包魚(整條).jpg', 'signature_dish'),
+	(95, '紙包海鱸魚（整條）', '纸包海鲈鱼（整条）', 'Steamed Sea Bass in Paper (1 piece)', 378, 'Y', '紙包海鱸魚(整條).jpg', 'signature_dish'),
+	(96, '酸菜魚（半條）', '酸菜鱼（半条）', 'Sour and Spicy Fish (Half fish)', 268, 'Y', '酸菜魚(半條).jpg', 'signature_dish'),
+	(97, '金湯魚片（份）', '金汤鱼片（份）', 'Fish Fillet in Golden Soup', 268, 'Y', '金湯魚片.jpg', 'signature_dish'),
+	(98, '水煮魚（整條）', '水煮鱼（整条）', 'Boiled Fish (Whole fish)', 468, 'Y', '水煮魚(整條).jpg', 'signature_dish'),
+	(99, '水煮魚（半條）', '水煮鱼（半条）', 'Boiled Fish (Half fish)', 268, 'Y', '水煮魚(半條).jpg', 'signature_dish'),
+	(100, '酸菜魚（整條）', '酸菜鱼（整条）', 'Sour and Spicy Fish (Whole fish)', 468, 'Y', '酸菜魚(整條).jpg', 'signature_dish'),
+	(101, '酸菜魚（半條）', '酸菜鱼（半条）', 'Sour and Spicy Fish (Half fish)', 268, 'Y', '酸菜魚(半條).jpg', 'signature_dish'),
+	(102, '酸菜海鱸魚（整條）', '酸菜海鲈鱼（整条）', 'Sour and Spicy Sea Bass (Whole fish)', 468, 'Y', '酸菜海鱸魚(整條).jpg', 'signature_dish'),
+	(103, '酸菜海鱸魚（半條）', '酸菜海鲈鱼（半条）', 'Sour and Spicy Sea Bass (Half fish)', 268, 'Y', '酸菜海鱸魚(半條).jpg', 'signature_dish'),
+	(104, '金湯海鱸魚（例）', '金汤海鲈鱼（例）', 'Sea Bass in Golden Soup (Portion)', 238, 'Y', '金湯海鱸魚(例).jpg', 'signature_dish'),
+	(105, '水煮海鱸魚（整條）', '水煮海鲈鱼（整条）', 'Boiled Sea Bass (Whole fish)', 468, 'Y', '水煮海鱸魚(整條).jpg', 'signature_dish'),
+	(106, '水煮海鱸魚（半條）', '水煮海鲈鱼（半条）', 'Boiled Sea Bass (Half fish)', 238, 'Y', '水煮海鱸魚(半條).jpg', 'signature_dish'),
+	(107, '毛血旺（例）', '毛血旺（例）', 'Spicy Hot Pot with Blood Curd(Portion)', 158, 'Y', '毛血旺.jpg', 'signature_dish'),
+	(108, '麻辣蝦（例）', '麻辣虾（例）', 'Spicy Sichuan Shrimp(Portion)', 188, 'Y', '麻辣蝦.jpg', 'signature_dish'),
+	(109, '水煮牛肉（例）', '水煮牛肉（例）', 'Boiled Beef Slices(Portion)', 198, 'Y', '水煮牛肉.jpg', 'signature_dish'),
+	(110, '水煮肥牛（例）', '水煮肥牛（例）', 'Boiled Sliced Beef Brisket(Portion)', 158, 'Y', '水煮肥牛.jpg', 'signature_dish'),
+	(111, '水煮田雞（例）', '水煮田鸡（例）', 'Boiled Frog(Portion)', 168, 'Y', '水煮田雞.jpg', 'signature_dish'),
+	(112, '水煮肉片（例）', '水煮肉片（例）', 'Boiled Pork Slices(Portion)', 198, 'Y', '水煮肉片.jpg', 'signature_dish'),
+	(113, '啤酒鴨（整隻）', '啤酒鸭（整只）', 'Beer Duck (Whole duck)', 318, 'Y', '啤酒鴨(整隻).jpg', 'signature_dish'),
+	(114, '啤酒鴨（半隻）', '啤酒鸭（半只）', 'Beer Duck (Half duck)', 188, 'Y', '啤酒鴨(半隻).jpg', 'signature_dish'),
+	(115, '奇味雞煲（整隻）', '奇味鸡煲（整只）', 'Flavorful Chicken Hot Pot (Whole Chicken)', 268, 'Y', '奇味雞煲(整隻).jpg', 'signature_dish'),
+	(116, '奇味雞煲（半隻）', '奇味鸡煲（半只）', 'Flavorful Chicken Hot Pot (Half Chicken)', 158, 'Y', '奇味雞煲(半隻).jpg', 'signature_dish'),
+	(117, '麻辣雞煲（整隻）', '麻辣鸡煲（整只）', 'Spicy Chicken Hot Pot (Whole Chicken)', 268, 'Y', '麻辣雞煲(整隻).jpg', 'signature_dish'),
+	(118, '麻辣雞煲（半隻）', '麻辣鸡煲（半只）', 'Spicy Chicken Hot Pot (Half Chicken)', 158, 'Y', '麻辣雞煲(半隻).jpg', 'signature_dish'),
+	(119, '紅油抄手（份）', '红油抄手（份）', 'Wonton Soup in Hot and Spicy Sauce(A Serving)', 35, 'Y', '紅油抄手.jpg', 'staple_food'),
+	(120, '重慶酸辣粉（碗）', '重庆酸辣粉（碗）', 'Chongqing Hot and Sour Rice Noodles(Bowl)', 26, 'Y', '重慶酸辣粉.jpg', 'staple_food'),
+	(121, '重慶酸辣麵（碗）', '重庆酸辣面（碗）', 'Chongqing Hot and Sour Noodles(Bowl)', 26, 'Y', '重慶酸辣麵.jpg', 'staple_food'),
+	(122, '白飯（碗）', '白饭（碗）', 'Rice(Bowl)', 10, 'Y', '白飯.jpg', 'staple_food'),
+	(123, '蛋炒飯（份）', '蛋炒饭（份）', 'Egg Fried Rice(A Serving)', 26, 'Y', '蛋炒飯.jpg', 'staple_food'),
+	(124, '螞蟻上樹（份）', '蚂蚁上树（份）', 'spicy vermicelli stir-fry(A Serving)', 58, 'Y', '螞蟻上樹.jpg', 'stir_fry'),
+	(125, '辣子雞（例）', '辣子鸡（例）', 'Spicy Chicken(Portion)', 158, 'Y', '辣子雞.jpg', 'stir_fry'),
+	(126, '尖椒雞（半隻）', '尖椒鸡（半只）', 'Half Spicy Chicken with Bell Peppers(Whole Chicken)', 178, 'Y', '尖椒雞(半隻).jpg', 'stir_fry'),
+	(127, '尖椒雞（整隻）', '尖椒鸡（整只）', 'Whole Spicy Chicken with Bell Peppers(Half Chicken)', 318, 'Y', '尖椒雞(整隻).jpg', 'stir_fry'),
+	(128, '梅菜扣肉（份）', '梅菜扣肉（份）', 'Braised Pork Belly with Preserved Mustard Greens(A Serving)', 88, 'Y', '梅菜扣肉.jpg', 'stir_fry'),
+	(129, '西芹炒豆干（份）', '西芹炒豆干（份）', 'Stir Fried Celery with Tofu(A Serving)', 78, 'Y', '西芹炒豆干.jpg', 'stir_fry'),
+	(130, '酸豆角炒豆干（份）', '酸豆角炒豆干（份）', 'Stir Fried Green Beans with Tofu and Pickled Green Beans(A Serving)', 78, 'Y', '酸豆角炒豆干.jpg', 'stir_fry'),
+	(131, '粉蒸肉（份）', '粉蒸肉（份）', 'Steamed Pork with Rice Flour(A Serving)', 88, 'Y', '粉蒸肉.jpg', 'stir_fry'),
+	(132, '尖椒豬肚（份）', '尖椒猪肚（份）', 'Stir Fried Pork Stomach with Bell Peppers(A Serving)', 88, 'Y', '尖椒豬肚.jpg', 'stir_fry'),
+	(133, '白油肚條（份）', '白油肚条（份）', 'Stir Fried Pork Tripe in White Sauce(A Serving)', 88, 'Y', '白油肚條.jpg', 'stir_fry'),
+	(134, '辣子雞軟骨（份）', '辣子鸡软骨（份）', 'Spicy Chicken Cartilage(A Serving)', 168, 'Y', '辣子雞軟骨.jpg', 'stir_fry'),
+	(135, '干煸肥腸（份）', '干煸肥肠（份）', 'Stir Fried Pig Intestine(A Serving)', 168, 'Y', '干煸肥腸.jpg', 'stir_fry'),
+	(136, '大碗花菜（份）', '大碗花菜（份）', 'Stir Fried Cauliflower(A Serving)', 78, 'Y', '大碗花菜.jpg', 'stir_fry'),
+	(137, '干煸耗兒魚（份）', '干煸耗儿鱼（份）', 'Stir Fried Dried Fish(A Serving)', 168, 'Y', '干煸耗兒魚.jpg', 'stir_fry'),
+	(138, '鹹蛋黃土豆絲（份）', '咸蛋黄土豆丝（份）', 'Salted Egg Yolk Shredded Potatoes(A Serving)', 78, 'Y', '鹹蛋黃土豆絲.jpg', 'stir_fry'),
+	(139, '鹹蛋黃炒蝦（份）', '咸蛋黄炒虾（份）', 'Salted Egg Yolk Stir Fried Shrimp(A Serving)', 188, 'Y', '鹹蛋黃炒蝦.jpg', 'stir_fry'),
+	(140, '家常豆腐（份）', '家常豆腐（份）', 'Home-style Tofu(A Serving)', 78, 'Y', '家常豆腐.jpg', 'stir_fry'),
+	(141, '清炒兒菜（份）', '清炒儿菜（份）', 'Stir Fried Baby Vegetables(A Serving)', 78, 'Y', '清炒兒菜.jpg', 'stir_fry'),
+	(142, '清炒土豆絲（份）', '清炒土豆丝（份）', 'Stir Fried Shredded Potatoes(A Serving)', 68, 'Y', '清炒土豆絲.jpg', 'stir_fry'),
+	(143, '熗炒土豆絲（份）', '炝炒土豆丝（份）', 'Stir Fried Shredded Potatoes(A Serving)', 68, 'Y', '熗炒土豆絲.jpg', 'stir_fry'),
+	(144, '清炒娃娃菜（份）', '清炒娃娃菜（份）', 'Stir Fried Baby Bok Choy(A Serving)', 68, 'Y', '清炒娃娃菜.jpg', 'stir_fry'),
+	(145, '熗炒娃娃菜（份）', '炝炒娃娃菜（份）', 'Stir Fried Baby Bok Choy(A Serving)', 68, 'Y', '熗炒娃娃菜.jpg', 'stir_fry'),
+	(146, '手撕包菜（份）', '手撕包菜（份）', 'Hand-Torn Cabbage(A Serving)', 68, 'Y', '手撕包菜.jpg', 'stir_fry'),
+	(147, '蒜苗炒臘肉（份）', '蒜苗炒腊肉（份）', 'Stir Fried Garlic Sprouts with Bacon(A Serving)', 98, 'Y', '蒜苗炒臘肉.jpg', 'stir_fry'),
+	(148, '番茄炒蛋（份）', '番茄炒蛋（份）', 'Stir Fried Tomatoes with Eggs(A Serving)', 68, 'Y', '番茄炒蛋.jpg', 'stir_fry'),
+	(149, '麻婆豆腐（份）', '麻婆豆腐（份）', 'Mapo Tofu(A Serving)', 68, 'Y', '麻婆豆腐.jpg', 'stir_fry'),
+	(150, '干煸四季豆（份）', '干煸四季豆（份）', 'Dry-Fried Green Beans(A Serving)', 78, 'Y', '干煸四季豆.jpg', 'stir_fry'),
+	(151, '川式回鍋肉（份）', '川式回锅肉（份）', 'Sichuan Twice-Cooked Pork(A Serving)', 88, 'Y', '川式回鍋肉.jpg', 'stir_fry'),
+	(152, '豆豉鯪魚油麥菜（份）', '豆豉鲮鱼油麦菜（份）', 'Stir Fried Water Spinach with Fermented Black Beans and Silver Fish(A Serving)', 78, 'Y', '豆豉鯪魚油麥菜.jpg', 'stir_fry'),
+	(153, '清炒時蔬（份）', '清炒时蔬（份）', 'Stir Fried Seasonal Vegetables(A Serving)', 68, 'Y', '清炒時蔬.jpg', 'stir_fry'),
+	(154, '酸豆角肉沫（份）', '酸豆角肉沫（份）', 'Stir Fried Minced Pork with Pickled Green Beans(A Serving)', 78, 'Y', '酸豆角肉沫.jpg', 'stir_fry'),
+	(155, '泡椒雞腎（份）', '泡椒鸡肾（份）', 'Stir Fried Chicken Kidneys with Pickled Peppers(A Serving)', 78, 'Y', '泡椒雞腎.jpg', 'stir_fry'),
+	(156, '萵筍炒肉絲（份）', '莴笋炒肉丝（份）', 'Stir Fried Pork with Lettuce Stem(A Serving)', 88, 'Y', '萵筍炒肉絲.jpg', 'stir_fry'),
+	(157, '清炒萵筍絲（份）', '清炒莴笋丝（份）', 'Stir Fried Shredded Lettuce Stem(A Serving)', 78, 'Y', '清炒萵筍絲.jpg', 'stir_fry'),
+	(158, '花菜炒臘肉（份）', '花菜炒腊肉（份）', 'Stir Fried Cauliflower with Bacon(A Serving)', 98, 'Y', '花菜炒臘肉.jpg', 'stir_fry'),
+	(159, '兒菜炒臘肉（份）', '儿菜炒腊肉（份）', 'Stir Fried Baby Bok Choy with Bacon(A Serving)', 98, 'Y', '兒菜炒臘肉.jpg', 'stir_fry'),
+	(160, '酸辣土豆絲（份）', '酸辣土豆丝（份）', 'Spicy and Sour Shredded Potatoes(A Serving)', 68, 'Y', '酸辣土豆絲.jpg', 'stir_fry'),
+	(161, '薑蔥雪花牛肉（份）', '姜葱雪花牛肉（份）', 'Ginger and Scallion Beef(A Serving)', 198, 'Y', '薑蔥雪花牛肉.jpg', 'stir_fry'),
+	(162, '夾沙肉（份）', '夹沙肉（份）', 'Stuffed Belly Pork(A Serving)', 88, 'Y', '夾沙肉.jpg', 'stir_fry'),
+	(163, '淮山炒木耳（份）', '淮山炒木耳（份）', 'Stir Fried Huai Shan with Black Fungus(A Serving)', 78, 'Y', '淮山炒木耳.jpg', 'stir_fry'),
+	(164, '農家小炒肉（份）', '农家小炒肉（份）', 'Home-style Stir Fried Pork(A Serving)', 88, 'Y', '農家小炒肉.jpg', 'stir_fry'),
+	(165, '藕片炒肉（份）', '藕片炒肉（份）', 'Stir Fried Lotus Root Slices with Pork(A Serving)', 88, 'Y', '藕片炒肉.jpg', 'stir_fry'),
+	(166, '青椒炒肉（份）', '青椒炒肉（份）', 'Stir Fried Green Peppers with Pork(A Serving)', 68, 'Y', '青椒炒肉.jpg', 'stir_fry'),
+	(167, '苦瓜炒肉（份）', '苦瓜炒肉（份）', 'Stir Fried Bitter Melon with Pork(A Serving)', 88, 'Y', '苦瓜炒肉.jpg', 'stir_fry');
 
-DROP TABLE IF EXISTS `menuitem_customoptions`;
-CREATE TABLE `menuitem_customoptions` (
-  `id` int(11) NOT NULL,
-  `menu_item_id` int(11) NOT NULL,
-  `custom_option_id` int(11) NOT NULL
+CREATE TABLE `custom_option` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name_Zh_HK` varchar(255) NOT NULL,
+  `name_Zh_CN` varchar(255) NOT NULL,
+  `name_Us_EN` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `custom_option_unique_(name_Zh_HK)` (`name_Zh_HK`),
+  UNIQUE KEY `custom_option_unique_(name_Zh_CN)` (`name_Zh_CN`),
+  UNIQUE KEY `custom_option_unique_(name_Us_EN)` (`name_Us_EN`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `menuitem_customoptions` (`id`, `menu_item_id`, `custom_option_id`) VALUES
-(1, 1, 1),
-(2, 1, 2),
-(3, 1, 3),
-(4, 2, 1),
-(5, 2, 2),
-(6, 3, 1),
-(7, 4, 1);
+INSERT INTO `custom_option` (`id` ,`name_Zh_HK`, `name_Zh_CN`, `name_Us_EN`) VALUES
+	(1, '辣度', '辣度', 'Spicy Level'),
+	(2, '洋葱', '洋葱', 'Onion'),
+	(3, '芫荽', '香菜', 'Coriander'),
+  (4, '口味', '口味', 'Flavor'),
+  (5, '鹽', '盐', 'Salt'),
+  (6, '油', '油', 'Oil');
 
-DROP TABLE IF EXISTS `order`;
+CREATE TABLE `custom_option_value` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `custom_option_id` int(11) NOT NULL,
+  `value_Zh_HK` varchar(255) NOT NULL,
+  `value_Zh_CN` varchar(255) NOT NULL,
+  `value_Us_EN` varchar(255) NOT NULL,
+  `price_adjustment` decimal(10,2) DEFAULT 0.00,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `custom_option_value_unique(value_Zh_HK)` (`value_Zh_HK`),
+  UNIQUE KEY `custom_option_value_unique(value_Zh_CN)` (`value_Zh_CN`),
+  UNIQUE KEY `custom_option_value_unique(value_Us_EN)` (`value_Us_EN`),
+  KEY `custom_option_id` (`custom_option_id`),
+  CONSTRAINT `custom_option_value_ibfk_1` FOREIGN KEY (`custom_option_id`) REFERENCES `custom_option` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO `custom_option_value` (`custom_option_id`, `value_Zh_HK`, `value_Zh_CN`, `value_Us_EN`, `price_adjustment`) VALUES
+	(1, '不辣', '不辣', 'Not Spicy', 0),
+	(1, '微辣', '微辣', 'Mild Spicy', 0),
+	(1, '特辣', '特辣', 'Extra Spicy', 0),
+	(2, '額外洋葱', '额外洋葱', 'Extra Onion', 0),
+	(2, '沒有洋葱', '没有洋葱', 'No Onion', 0),
+	(3, '額外芫荽', '额外香菜', 'Extra Coriander', 0),
+	(3, '沒有芫荽', '没有香菜', 'No Coriander', 0),
+  (4, '乾點', '干点', 'Dry Style', 0),
+  (4, '濕點', '湿点', 'Wet Style', 0),
+  (5, '多鹽', '多盐', 'More Salt', 0),
+  (5, '少鹽', '少盐', 'Less Salt', 0),
+  (6, '多油', '多油', 'More Oil', 0),
+  (6, '少油', '少油', 'Less Oil', 0);
+
+
+CREATE TABLE `menuitem_customoptions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `menu_item_id` int(11) NOT NULL,
+  `custom_option_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `menu_item_id` (`menu_item_id`),
+  KEY `custom_option_id` (`custom_option_id`),
+  CONSTRAINT `menuitem_customoptions_ibfk_1` FOREIGN KEY (`menu_item_id`) REFERENCES `menu` (`id`),
+  CONSTRAINT `menuitem_customoptions_ibfk_2` FOREIGN KEY (`custom_option_id`) REFERENCES `custom_option` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO `menuItem_customOptions` (`menu_item_id`, `custom_option_id`) VALUES
+    (1, 1), (1, 2), (1, 3), (1, 4), (1, 5), (1, 6),
+    (2, 1), (2, 2), (2, 3), (2, 4), (2, 5), (2, 6),
+    (3, 1), (3, 2), (3, 3), (3, 4), (3, 5), (3, 6),
+    (4, 1), (4, 2), (4, 3), (4, 4), (4, 5), (4, 6),
+    (5, 1), (5, 2), (5, 3), (5, 4), (5, 5), (5, 6),
+    (6, 1), (6, 2), (6, 3), (6, 4), (6, 5), (6, 6),
+    (7, 1), (7, 2), (7, 3), (7, 4), (7, 5), (7, 6),
+    (8, 1), (8, 2), (8, 3), (8, 4), (8, 5), (8, 6),
+    (9, 1), (9, 2), (9, 3), (9, 4), (9, 5), (9, 6),
+    (10, 1), (10, 2), (10, 3), (10, 4), (10, 5), (10, 6),
+    (11, 1), (11, 2), (11, 3), (11, 4), (11, 5), (11, 6),
+    (12, 1), (12, 2), (12, 3), (12, 4), (12, 5), (12, 6),
+    (13, 1), (13, 2), (13, 3), (13, 4), (13, 5), (13, 6),
+    (14, 1), (14, 2), (14, 3), (14, 4), (14, 5), (14, 6),
+    (15, 1), (15, 2), (15, 3), (15, 4), (15, 5), (15, 6),
+    (16, 1), (16, 2), (16, 3), (16, 4), (16, 5), (16, 6),
+    (17, 1), (17, 2), (17, 3), (17, 4), (17, 5), (17, 6),
+    (18, 1), (18, 2), (18, 3), (18, 4), (18, 5), (18, 6),
+    (19, 1), (19, 2), (19, 3), (19, 4), (19, 5), (19, 6),
+    (20, 1), (20, 2), (20, 3), (20, 4), (20, 5), (20, 6),
+    (21, 1), (21, 2), (21, 3), (21, 4), (21, 5), (21, 6),
+    (22, 1), (22, 2), (22, 3), (22, 4), (22, 5), (22, 6),
+    (24, 1), (24, 2), (24, 3), (24, 4), (24, 5), (24, 6),
+    (25, 1), (25, 2), (25, 3), (25, 4), (25, 5), (25, 6),
+    (26, 1), (26, 2), (26, 3), (26, 4), (26, 5), (26, 6),
+    (27, 1), (27, 2), (27, 3), (27, 4), (27, 5), (27, 6),
+    (28, 1), (28, 2), (28, 3), (28, 4), (28, 5), (28, 6),
+    (29, 1), (29, 2), (29, 3), (29, 4), (29, 5), (29, 6),
+    (30, 1), (30, 2), (30, 3), (30, 4), (30, 5), (30, 6),
+    (91, 1), (91, 2), (91, 3), (91, 4), (91, 5), (91, 6),
+    (92, 1), (92, 2), (92, 3), (92, 4), (92, 5), (92, 6),
+    (93, 1), (93, 2), (93, 3), (93, 4), (93, 5), (93, 6),
+    (94, 1), (94, 2), (94, 3), (94, 4), (94, 5), (94, 6),
+    (95, 1), (95, 2), (95, 3), (95, 4), (95, 5), (95, 6),
+    (96, 1), (96, 2), (96, 3), (96, 4), (96, 5), (96, 6),
+    (97, 1), (97, 2), (97, 3), (97, 4), (97, 5), (97, 6),
+    (98, 1), (98, 2), (98, 3), (98, 4), (98, 5), (98, 6),
+    (99, 1), (99, 2), (99, 3), (99, 4), (99, 5), (99, 6),
+    (100, 1), (100, 2), (100, 3), (100, 4), (100, 5), (100, 6),
+    (101, 1), (101, 2), (101, 3), (101, 4), (101, 5), (101, 6),
+    (102, 1), (102, 2), (102, 3), (102, 4), (102, 5), (102, 6),
+    (103, 1), (103, 2), (103, 3), (103, 4), (103, 5), (103, 6),
+    (104, 1), (104, 2), (104, 3), (104, 4), (104, 5), (104, 6),
+    (105, 1), (105, 2), (105, 3), (105, 4), (105, 5), (105, 6),
+    (106, 1), (106, 2), (106, 3), (106, 4), (106, 5), (106, 6),
+    (107, 1), (107, 2), (107, 3), (107, 4), (107, 5), (107, 6),
+    (108, 1), (108, 2), (108, 3), (108, 4), (108, 5), (108, 6),
+    (109, 1), (109, 2), (109, 3), (109, 4), (109, 5), (109, 6),
+    (110, 1), (110, 2), (110, 3), (110, 4), (110, 5), (110, 6),
+    (111, 1), (111, 2), (111, 3), (111, 4), (111, 5), (111, 6),
+    (112, 1), (112, 2), (112, 3), (112, 4), (112, 5), (112, 6),
+    (113, 1), (113, 2), (113, 3), (113, 4), (113, 5), (113, 6),
+    (114, 1), (114, 2), (114, 3), (114, 4), (114, 5), (114, 6),
+    (115, 1), (115, 2), (115, 3), (115, 4), (115, 5), (115, 6),
+    (116, 1), (116, 2), (116, 3), (116, 4), (116, 5), (116, 6),
+    (117, 1), (117, 2), (117, 3), (117, 4), (117, 5), (117, 6),
+    (118, 1), (118, 2), (118, 3), (118, 4), (118, 5), (118, 6),
+    (119, 1), (119, 2), (119, 3), (119, 4), (119, 5), (119, 6),
+    (120, 1), (120, 2), (120, 3), (120, 4), (120, 5), (120, 6),
+    (121, 1), (121, 2), (121, 3), (121, 4), (121, 5), (121, 6),
+    (123, 1), (123, 2), (123, 3), (123, 4), (123, 5), (123, 6),
+    (124, 1), (124, 2), (124, 3), (124, 4), (124, 5), (124, 6),
+    (125, 1), (125, 2), (125, 3), (125, 4), (125, 5), (125, 6),
+    (126, 1), (126, 2), (126, 3), (126, 4), (126, 5), (126, 6),
+    (127, 1), (127, 2), (127, 3), (127, 4), (127, 5), (127, 6),
+    (128, 1), (128, 2), (128, 3), (128, 4), (128, 5), (128, 6),
+    (129, 1), (129, 2), (129, 3), (129, 4), (129, 5), (129, 6),
+    (130, 1), (130, 2), (130, 3), (130, 4), (130, 5), (130, 6),
+    (131, 1), (131, 2), (131, 3), (131, 4), (131, 5), (131, 6),
+    (132, 1), (132, 2), (132, 3), (132, 4), (132, 5), (132, 6),
+    (133, 1), (133, 2), (133, 3), (133, 4), (133, 5), (133, 6),
+    (134, 1), (134, 2), (134, 3), (134, 4), (134, 5), (134, 6),
+    (135, 1), (135, 2), (135, 3), (135, 4), (135, 5), (135, 6),
+    (136, 1), (136, 2), (136, 3), (136, 4), (136, 5), (136, 6),
+    (137, 1), (137, 2), (137, 3), (137, 4), (137, 5), (137, 6),
+    (138, 1), (138, 2), (138, 3), (138, 4), (138, 5), (138, 6),
+    (139, 1), (139, 2), (139, 3), (139, 4), (139, 5), (139, 6),
+    (140, 1), (140, 2), (140, 3), (140, 4), (140, 5), (140, 6),
+     (141, 2), (141, 3), (141, 4), (141, 5), (141, 6),
+     (142, 2), (142, 3), (142, 4), (142, 5), (142, 6),
+    (143, 1), (143, 2), (143, 3), (143, 4), (143, 5), (143, 6),
+     (144, 2), (144, 3), (144, 4), (144, 5), (144, 6),
+    (145, 1), (145, 2), (145, 3), (145, 4), (145, 5), (145, 6),
+    (146, 1), (146, 2), (146, 3), (146, 4), (146, 5), (146, 6),
+    (147, 1), (147, 2), (147, 3), (147, 4), (147, 5), (147, 6),
+    (148, 1), (148, 2), (148, 3), (148, 4), (148, 5), (148, 6),
+    (149, 1), (149, 2), (149, 3), (149, 4), (149, 5), (149, 6),
+    (150, 1), (150, 2), (150, 3), (150, 4), (150, 5), (150, 6),
+    (151, 1), (151, 2), (151, 3), (151, 4), (151, 5), (151, 6),
+    (152, 1), (152, 2), (152, 3), (152, 4), (152, 5), (152, 6),
+     (153, 2), (153, 3), (153, 4), (153, 5), (153, 6),
+    (154, 1), (154, 2), (154, 3), (154, 4), (154, 5), (154, 6),
+    (155, 1), (155, 2), (155, 3), (155, 4), (155, 5), (155, 6),
+    (156, 1), (156, 2), (156, 3), (156, 4), (156, 5), (156, 6),
+     (157, 2), (157, 3), (157, 4), (157, 5), (157, 6),
+    (158, 1), (158, 2), (158, 3), (158, 4), (158, 5), (158, 6),
+    (159, 1), (159, 2), (159, 3), (159, 4), (159, 5), (159, 6),
+    (160, 1), (160, 2), (160, 3), (160, 4), (160, 5), (160, 6),
+    (161, 1), (161, 2), (161, 3), (161, 4), (161, 5), (161, 6),
+    (162, 1), (162, 2), (162, 3), (162, 4), (162, 5), (162, 6),
+    (163, 1), (163, 2), (163, 3), (163, 4), (163, 5), (163, 6),
+    (164, 1), (164, 2), (164, 3), (164, 4), (164, 5), (164, 6),
+    (165, 1), (165, 2), (165, 3), (165, 4), (165, 5), (165, 6),
+    (166, 1), (166, 2), (166, 3), (166, 4), (166, 5), (166, 6),
+    (167, 1), (167, 2), (167, 3), (167, 4), (167, 5), (167, 6);
+
+CREATE TABLE `order_status` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `status_en_US` varchar(50) NOT NULL,
+  `status_zh_HK` varchar(50) NOT NULL,
+  `status_zh_CN` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO `order_status` (`status_en_US`, `status_zh_HK`, `status_zh_CN`) VALUES
+('Pending', '處理中', '处理中'),
+('Completed', '已完成', '已完成'),
+('Cancelled', '已取消', '已取消');
+
+
 CREATE TABLE `order` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `order_status_id` int(11) NOT NULL,
   `item_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
   `table_name` varchar(50) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `order_status_id` (`order_status_id`),
+  KEY `item_id` (`item_id`),
+  CONSTRAINT `order_fk_1` FOREIGN KEY (`order_status_id`) REFERENCES `order_status` (`id`),
+  CONSTRAINT `order_fk_2` FOREIGN KEY (`item_id`) REFERENCES `menu` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `order` (`id`, `order_status_id`, `item_id`, `quantity`, `table_name`, `created_at`, `updated_at`) VALUES
-(1, 2, 10, 3, '1', '2024-01-10 12:15:00', '2024-01-10 12:20:00'),
-(2, 2, 25, 1, '2', '2024-01-15 18:30:00', '2024-01-15 18:35:00'),
-(3, 3, 5, 2, '3', '2024-02-01 14:45:00', '2024-02-01 14:50:00'),
-(4, 1, 78, 1, '4', '2025-02-20 19:00:00', '2025-02-20 19:05:00'),
-(5, 2, 33, 5, '5', '2024-01-20 21:10:00', '2024-01-20 21:15:00'),
-(6, 1, 42, 2, '6', '2025-02-22 11:25:00', '2025-02-22 11:30:00'),
-(7, 3, 19, 1, '7', '2024-02-05 16:40:00', '2024-02-05 16:45:00'),
-(8, 2, 8, 4, '8', '2024-01-08 14:10:00', '2024-01-08 14:15:00'),
-(9, 1, 67, 3, '9', '2025-02-21 20:50:00', '2025-02-21 20:55:00'),
-(10, 2, 90, 2, '10', '2024-01-28 22:00:00', '2024-01-28 22:05:00'),
-(11, 3, 15, 2, '1', '2024-02-02 10:30:00', '2024-02-02 10:35:00'),
-(12, 1, 72, 4, '2', '2025-02-23 12:15:00', '2025-02-23 12:20:00'),
-(13, 2, 47, 1, '3', '2024-01-12 15:55:00', '2024-01-12 16:00:00'),
-(14, 2, 88, 3, '4', '2024-01-18 13:20:00', '2024-01-18 13:25:00'),
-(15, 3, 6, 2, '5', '2024-02-03 17:45:00', '2024-02-03 17:50:00'),
-(16, 2, 55, 5, '6', '2024-01-05 18:10:00', '2024-01-05 18:15:00'),
-(17, 1, 21, 1, '7', '2025-02-23 14:05:00', '2025-02-23 14:10:00'),
-(18, 3, 36, 2, '8', '2024-02-07 19:25:00', '2024-02-07 19:30:00'),
-(19, 2, 50, 4, '9', '2024-01-22 21:35:00', '2024-01-22 21:40:00'),
-(20, 1, 81, 3, '10', '2025-02-22 09:15:00', '2025-02-22 09:20:00'),
-(21, 2, 45, 2, '1', '2024-01-09 12:50:00', '2024-01-09 12:55:00'),
-(22, 2, 29, 1, '2', '2024-01-30 16:05:00', '2024-01-30 16:10:00'),
-(23, 3, 13, 2, '3', '2024-02-04 20:20:00', '2024-02-04 20:25:00'),
-(24, 1, 92, 3, '4', '2025-02-21 18:40:00', '2025-02-21 18:45:00'),
-(25, 2, 31, 4, '5', '2024-01-14 14:30:00', '2024-01-14 14:35:00'),
-(26, 1, 74, 2, '6', '2025-02-20 13:55:00', '2025-02-20 14:00:00'),
-(27, 3, 22, 1, '7', '2024-02-06 11:15:00', '2024-02-06 11:20:00'),
-(28, 2, 65, 3, '8', '2024-01-25 15:40:00', '2024-01-25 15:45:00'),
-(29, 1, 99, 2, '9', '2025-02-23 17:30:00', '2025-02-23 17:35:00'),
-(30, 2, 40, 4, '10', '2024-01-07 19:55:00', '2024-01-07 20:00:00'),
-(31, 3, 58, 2, '1', '2024-02-08 10:45:00', '2024-02-08 10:50:00'),
-(32, 1, 85, 3, '2', '2025-02-22 22:15:00', '2025-02-22 22:20:00'),
-(33, 2, 37, 1, '3', '2024-01-11 17:20:00', '2024-01-11 17:25:00'),
-(34, 2, 52, 5, '4', '2024-01-19 13:00:00', '2024-01-19 13:05:00'),
-(35, 3, 27, 2, '5', '2024-02-09 16:30:00', '2024-02-09 16:35:00'),
-(36, 2, 60, 4, '6', '2024-01-06 12:25:00', '2024-01-06 12:30:00'),
-(37, 1, 17, 2, '7', '2025-02-21 10:10:00', '2025-02-21 10:15:00'),
-(38, 3, 95, 1, '8', '2024-02-10 20:55:00', '2024-02-10 21:00:00'),
-(39, 2, 12, 4, '10', '2024-01-04 11:00:00', '2024-01-04 11:05:00'),
-(40, 1, 44, 2, '5', '2025-02-23 18:00:00', '2025-02-23 18:05:00'),
-(41, 2, 66, 5, '6', '2024-01-17 13:45:00', '2024-01-17 13:50:00'),
-(42, 3, 20, 1, '7', '2024-02-12 17:20:00', '2024-02-12 17:25:00'),
-(43, 2, 35, 3, '8', '2024-01-27 10:30:00', '2024-01-27 10:35:00'),
-(44, 1, 59, 4, '9', '2025-02-23 20:45:00', '2025-02-23 20:50:00'),
-(45, 2, 77, 2, '10', '2024-01-16 15:20:00', '2024-01-16 15:25:00'),
-(46, 1, 3, 1, '1', '2025-02-23 11:00:00', '2025-02-23 11:05:00'),
-(47, 3, 8, 5, '2', '2024-02-11 13:00:00', '2024-02-11 13:05:00'),
-(48, 2, 90, 3, '3', '2024-01-23 09:10:00', '2024-01-23 09:15:00'),
-(49, 1, 45, 4, '4', '2025-02-23 16:30:00', '2025-02-23 16:35:00'),
-(50, 2, 22, 2, '5', '2024-01-31 14:50:00', '2024-01-31 14:55:00');
-
-DROP TABLE IF EXISTS `order_status`;
-CREATE TABLE `order_status` (
-  `id` int(11) NOT NULL,
-  `status_en_US` varchar(50) NOT NULL,
-  `status_zh_HK` varchar(50) NOT NULL,
-  `status_zh_CN` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-INSERT INTO `order_status` (`id`, `status_en_US`, `status_zh_HK`, `status_zh_CN`) VALUES
-(1, 'Pending', '處理中', '处理中'),
-(2, 'Completed', '已完成', '已完成'),
-(3, 'Cancelled', '已取消', '已取消');
-
-DROP TABLE IF EXISTS `systems_profile`;
-CREATE TABLE `systems_profile` (
-  `id` int(11) NOT NULL,
-  `restaurant_name` varchar(100) NOT NULL,
-  `is_ordering_disabled` tinyint(1) NOT NULL DEFAULT 0,
-  `is_service_charge_required` tinyint(1) NOT NULL DEFAULT 0,
-  `is_factory_employee_check_required` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-INSERT INTO `systems_profile` (`id`, `restaurant_name`, `is_ordering_disabled`, `is_service_charge_required`, `is_factory_employee_check_required`) VALUES
-(1, 'BOS', 0, 0, 0);
+INSERT INTO `order` (`order_status_id`, `item_id`, `quantity`, `table_name`, `created_at`, `updated_at`) VALUES
+(2, 10, 3, '1', '2024-01-10 12:15:00', '2024-01-10 12:20:00'),
+(2, 25, 1, '2', '2024-01-15 18:30:00', '2024-01-15 18:35:00'),
+(3, 5, 2, '3', '2024-02-01 14:45:00', '2024-02-01 14:50:00'),
+(1, 78, 1, '4', '2025-02-20 19:00:00', '2025-02-20 19:05:00'),
+(2, 33, 5, '5', '2024-01-20 21:10:00', '2024-01-20 21:15:00'),
+(1, 42, 2, '6', '2025-02-22 11:25:00', '2025-02-22 11:30:00'),
+(3, 19, 1, '7', '2024-02-05 16:40:00', '2024-02-05 16:45:00'),
+(2, 8, 4, '8', '2024-01-08 14:10:00', '2024-01-08 14:15:00'),
+(1, 67, 3, '9', '2025-02-21 20:50:00', '2025-02-21 20:55:00'),
+(2, 90, 2, '10', '2024-01-28 22:00:00', '2024-01-28 22:05:00'),
+(3, 15, 2, '1', '2024-02-02 10:30:00', '2024-02-02 10:35:00'),
+(1, 72, 4, '2', '2025-02-23 12:15:00', '2025-02-23 12:20:00'),
+(2, 47, 1, '3', '2024-01-12 15:55:00', '2024-01-12 16:00:00'),
+(2, 88, 3, '4', '2024-01-18 13:20:00', '2024-01-18 13:25:00'),
+(3, 6, 2, '5', '2024-02-03 17:45:00', '2024-02-03 17:50:00'),
+(2, 55, 5, '6', '2024-01-05 18:10:00', '2024-01-05 18:15:00'),
+(1, 21, 1, '7', '2025-02-23 14:05:00', '2025-02-23 14:10:00'),
+(3, 36, 2, '8', '2024-02-07 19:25:00', '2024-02-07 19:30:00'),
+(2, 50, 4, '9', '2024-01-22 21:35:00', '2024-01-22 21:40:00'),
+(1, 81, 3, '10', '2025-02-22 09:15:00', '2025-02-22 09:20:00'),
+(2, 45, 2, '1', '2024-01-09 12:50:00', '2024-01-09 12:55:00'),
+(2, 29, 1, '2', '2024-01-30 16:05:00', '2024-01-30 16:10:00'),
+(3, 13, 2, '3', '2024-02-04 20:20:00', '2024-02-04 20:25:00'),
+(1, 92, 3, '4', '2025-02-21 18:40:00', '2025-02-21 18:45:00'),
+(2, 31, 4, '5', '2024-01-14 14:30:00', '2024-01-14 14:35:00'),
+(1, 74, 2, '6', '2025-02-20 13:55:00', '2025-02-20 14:00:00'),
+(3, 22, 1, '7', '2024-02-06 11:15:00', '2024-02-06 11:20:00'),
+(2, 65, 3, '8', '2024-01-25 15:40:00', '2024-01-25 15:45:00'),
+(1, 99, 2, '9', '2025-02-23 17:30:00', '2025-02-23 17:35:00'),
+(2, 40, 4, '10', '2024-01-07 19:55:00', '2024-01-07 20:00:00'),
+(3, 58, 2, '1', '2024-02-08 10:45:00', '2024-02-08 10:50:00'),
+(1, 85, 3, '2', '2025-02-22 22:15:00', '2025-02-22 22:20:00'),
+(2, 37, 1, '3', '2024-01-11 17:20:00', '2024-01-11 17:25:00'),
+(2, 52, 5, '4', '2024-01-19 13:00:00', '2024-01-19 13:05:00'),
+(3, 27, 2, '5', '2024-02-09 16:30:00', '2024-02-09 16:35:00'),
+(2, 60, 4, '6', '2024-01-06 12:25:00', '2024-01-06 12:30:00'),
+(1, 17, 2, '7', '2025-02-21 10:10:00', '2025-02-21 10:15:00'),
+(3, 95, 1, '8', '2024-02-10 20:55:00', '2024-02-10 21:00:00'),
+(2, 12, 4, '10', '2024-01-04 11:00:00', '2024-01-04 11:05:00'),
+(1, 44, 2, '5', '2025-02-23 18:00:00', '2025-02-23 18:05:00'),
+(2, 66, 5, '6', '2024-01-17 13:45:00', '2024-01-17 13:50:00'),
+(3, 20, 1, '7', '2024-02-12 17:20:00', '2024-02-12 17:25:00'),
+(2, 35, 3, '8', '2024-01-27 10:30:00', '2024-01-27 10:35:00'),
+(1, 59, 4, '9', '2025-02-23 20:45:00', '2025-02-23 20:50:00'),
+(2, 77, 2, '10', '2024-01-16 15:20:00', '2024-01-16 15:25:00'),
+(1, 3, 1, '1', '2025-02-23 11:00:00', '2025-02-23 11:05:00'),
+(3, 8, 5, '2', '2024-02-11 13:00:00', '2024-02-11 13:05:00'),
+(2, 90, 3, '3', '2024-01-23 09:10:00', '2024-01-23 09:15:00'),
+(1, 45, 4, '4', '2025-02-23 16:30:00', '2025-02-23 16:35:00'),
+(2, 22, 2, '5', '2024-01-31 14:50:00', '2024-01-31 14:55:00');
 
 
-ALTER TABLE `admin`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `admin_unique` (`staff_id`),
-  ADD UNIQUE KEY `admin_unique_1` (`username`),
-  ADD UNIQUE KEY `admin_unique_2` (`email`),
-  ADD UNIQUE KEY `admin_unique_3` (`phone_number`);
-
-ALTER TABLE `custom_option`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `custom_option_unique_(name_Zh_HK)` (`name_Zh_HK`),
-  ADD UNIQUE KEY `custom_option_unique_(name_Zh_CN)` (`name_Zh_CN`),
-  ADD UNIQUE KEY `custom_option_unique_(name_Us_EN)` (`name_Us_EN`);
-
-ALTER TABLE `custom_option_value`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `custom_option_value_unique(value_Zh_HK)` (`value_Zh_HK`),
-  ADD UNIQUE KEY `custom_option_value_unique(value_Zh_CN)` (`value_Zh_CN`),
-  ADD UNIQUE KEY `custom_option_value_unique(value_Us_EN)` (`value_Us_EN`),
-  ADD KEY `custom_option_id` (`custom_option_id`);
-
-ALTER TABLE `dishes_type`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `dishes_type_unique(name_Zh_HK)` (`name_Zh_HK`),
-  ADD UNIQUE KEY `dishes_type_unique(name_Zh_CN)` (`name_Zh_CN`),
-  ADD UNIQUE KEY `dishes_type_unique(name_Us_EN)` (`name_Us_EN`);
-
-ALTER TABLE `menu`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `menu_dishes_type_FK` (`type`);
-
-ALTER TABLE `menuitem_customoptions`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `menu_item_id` (`menu_item_id`),
-  ADD KEY `custom_option_id` (`custom_option_id`);
-
-ALTER TABLE `order`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `order_status_id` (`order_status_id`),
-  ADD KEY `item_id` (`item_id`);
-
-ALTER TABLE `order_status`
-  ADD PRIMARY KEY (`id`);
-
-ALTER TABLE `systems_profile`
-  ADD PRIMARY KEY (`id`);
-
-
-ALTER TABLE `admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
-ALTER TABLE `custom_option`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
-ALTER TABLE `custom_option_value`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
-ALTER TABLE `menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=168;
-
-ALTER TABLE `menuitem_customoptions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
-ALTER TABLE `order`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
-
-ALTER TABLE `order_status`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
-ALTER TABLE `systems_profile`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
-
-ALTER TABLE `custom_option_value`
-  ADD CONSTRAINT `custom_option_value_ibfk_1` FOREIGN KEY (`custom_option_id`) REFERENCES `custom_option` (`id`);
-
-ALTER TABLE `menu`
-  ADD CONSTRAINT `menu_dishes_type_FK` FOREIGN KEY (`type`) REFERENCES `dishes_type` (`id`);
-
-ALTER TABLE `menuitem_customoptions`
-  ADD CONSTRAINT `menuitem_customoptions_ibfk_1` FOREIGN KEY (`menu_item_id`) REFERENCES `menu` (`id`),
-  ADD CONSTRAINT `menuitem_customoptions_ibfk_2` FOREIGN KEY (`custom_option_id`) REFERENCES `custom_option` (`id`);
-
-ALTER TABLE `order`
-  ADD CONSTRAINT `order_fk_1` FOREIGN KEY (`order_status_id`) REFERENCES `order_status` (`id`),
-  ADD CONSTRAINT `order_fk_2` FOREIGN KEY (`item_id`) REFERENCES `menu` (`id`);
 COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
