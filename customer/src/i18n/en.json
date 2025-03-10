@@ -24,5 +24,6 @@
   "confirm_order_title": "Confirm Order",
   "confirm_order_content": "Are you sure you want to place this order? No cancellation after order is placed.",
   "order_placed_successfully": "Order placed successfully",
-  "order_placement_failed": "Order placement failed"
+  "order_placement_failed": "Order placement failed",
+  "sold_out": "Sold Out"
 }

@@ -24,5 +24,6 @@
   "confirm_order_title": "确认订单",
   "confirm_order_content": "您确定要下单吗？下单后不可取消。",
   "order_placed_successfully": "下单成功",
-  "order_placement_failed": "下单失败"
+  "order_placement_failed": "下单失败",
+  "sold_out": "售罄"
 }

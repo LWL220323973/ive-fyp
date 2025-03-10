@@ -502,6 +502,27 @@
   gap: 12px;
 }
 
+/* Styles for sold out items */
+.menu-item-card.disabled {
+  position: relative;
+}
+
+.menu-item-card.disabled::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(128, 128, 128, 0.5); /* Semi-transparent gray */
+  pointer-events: none; /* Allow clicks to pass through to underlying card */
+}
+
+.menu-item-card.disabled .menu-item-details {
+  position: relative;
+
+}
+
 .menu-item-image-container {
   width: 76px;
   height: 76px;

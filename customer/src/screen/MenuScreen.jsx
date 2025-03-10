@@ -322,13 +322,12 @@ const MenuScreen = () => {
             >
               {t(
                 cat[
-                  `name_${
-                    i18n.language === 'en'
-                      ? 'Us_En'
-                      : i18n.language === 'zh_CN'
-                      ? 'Zh_CN'
-                      : 'Zh_HK'
-                  }`
+                `name_${i18n.language === 'en'
+                  ? 'Us_En'
+                  : i18n.language === 'zh_CN'
+                    ? 'Zh_CN'
+                    : 'Zh_HK'
+                }`
                 ]
               )}
             </Button>
@@ -341,6 +340,8 @@ const MenuScreen = () => {
         <span className="table-label">{t('table_number')}:</span>
         <span className="table-value">{tableNumber || 'N/A'}</span>
       </div>
+
+
 
       <Modal
         visible={state.modalStates.itemDetail}
@@ -360,10 +361,9 @@ const MenuScreen = () => {
                 <img
                   src={state.selectedItem.imageUrl}
                   alt={state.selectedItem[
-                    `Name_${
-                      i18n.language === 'en'
-                        ? 'en_US'
-                        : i18n.language === 'zh_CN'
+                    `Name_${i18n.language === 'en'
+                      ? 'en_US'
+                      : i18n.language === 'zh_CN'
                         ? 'zh_CN'
                         : 'zh_HK'
                     }`
@@ -374,13 +374,12 @@ const MenuScreen = () => {
                 <div className="item-detail-name">
                   {
                     state.selectedItem[
-                      `name_${
-                        i18n.language === 'en'
-                          ? 'en_US'
-                          : i18n.language === 'zh_CN'
-                          ? 'zh_CN'
-                          : 'zh_HK'
-                      }`
+                    `name_${i18n.language === 'en'
+                      ? 'en_US'
+                      : i18n.language === 'zh_CN'
+                        ? 'zh_CN'
+                        : 'zh_HK'
+                    }`
                     ]
                   }
                 </div>
@@ -399,7 +398,7 @@ const MenuScreen = () => {
                 這裡可以放置自訂的內容，例如商品詳細介紹、注意事項、或額外功能。
                 如果文字很多，這個區域會出現捲動條以方便瀏覽。
                 這裡可以放置自訂的內容，例如商品詳細介紹、注意事項、或額外功能。
-  
+
               </p>
             </div>
 
@@ -429,60 +428,75 @@ const MenuScreen = () => {
         )}
       </Modal>
 
-      {/* Display grouped items by category */}
-      {Object.keys(groupedItems).map(category => (
-        <div key={category}>
-          <h2 className="category-title">
-            {categories.find(cat => cat.id === category)?.[
-              `name_${
-                i18n.language === 'en'
+      {Object.keys(groupedItems).map(category => {
+        // Sort items: items with onSale 'N' are moved to the bottom
+        const sortedItems = groupedItems[category].slice().sort((a, b) => {
+          if (a.onSale === "N" && b.onSale !== "N") return 1;
+          if (a.onSale !== "N" && b.onSale === "N") return -1;
+          return 0;
+        });
+
+        return (
+          <div key={category}>
+            <h2 className="category-title">
+              {categories.find(cat => cat.id === category)?.[
+                `name_${i18n.language === 'en'
                   ? 'Us_En'
                   : i18n.language === 'zh_CN'
-                  ? 'Zh_CN'
-                  : 'Zh_HK'
-              }`
-            ]}
-          </h2>
-          <Row gutter={[16, 16]} className="menu-items">
-            {groupedItems[category].map(item => (
-              <Col xs={24} sm={12} md={8} key={item.id}>
-                <Card hoverable className="menu-item-card" onClick={() => handleItemClick(item)}>
-                  <div className="menu-item-content">
-                    <div className="menu-item-image-container">
-                      {item.imageUrl ? (
-                        <img src={item.imageUrl} alt="" className="top-image" />
-                      ) : (
-                        <div className="menu-item-placeholder">
-                          {imageStatus[item.id] === 'loading' ? 'Loading...' : 'No Image'}
-                        </div>
-                      )}
-                    </div>
-                    <div className="menu-item-details">
-                      <h4>
-                        {
-                          item[
-                            `name_${
-                              i18n.language === 'en'
-                                ? 'en_US'
-                                : i18n.language === 'zh_CN'
+                    ? 'Zh_CN'
+                    : 'Zh_HK'
+                }`
+              ]}
+            </h2>
+            <Row gutter={[16, 16]} className="menu-items">
+              {sortedItems.map(item => (
+                <Col xs={24} sm={12} md={8} key={item.id}>
+                  <Card
+                    // Disable hover effect if not on sale
+                    hoverable={item.onSale !== "N"}
+                    // Append disabled class if item is not on sale for additional styling
+                    className={`menu-item-card ${item.onSale === "N" ? "disabled" : ""}`}
+                    onClick={() => {
+                      // Only trigger click action if item is on sale
+                      if (item.onSale !== "N") {
+                        handleItemClick(item);
+                      }
+                    }}
+                  >
+                    <div className="menu-item-content">
+                      <div className="menu-item-image-container">
+                        {item.imageUrl ? (
+                          <img src={item.imageUrl} alt="" className="top-image" />
+                        ) : (
+                          <div className="menu-item-placeholder">
+                            {imageStatus[item.id] === 'loading' ? 'Loading...' : 'No Image'}
+                          </div>
+                        )}
+                      </div>
+                      <div className="menu-item-details">
+                        <h4>
+                          {item[
+                            `name_${i18n.language === 'en'
+                              ? 'en_US'
+                              : i18n.language === 'zh_CN'
                                 ? 'zh_CN'
                                 : 'zh_HK'
                             }`
-                          ]
-                        }
-                      </h4>
-                      <p className="card-meta-description">
-                        {t('price')}: ${item.price.toFixed(2)}
-                      </p>
-                      <p className="card-meta-description">Path: {item.path}</p>
+                          ]}
+                        </h4>
+                        <p className="card-meta-description">
+                          {item.onSale === "N" ? t('sold_out') : `${t('price')}: $${item.price.toFixed(2)}`}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                </Card>
-              </Col>
-            ))}
-          </Row>
-        </div>
-      ))}
+                  </Card>
+                </Col>
+              ))}
+            </Row>
+          </div>
+        );
+      })}
+
 
       {/* Floating Cart */}
       {state.cart.length > 0 && (
@@ -528,13 +542,12 @@ const MenuScreen = () => {
                   src={item.imageUrl}
                   alt={
                     item[
-                      `Name_${
-                        i18n.language === 'en'
-                          ? 'en_US'
-                          : i18n.language === 'zh_CN'
-                          ? 'zh_CN'
-                          : 'zh_HK'
-                      }`
+                    `Name_${i18n.language === 'en'
+                      ? 'en_US'
+                      : i18n.language === 'zh_CN'
+                        ? 'zh_CN'
+                        : 'zh_HK'
+                    }`
                     ]
                   }
                   className="cart-item-image"
@@ -543,13 +556,12 @@ const MenuScreen = () => {
                   <div>
                     {
                       item[
-                        `name_${
-                          i18n.language === 'en'
-                            ? 'en_US'
-                            : i18n.language === 'zh_CN'
-                            ? 'zh_CN'
-                            : 'zh_HK'
-                        }`
+                      `name_${i18n.language === 'en'
+                        ? 'en_US'
+                        : i18n.language === 'zh_CN'
+                          ? 'zh_CN'
+                          : 'zh_HK'
+                      }`
                       ]
                     }
                   </div>
