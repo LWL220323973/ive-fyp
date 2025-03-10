@@ -5,13 +5,19 @@ import java.util.Date;
 public class Order {
     private int id;
     private int orderStatusId;
-    private int itemId;
+    private String itemNameZhHK;
+    private String itemNameZhCN;
+    private String itemNameEnUS;
+    private String customStringZhHK;
+    private String customStringZhCN;
+    private String customStringEnUS;
+    private int price;
+    private int customPrice;
     private int quantity;
     private String tableName;
     private Date createdAt;
     private Date updatedAt;
     private OrderStatus orderStatus;
-    private Menu menu;
 
     // Getters and setters for all properties
     public int getId() {
@@ -30,12 +36,68 @@ public class Order {
         this.orderStatusId = orderStatusId;
     }
 
-    public int getItemId() {
-        return itemId;
+    public String getItemNameZhHK() {
+        return itemNameZhHK;
     }
 
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
+    public void setItemNameZhHK(String itemNameZhHK) {
+        this.itemNameZhHK = itemNameZhHK;
+    }
+
+    public String getItemNameZhCN() {
+        return itemNameZhCN;
+    }
+
+    public void setItemNameZhCN(String itemNameZhCN) {
+        this.itemNameZhCN = itemNameZhCN;
+    }
+
+    public String getItemNameEnUS() {
+        return itemNameEnUS;
+    }
+
+    public void setItemNameEnUS(String itemNameEnUS) {
+        this.itemNameEnUS = itemNameEnUS;
+    }
+
+    public String getCustomStringZhHK() {
+        return customStringZhHK;
+    }
+
+    public void setCustomStringZhHK(String customStringZhHK) {
+        this.customStringZhHK = customStringZhHK;
+    }
+
+    public String getCustomStringZhCN() {
+        return customStringZhCN;
+    }
+
+    public void setCustomStringZhCN(String customStringZhCN) {
+        this.customStringZhCN = customStringZhCN;
+    }
+
+    public String getCustomStringEnUS() {
+        return customStringEnUS;
+    }
+
+    public void setCustomStringEnUS(String customStringEnUS) {
+        this.customStringEnUS = customStringEnUS;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public int getCustomPrice() {
+        return customPrice;
+    }
+
+    public void setCustomPrice(int customPrice) {
+        this.customPrice = customPrice;
     }
 
     public int getQuantity() {
@@ -76,13 +138,5 @@ public class Order {
 
     public void setOrderStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
-    }
-
-    public Menu getMenu() {
-        return menu;
-    }
-
-    public void setMenu(Menu menu) {
-        this.menu = menu;
     }
 }

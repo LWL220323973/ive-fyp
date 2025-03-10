@@ -41,29 +41,42 @@ const OrderScreen = () => {
         fetchSystemsProfile();
     }, []);
 
-    const getMenuName = (menu) => {
+    const getMenuName = (order) => {
         switch (i18n.language) {
             case 'zh_TW':
-                return menu.name_zh_HK;
+                return order.itemNameZhHK;
             case 'zh_CN':
-                return menu.name_zh_CN;
+                return order.itemNameZhCN;
             case 'en':
             default:
-                return menu.name_en_US;
+                return order.itemNameEnUS;
+        }
+    };
+
+    // Get custom option string based on current language
+    const getCustomString = (order) => {
+        switch (i18n.language) {
+            case 'zh_TW':
+                return order.customStringZhHK;
+            case 'zh_CN':
+                return order.customStringZhCN;
+            case 'en':
+            default:
+                return order.customStringEnUS;
         }
     };
 
     const calculateTotalPrice = () => {
         const total = orders
             .filter(order => order.orderStatusId === 1)
-            .reduce((total, order) => total + order.menu.price * order.quantity, 0);
+            .reduce((total, order) => total + (order.price + order.customPrice) * order.quantity, 0);
         return serviceChargeRequired ? (total * 1.1).toFixed(2) : total.toFixed(2);
     };
 
     const calculateServiceCharge = () => {
         const total = orders
             .filter(order => order.orderStatusId === 1)
-            .reduce((total, order) => total + order.menu.price * order.quantity, 0);
+            .reduce((total, order) => total + (order.price + order.customPrice) * order.quantity, 0);
         return (total * 0.1).toFixed(1);
     };
 
@@ -76,18 +89,12 @@ const OrderScreen = () => {
     const filteredOrders = orders.filter(order => order.orderStatusId === 1);
 
     return (
-
-
         <div className="order-screen">
-
-
             {/* Display the current table number */}
             <div className="table-number">
                 <span className="table-label">{t('table_number')}:</span>
                 <span className="table-value">{tableNumber || 'N/A'}</span>
             </div>
-
-
 
             <h1 className="title">{t('orders')}</h1>
             {filteredOrders.length > 0 ? (
@@ -96,17 +103,26 @@ const OrderScreen = () => {
                         {filteredOrders.map((order) => (
                             <li className="order-item" key={order.id}>
                                 <div className="order-info">
-                                    <span className="menu-name">{getMenuName(order.menu)}</span>
+                                    <span className="menu-name">{getMenuName(order)}</span>
+                                    {getCustomString(order) && (
+                                        <span className="custom-options">{getCustomString(order)}</span>
+                                    )}
                                     <span className="quantity">x{order.quantity}</span>
                                 </div>
-                                <span className="price-quantity">${(order.menu.price * order.quantity).toFixed(2)}</span>
+                                <div className="price-container">
+                                    <span className="price-quantity">
+                                        ${(order.price * order.quantity).toFixed(2)}
+                                    </span>
+                                    {order.customPrice > 0 && (
+                                        <span className="custom-price">(+${(order.customPrice * order.quantity).toFixed(2)})</span>
+                                    )}
+                                </div>
                             </li>
                         ))}
                         {serviceChargeRequired && (
                             <li className="order-item">
                                 <div className="order-info">
                                     <span className="menu-name">{t('service_charge')}</span>
-                                    <span className="quantity">x1</span>
                                 </div>
                                 <span className="price-quantity">${calculateServiceCharge()}</span>
                             </li>

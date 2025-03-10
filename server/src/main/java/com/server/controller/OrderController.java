@@ -27,7 +27,19 @@ public class OrderController {
     }
 
     @PostMapping("orders/create")
-    public int CreateOrder(@RequestParam int item_id, @RequestParam int quantity, @RequestParam String table_name) {
-        return orderService.CreateOrder(item_id, quantity, table_name);
+    public int CreateOrder(
+            @RequestParam String item_name_zh_HK,
+            @RequestParam String item_name_zh_CN, 
+            @RequestParam String item_name_en_US,
+            @RequestParam(required = false) String custom_string_zh_HK,
+            @RequestParam(required = false) String custom_string_zh_CN,
+            @RequestParam(required = false) String custom_string_en_US,
+            @RequestParam int price,
+            @RequestParam(defaultValue = "0") int custom_price,
+            @RequestParam int quantity, 
+            @RequestParam String table_name) {
+        return orderService.CreateOrder(item_name_zh_HK, item_name_zh_CN, item_name_en_US, 
+                                      custom_string_zh_HK, custom_string_zh_CN, custom_string_en_US,
+                                      price, custom_price, quantity, table_name);
     }
 }

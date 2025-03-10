@@ -2,14 +2,13 @@ package com.server.mapper;
 
 import com.server.model.Order;
 import org.apache.ibatis.annotations.Mapper;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface OrderMapper {
-    List<Order> getOrderDetailByTableName(String tableName);
-
-    int CreateOrder(@Param("item_id") int item_id,
-                    @Param("quantity") int quantity,
-                    @Param("table_name") String table_name);
+    List<Order> getOrderDetailByTableName(@Param("tableName") String tableName);
+    int CreateOrder(Map<String, Object> params);
 }

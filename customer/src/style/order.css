@@ -98,6 +98,30 @@ html, body {
     color: #555;
 }
 
+/* Price container for arranging price and custom price */
+.price-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+/* Styling for custom price */
+.custom-price {
+    font-size: 14px;
+    color: #ff6b6b;
+    margin-top: 2px;
+}
+
+/* Styling for custom options */
+.custom-options {
+    font-size: 14px;
+    color: #666;
+    font-style: italic;
+    margin-top: 4px;
+    padding-left: 5px;
+    border-left: 2px solid #ddd;
+}
+
 /* Styling for total price at the bottom */
 .total-price-container {
     position: fixed;

@@ -223,7 +223,14 @@ const MenuScreen = () => {
       onOk: async () => {
         try {
           await Promise.all(
-            state.cart.map(item => createOrder(item.id, item.quantity, tableNumber))
+            state.cart.map(item => createOrder({
+              item_name_zh_HK: item.Name_zh_HK || item.name_zh_HK,
+              item_name_zh_CN: item.Name_zh_CN || item.name_zh_CN,
+              item_name_en_US: item.Name_en_US || item.name_en_US,
+              price: item.price,
+              quantity: item.quantity,
+              table_name: tableNumber
+            }))
           );
           message.success(t('order_placed_successfully'));
           dispatch({ type: 'SET_CART', payload: [] });
