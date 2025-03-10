@@ -20,3 +20,15 @@ export function editCustomOption(name_us_en, name_zh_hk, name_zh_cn, id) {
 export function deleteCustomOption(id) {
   return axios.post(baseURL + "/deleteCustomOption", { id });
 }
+
+export function insertCustomOption(name_us_en, name_zh_hk, name_zh_cn) {
+  return axios.post(baseURL + "/insertCustomOption", {
+    name_us_en,
+    name_zh_hk,
+    name_zh_cn,
+  });
+}
+
+export function getLastCustomOptionID(){
+  return axios.get(baseURL + "/getLastCustomOptionID");
+}

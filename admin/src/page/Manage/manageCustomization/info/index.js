@@ -33,6 +33,8 @@ import {
 import {
   editCustomOption,
   deleteCustomOption,
+  insertCustomOption,
+  getLastCustomOptionID,
 } from "../../../../api/CustomOption";
 import { deleteMenuItemCustomOptionByCustomOptionId } from "../../../../api/MenuItemCustomOptions";
 
@@ -68,23 +70,18 @@ function Content() {
   const location = useLocation();
   const [data, setData] = useState([]); // option value
   const [isOpenConfirm, setIsOpenConfirm] = useState(false);
+
   const record = useMemo(
     () => (location.state && location.state.record) || {},
     [location]
   );
-  const staus = useMemo(
+
+  const status = useMemo(
     () => (location.state && location.state.status) || "",
     [location]
   );
-  const [optionBasicInfoForm] = useForm();
 
-  useEffect(() => {
-    if (staus === "edit") {
-      getCustomOptionValue(record.id).then((res) => {
-        setData(Array.isArray(res.data) ? res.data : []);
-      });
-    }
-  }, [staus, record]);
+  const [optionBasicInfoForm] = useForm();
 
   const columns = () => {
     if (localStorage.getItem("locale") === "en-US") {
@@ -291,7 +288,8 @@ function Content() {
         },
         {
           title: "",
-          render: (record) => {
+          render: (record, _, index) => {
+            if (index === 0) return null;
             return (
               <Button
                 type="primary"
@@ -425,6 +423,7 @@ function Content() {
       );
     }
   };
+
   const onRest = () => {
     window.location.reload();
   };
@@ -443,27 +442,70 @@ function Content() {
   const onSubmit = async () => {
     const optionBasicInfo = optionBasicInfoForm.getFieldsValue();
     const { name_us_en, name_zh_hk, name_zh_cn, data } = optionBasicInfo;
-    const optionValue = data
-      .filter((item) => item)
-      .map((item) => {
-        return {
-          value_us_en: item.value_us_en,
-          value_zh_hk: item.value_zh_hk,
-          value_zh_cn: item.value_zh_cn,
-          price_adjustment: item.price_adjustment,
-          custom_option_id: record.id,
-        };
-      });
-    console.log(optionValue);
-    if (staus === "edit") {
+    if (data === undefined) {
+      message.error(intl.get("emptyCustomOptionValue"));
+      onAdd();
+      return;
+    }
+    if (status === "edit") {
       await editCustomOption(name_us_en, name_zh_hk, name_zh_cn, record.id);
       const res = await deleteCustomOptionValueByCustomOptionID(record.id);
       if (res.data > 0) {
+        const optionValue = data
+          .filter((item) => item)
+          .map((item) => {
+            return {
+              value_us_en: item.value_us_en,
+              value_zh_hk: item.value_zh_hk,
+              value_zh_cn: item.value_zh_cn,
+              price_adjustment: item.price_adjustment,
+              custom_option_id: record.id,
+            };
+          });
         for (const element of optionValue) {
           await addCustomOptionValue(element);
         }
+      }else{
+        
       }
     } else {
+      const result = await insertCustomOption(
+        name_us_en,
+        name_zh_hk,
+        name_zh_cn
+      );
+      if (result.data === 1) {
+        const id = (await getLastCustomOptionID()).data;
+        const optionValue = data
+          .filter((item) => item)
+          .map((item) => {
+            return {
+              value_us_en: item.value_us_en,
+              value_zh_hk: item.value_zh_hk,
+              value_zh_cn: item.value_zh_cn,
+              price_adjustment: item.price_adjustment,
+              custom_option_id: id,
+            };
+          });
+        for (const element of optionValue) {
+          const res = (await addCustomOptionValue(element)).data;
+          console.log(res);
+          console.log(optionValue.length);
+          if (res !== optionValue.length) {
+            message.error(intl.get("customOptionValueExist"));
+            await deleteCustomOptionValueByCustomOptionID(id);
+            await deleteCustomOption(id);
+            return;
+          } else {
+            message.success(intl.get("addSuccess"));
+            setTimeout(() => {
+              navigate("..");
+            }, 2000);
+          }
+        }
+      } else {
+        message.warning(intl.get("customOptionExist"));
+      }
     }
   };
 
@@ -489,11 +531,19 @@ function Content() {
     navigate("..");
   };
 
+  useEffect(() => {
+    if (status === "edit") {
+      getCustomOptionValue(record.id).then((res) => {
+        setData(Array.isArray(res.data) ? res.data : []);
+      });
+    }
+  }, [status, record]);
+
   return (
     <Layout.Content style={style}>
       <Row>
         <Typography.Title level={2}>
-          {staus === "edit" ? intl.get("editOption") : intl.get("addOption")}
+          {status === "edit" ? intl.get("editOption") : intl.get("addOption")}
         </Typography.Title>
       </Row>
       <Form
@@ -534,6 +584,7 @@ function Content() {
           id="btnDelete"
           icon={<DeleteOutlined />}
           onClick={() => setIsOpenConfirm(true)}
+          disabled={status === "add"}
         >
           {intl.get("delete")}
         </Button>

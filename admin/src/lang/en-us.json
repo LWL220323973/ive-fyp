@@ -75,5 +75,8 @@
   "pleaseEnterValidInfo": "Please enter valid information",
   "priceAdjustment" : "Price Adjustment",
   "deleteCustomOption": "Delete Custom Option",
-  "deleteOptionFailed": "Delete Failed, this option is in use"
+  "deleteOptionFailed": "Delete Failed, this option is in use",
+  "emptyCustomOptionValue": "At least one value of custom option is required",
+  "customOptionExist": "Custom option information repeated",
+  "customOptionValueExist": "Custom option value repeated"
 }

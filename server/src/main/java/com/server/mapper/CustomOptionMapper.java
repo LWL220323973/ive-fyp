@@ -13,4 +13,8 @@ public interface CustomOptionMapper {
     int deleteCustomOption(int id);
 
     int editCustomOption(CustomOption customOption);
+
+    int insertCustomOption(CustomOption customOption);
+
+    int getLastCustomOptionID();
 }

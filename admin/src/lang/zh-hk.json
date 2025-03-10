@@ -74,6 +74,9 @@
   "editOption": "編輯選項",
   "pleaseEnterValidInfo": "請輸入有效資料",
   "priceAdjustment": "價格調整",
-  "deleteCustomOption": "刪除特製選項",
-  "deleteOptionFailed": "刪除失敗，此特製選項正在使用"
+  "deleteCustomOption": "刪除特製項目",
+  "deleteOptionFailed": "刪除失敗，此特製項目正在使用",
+  "emptyCustomOptionValue": "最少需要一個特製項目選項",
+  "customOptionExist": "特製項目內容有重複",
+  "customOptionValueExist": "特製項目選項有重複"
 }

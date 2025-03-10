@@ -21,4 +21,15 @@
         DELETE FROM custom_option
         WHERE id = #{id}
     </delete>
+
+    <insert id="insertCustomOption" parameterType="com.server.model.CustomOption">
+        INSERT INTO custom_option (name_Zh_HK, name_Us_EN, name_Zh_CN)
+        VALUES (#{name_zh_hk}, #{name_us_en}, #{name_zh_cn})
+    </insert>
+
+    <select id="getLastCustomOptionID" parameterType="com.server.model.CustomOption" resultType="int">
+        SELECT id FROM custom_option
+        ORDER BY id DESC
+        LIMIT 1
+    </select>
 </mapper>

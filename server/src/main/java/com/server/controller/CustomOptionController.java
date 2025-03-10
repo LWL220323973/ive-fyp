@@ -44,4 +44,19 @@ public class CustomOptionController {
         }
         return result;
     }
+
+    @PostMapping("/api/customOption/insertCustomOption")
+    public int insertCustomOption(@RequestBody CustomOption customOption) {
+        log.info("Inserting Custom Option " + customOption.toString());
+        int result = service.insertCustomOption(customOption);
+        if (result == 1) {
+            log.info("Custom Option inserted successfully");
+        }
+        return result;
+    }
+
+    @GetMapping("/api/customOption/getLastCustomOptionID")
+    public int getLastCustomOptionID() {
+        return service.getLastCustomOptionID();
+    }
 }

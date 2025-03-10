@@ -25,4 +25,12 @@ public class CustomOptionService {
     public int deleteCustomOption(int id) {
         return mapper.deleteCustomOption(id);
     }
+
+    public int insertCustomOption(CustomOption customOption) {
+        return mapper.insertCustomOption(customOption);
+    }
+
+    public int getLastCustomOptionID(){
+        return mapper.getLastCustomOptionID();
+    }
 }
