@@ -68,9 +68,8 @@ function Content() {
   }
   const navigate = useNavigate();
   const location = useLocation();
-  const [data, setData] = useState([]); // option value
+  const [customOptionValue, setCustomOptionValue] = useState([]); // option value
   const [isOpenConfirm, setIsOpenConfirm] = useState(false);
-
   const record = useMemo(
     () => (location.state && location.state.record) || {},
     [location]
@@ -184,8 +183,8 @@ function Content() {
                 type="primary"
                 icon={<DeleteOutlined />}
                 onClick={() => {
-                  const newData = data.filter((item) => item.id !== record.id);
-                  setData(newData);
+                  const newData = customOptionValue.filter((item) => item.id !== record.id);
+                  setCustomOptionValue(newData);
                 }}
               >
                 {intl.get("delete")}
@@ -295,8 +294,9 @@ function Content() {
                 type="primary"
                 icon={<DeleteOutlined />}
                 onClick={() => {
-                  const newData = data.filter((item) => item.id !== record.id);
-                  setData(newData);
+                  const newData = customOptionValue.filter((item) => item.id !== record.id);
+                  console.log(newData);
+                  setCustomOptionValue(newData);
                 }}
               >
                 {intl.get("delete")}
@@ -430,13 +430,13 @@ function Content() {
 
   const onAdd = () => {
     const newData = {
-      id: data.length + 1,
+      id: customOptionValue.length + 1,
       value_zh_hk: "",
       value_zh_cn: "",
       value_us_en: "",
       price_adjustment: 0,
     };
-    setData([...data, newData]);
+    setCustomOptionValue([...customOptionValue, newData]);
   };
 
   const onSubmit = async () => {
@@ -447,6 +447,7 @@ function Content() {
       onAdd();
       return;
     }
+    var count = 0;
     if (status === "edit") {
       await editCustomOption(name_us_en, name_zh_hk, name_zh_cn, record.id);
       const res = await deleteCustomOptionValueByCustomOptionID(record.id);
@@ -487,21 +488,23 @@ function Content() {
               custom_option_id: id,
             };
           });
+        count = 0;
         for (const element of optionValue) {
-          const res = (await addCustomOptionValue(element)).data;
-          console.log(res);
-          console.log(optionValue.length);
-          if (res !== optionValue.length) {
-            message.error(intl.get("customOptionValueExist"));
-            await deleteCustomOptionValueByCustomOptionID(id);
-            await deleteCustomOption(id);
-            return;
-          } else {
-            message.success(intl.get("addSuccess"));
-            setTimeout(() => {
-              navigate("..");
-            }, 2000);
+          const r = (await addCustomOptionValue(element)).data;
+          if (r === 1) {
+            count++;
           }
+        }
+        if (count === optionValue.length) {
+          message.success(intl.get("addSuccess"));
+          setTimeout(() => {
+            navigate("..");
+          }, 2000);
+        } else {
+          message.error(intl.get("customOptionValueExist"));
+          await deleteCustomOptionValueByCustomOptionID(id);
+          await deleteCustomOption(id);
+          return;
         }
       } else {
         message.warning(intl.get("customOptionExist"));
@@ -534,7 +537,7 @@ function Content() {
   useEffect(() => {
     if (status === "edit") {
       getCustomOptionValue(record.id).then((res) => {
-        setData(Array.isArray(res.data) ? res.data : []);
+        setCustomOptionValue(Array.isArray(res.data) ? res.data : []);
       });
     }
   }, [status, record]);
@@ -543,7 +546,7 @@ function Content() {
     <Layout.Content style={style}>
       <Row>
         <Typography.Title level={2}>
-          {status === "edit" ? intl.get("editOption") : intl.get("addOption")}
+          {status === "edit" ? intl.get("editCustomOption") : intl.get("addCustomOption")}
         </Typography.Title>
       </Row>
       <Form
@@ -554,7 +557,7 @@ function Content() {
         {optionBasicInfo()}
         <Table
           id="optionDetail"
-          dataSource={Array.isArray(data) ? data : []}
+          dataSource={Array.isArray(customOptionValue) ? customOptionValue : []}
           pagination={{
             position: ["bottomCenter"],
           }}
@@ -570,7 +573,7 @@ function Content() {
           id="btnAdd"
           onClick={onAdd}
         >
-          {intl.get("addOption")}
+          {intl.get("add")}
         </Button>
         <Button
           type="primary"

@@ -70,13 +70,14 @@
   "zh-hk": "Traditional Chinese",
   "zh-cn": "Simplified Chinese",
   "en-us": "English",
-  "addOption": "Add Option",
-  "editOption": "Edit Option",
+  "addCustomOption": "Add Custom Option",
+  "editCustomOption": "Edit Custom Option",
   "pleaseEnterValidInfo": "Please enter valid information",
   "priceAdjustment" : "Price Adjustment",
   "deleteCustomOption": "Delete Custom Option",
   "deleteOptionFailed": "Delete Failed, this option is in use",
   "emptyCustomOptionValue": "At least one value of custom option is required",
   "customOptionExist": "Custom option information repeated",
-  "customOptionValueExist": "Custom option value repeated"
+  "customOptionValueExist": "Custom option value repeated",
+  "add": "Add"
 }

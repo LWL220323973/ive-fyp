@@ -35,7 +35,13 @@ public class CustomOptionValueController {
 
     @PostMapping("/api/customOptionValue/addCustomOptionValue")
     public int addCustomOptionValue(@RequestBody CustomOptionValue customOptionValue) {
-        log.info("Adding " + customOptionValue.toString());
-        return service.addCustomOptionValue(customOptionValue);
+        try {
+            log.info("Adding " + customOptionValue.toString());
+            return service.addCustomOptionValue(customOptionValue);
+        } catch (Exception e) {
+            log.error("Error adding " + customOptionValue.toString(), e);
+            return 0;
+        }
+
     }
 }

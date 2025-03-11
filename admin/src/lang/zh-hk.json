@@ -70,13 +70,14 @@
   "zh-hk": "繁體中文",
   "zh-cn": "簡體中文",
   "en-us": "英文",
-  "addOption": "新增選項",
-  "editOption": "編輯選項",
+  "addCustomOption": "新增特製項目",
+  "editCustomOption": "編輯特製項目",
   "pleaseEnterValidInfo": "請輸入有效資料",
   "priceAdjustment": "價格調整",
   "deleteCustomOption": "刪除特製項目",
   "deleteOptionFailed": "刪除失敗，此特製項目正在使用",
   "emptyCustomOptionValue": "最少需要一個特製項目選項",
   "customOptionExist": "特製項目內容有重複",
-  "customOptionValueExist": "特製項目選項有重複"
+  "customOptionValueExist": "特製項目選項有重複",
+  "add": "新增"
 }

@@ -47,12 +47,13 @@ public class CustomOptionController {
 
     @PostMapping("/api/customOption/insertCustomOption")
     public int insertCustomOption(@RequestBody CustomOption customOption) {
-        log.info("Inserting Custom Option " + customOption.toString());
-        int result = service.insertCustomOption(customOption);
-        if (result == 1) {
-            log.info("Custom Option inserted successfully");
+        try{
+            log.info("Inserting Custom Option " + customOption.toString());
+            return service.insertCustomOption(customOption);
+        }catch(Exception e){
+            log.error("Error inserting Custom Option " + customOption.toString(), e);
+            return 0;
         }
-        return result;
     }
 
     @GetMapping("/api/customOption/getLastCustomOptionID")

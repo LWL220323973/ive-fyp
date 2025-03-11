@@ -104,7 +104,7 @@ function Content() {
             navigate("info", { state: { status: "add" } });
           }}
         >
-          {intl.get("addOption")}
+          {intl.get("add")}
         </Button>
       </Typography.Title>
       <Table
