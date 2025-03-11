@@ -6,25 +6,26 @@
         SELECT 
             o.id AS orderId,
             o.order_status_id AS orderStatusId,
-            o.item_name_zh_HK AS itemNameZhHK,
-            o.item_name_zh_CN AS itemNameZhCN,
-            o.item_name_en_US AS itemNameEnUS,
-            o.custom_string_zh_HK AS customStringZhHK,
-            o.custom_string_zh_CN AS customStringZhCN,
-            o.custom_string_en_US AS customStringEnUS,
-            o.price,
-            o.custom_price AS customPrice,
+            o.item_id AS itemId,
             o.quantity,
             o.table_name AS tableName,
             o.created_at AS createdAt,
             o.updated_at AS updatedAt,
             os.status_en_US AS statusEnUS,
             os.status_zh_HK AS statusZhHK,
-            os.status_zh_CN AS statusZhCN
+            os.status_zh_CN AS statusZhCN,
+            m.Name_zh_HK AS Name_zh_HK,
+            m.Name_zh_CN AS Name_zh_CN,
+            m.Name_en_US AS Name_en_US,
+            m.onSale AS onSale,
+            m.price,
+            m.type
         FROM 
             `order` o
         JOIN 
             order_status os ON o.order_status_id = os.id
+        JOIN 
+            menu m ON o.item_id = m.id
         WHERE 
             o.table_name = #{tableName}
     </select>
@@ -32,14 +33,7 @@
     <resultMap id="OrderResultMap" type="com.server.model.Order">
         <id property="id" column="orderId"/>
         <result property="orderStatusId" column="orderStatusId"/>
-        <result property="itemNameZhHK" column="itemNameZhHK"/>
-        <result property="itemNameZhCN" column="itemNameZhCN"/>
-        <result property="itemNameEnUS" column="itemNameEnUS"/>
-        <result property="customStringZhHK" column="customStringZhHK"/>
-        <result property="customStringZhCN" column="customStringZhCN"/>
-        <result property="customStringEnUS" column="customStringEnUS"/>
-        <result property="price" column="price"/>
-        <result property="customPrice" column="customPrice"/>
+        <result property="itemId" column="itemId"/>
         <result property="quantity" column="quantity"/>
         <result property="tableName" column="tableName"/>
         <result property="createdAt" column="createdAt"/>
@@ -50,39 +44,21 @@
             <result property="statusZhHK" column="statusZhHK"/>
             <result property="statusZhCN" column="statusZhCN"/>
         </association>
+
+        <association property="menu" javaType="com.server.model.Menu">
+            <result property="Name_zh_HK" column="Name_zh_HK"/>
+            <result property="Name_zh_CN" column="Name_zh_CN"/>
+            <result property="Name_en_US" column="Name_en_US"/>
+            <result property="onSale" column="onSale"/>
+            <result property="price" column="price"/>
+            <result property="type" column="type"/>
+        </association>
     </resultMap>
 
     <insert id="CreateOrder" parameterType="map">
-        INSERT INTO `order` (
-            order_status_id, 
-            item_name_zh_HK,
-            item_name_zh_CN,
-            item_name_en_US,
-            custom_string_zh_HK,
-            custom_string_zh_CN,
-            custom_string_en_US,
-            price,
-            custom_price,
-            quantity, 
-            table_name,
-            created_at, 
-            updated_at
-        )
-        VALUES (
-            1, 
-            #{item_name_zh_HK}, 
-            #{item_name_zh_CN}, 
-            #{item_name_en_US}, 
-            #{custom_string_zh_HK}, 
-            #{custom_string_zh_CN}, 
-            #{custom_string_en_US}, 
-            #{price},
-            #{custom_price},
-            #{quantity}, 
-            #{table_name}, 
-            NOW(), 
-            NOW()
-        )
+        INSERT INTO `order` (order_status_id, item_id, quantity, table_name, created_at, updated_at)
+        VALUES (1, #{item_id}, #{quantity}, #{table_name}, NOW(), NOW())
     </insert>
+
 
 </mapper>

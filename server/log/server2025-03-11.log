@@ -487,3 +487,7 @@ Caused by: java.sql.SQLIntegrityConstraintViolationException: Duplicate entry 'å
 	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:333) ~[mybatis-spring-3.0.4.jar:3.0.4]
 	... 56 common frames omitted
 
+2025-03-11T19:43:36.035+08:00  INFO 14436 --- [server] [ionShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-03-11T19:43:36.045+08:00  INFO 14436 --- [server] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-03-11T19:43:36.051+08:00  INFO 14436 --- [server] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-03-11T19:43:36.055+08:00  INFO 14436 --- [server] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

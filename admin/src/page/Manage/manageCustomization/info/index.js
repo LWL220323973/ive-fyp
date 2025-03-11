@@ -177,13 +177,15 @@ function Content() {
         },
         {
           title: "",
-          render: (record) => {
+          render: (record, _, index) => {
+            if (index === 0) return null;
             return (
               <Button
                 type="primary"
                 icon={<DeleteOutlined />}
                 onClick={() => {
                   const newData = customOptionValue.filter((item) => item.id !== record.id);
+                  console.log(newData);
                   setCustomOptionValue(newData);
                 }}
               >
