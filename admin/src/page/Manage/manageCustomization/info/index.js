@@ -426,8 +426,14 @@ function Content() {
     }
     var count = 0;
     if (status === "edit") {
-      await editCustomOption(name_us_en, name_zh_hk, name_zh_cn, record.id);
+      const customOptionResult = await editCustomOption(name_us_en, name_zh_hk, name_zh_cn, record.id);
+      if (customOptionResult.data !== 1) {
+        message.warning(intl.get("customOptionExist"));
+        return;
+      }
+      const oldData = await getCustomOptionValue(record.id);
       const res = await deleteCustomOptionValueByCustomOptionID(record.id);
+
       if (res.data > 0) {
         const optionValue = data
           .filter((item) => item)
@@ -441,9 +447,23 @@ function Content() {
             };
           });
         for (const element of optionValue) {
-          await addCustomOptionValue(element);
+          const result = await addCustomOptionValue(element);
+          if (result.data !== 1) {
+            console.log(oldData);
+            await deleteCustomOptionValueByCustomOptionID(record.id);
+            for (const item of oldData.data) {
+              await addCustomOptionValue(item);
+            }
+            setCustomOptionValue(
+              optionValue.map((item, index) => ({
+                ...item,
+                id: index,
+              }))
+            );
+            message.error(intl.get("customOptionValueExist"));
+            return;
+          }
         }
-      } else {
       }
     } else {
       const result = await insertCustomOption(

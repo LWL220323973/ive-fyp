@@ -27,12 +27,17 @@ public class CustomOptionController {
 
     @PostMapping("/api/customOption/editCustomOption")
     public int editCustomOption(@RequestBody CustomOption customOption) {
-        log.info("Editing Custom Option (" + customOption.getId() + ") " + customOption.toString());
-        int result = service.editCustomOption(customOption);
-        if (result == 1) {
-            log.info("Custom Option (" + customOption.getId() + ") edited successfully");
+        try {
+            log.info("Editing Custom Option (" + customOption.getId() + ") " + customOption.toString());
+            int result = service.editCustomOption(customOption);
+            if (result == 1) {
+                log.info("Custom Option (" + customOption.getId() + ") edited successfully");
+            }
+            return result;
+        } catch (Exception e) {
+            log.error("Error editing Custom Option (" + customOption.getId() + ") " + customOption.toString(), e);
+            return 0;
         }
-        return result;
     }
 
     @PostMapping("/api/customOption/deleteCustomOption")
@@ -47,10 +52,10 @@ public class CustomOptionController {
 
     @PostMapping("/api/customOption/insertCustomOption")
     public int insertCustomOption(@RequestBody CustomOption customOption) {
-        try{
+        try {
             log.info("Inserting Custom Option " + customOption.toString());
             return service.insertCustomOption(customOption);
-        }catch(Exception e){
+        } catch (Exception e) {
             log.error("Error inserting Custom Option " + customOption.toString(), e);
             return 0;
         }
