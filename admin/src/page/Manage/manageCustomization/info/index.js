@@ -83,8 +83,49 @@ function Content() {
   const [optionBasicInfoForm] = useForm();
 
   const columns = () => {
+    const defaultPart = [
+      {
+        title: intl.get("priceAdjustment"),
+        dataIndex: "price_adjustment",
+        key: "price_adjustment",
+        render: (text, record) => {
+          return (
+            <Form.Item
+              name={["data", record.id, "price_adjustment"]}
+              initialValue={text}
+            >
+              <InputNumber />
+            </Form.Item>
+          );
+        },
+      },
+      {
+        title: "",
+        render: (record, _, index) => {
+          if (index === 0) return null;
+          return (
+            <Button
+              type="primary"
+              icon={<DeleteOutlined />}
+              onClick={() => {
+                const newData = customOptionValue
+                  .filter((item) => item.id !== record.id)
+                  .map((item, index) => ({
+                    ...item,
+                    id: index,
+                  }));
+                console.log(newData);
+                setCustomOptionValue(newData);
+              }}
+            >
+              {intl.get("delete")}
+            </Button>
+          );
+        },
+      },
+    ];
     if (localStorage.getItem("locale") === "en-US") {
-      return [
+      const variablePart = [
         {
           title: intl.get("en-us"),
           dataIndex: "value_us_en",
@@ -160,43 +201,10 @@ function Content() {
             );
           },
         },
-        {
-          title: intl.get("priceAdjustment"),
-          dataIndex: "price_adjustment",
-          key: "price_adjustment",
-          render: (text, record) => {
-            return (
-              <Form.Item
-                name={["data", record.id, "price_adjustment"]}
-                initialValue={text}
-              >
-                <InputNumber />
-              </Form.Item>
-            );
-          },
-        },
-        {
-          title: "",
-          render: (record, _, index) => {
-            if (index === 0) return null;
-            return (
-              <Button
-                type="primary"
-                icon={<DeleteOutlined />}
-                onClick={() => {
-                  const newData = customOptionValue.filter((item) => item.id !== record.id);
-                  console.log(newData);
-                  setCustomOptionValue(newData);
-                }}
-              >
-                {intl.get("delete")}
-              </Button>
-            );
-          },
-        },
       ];
+      return [...variablePart, ...defaultPart];
     } else {
-      return [
+      const variablePart = [
         {
           title: intl.get("zh-hk"),
           dataIndex: "value_zh_hk",
@@ -272,41 +280,8 @@ function Content() {
             );
           },
         },
-        {
-          title: intl.get("priceAdjustment"),
-          dataIndex: "price_adjustment",
-          key: "price_adjustment",
-          render: (text, record) => {
-            return (
-              <Form.Item
-                name={["data", record.id, "price_adjustment"]}
-                initialValue={text}
-              >
-                <InputNumber />
-              </Form.Item>
-            );
-          },
-        },
-        {
-          title: "",
-          render: (record, _, index) => {
-            if (index === 0) return null;
-            return (
-              <Button
-                type="primary"
-                icon={<DeleteOutlined />}
-                onClick={() => {
-                  const newData = customOptionValue.filter((item) => item.id !== record.id);
-                  console.log(newData);
-                  setCustomOptionValue(newData);
-                }}
-              >
-                {intl.get("delete")}
-              </Button>
-            );
-          },
-        },
       ];
+      return [...variablePart, ...defaultPart];
     }
   };
 
@@ -432,7 +407,7 @@ function Content() {
 
   const onAdd = () => {
     const newData = {
-      id: customOptionValue.length + 1,
+      id: customOptionValue.length,
       value_zh_hk: "",
       value_zh_cn: "",
       value_us_en: "",
@@ -468,8 +443,7 @@ function Content() {
         for (const element of optionValue) {
           await addCustomOptionValue(element);
         }
-      }else{
-        
+      } else {
       }
     } else {
       const result = await insertCustomOption(
@@ -539,7 +513,11 @@ function Content() {
   useEffect(() => {
     if (status === "edit") {
       getCustomOptionValue(record.id).then((res) => {
-        setCustomOptionValue(Array.isArray(res.data) ? res.data : []);
+        const dataWithId = res.data.map((item, index) => ({
+          ...item,
+          id: index,
+        }));
+        setCustomOptionValue(dataWithId);
       });
     }
   }, [status, record]);
@@ -548,7 +526,9 @@ function Content() {
     <Layout.Content style={style}>
       <Row>
         <Typography.Title level={2}>
-          {status === "edit" ? intl.get("editCustomOption") : intl.get("addCustomOption")}
+          {status === "edit"
+            ? intl.get("editCustomOption")
+            : intl.get("addCustomOption")}
         </Typography.Title>
       </Row>
       <Form
