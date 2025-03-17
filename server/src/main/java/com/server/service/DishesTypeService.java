@@ -17,4 +17,16 @@ public class DishesTypeService {
     public List<DishesType> getAllDishesType() {
         return mapper.getAllDisheType();
     }
+
+    public int editDishesType(DishesType dishesType) {
+        return mapper.editDishesType(dishesType);
+    }
+
+    public int deleteDishesType(String id) {
+        return mapper.deleteDishesType(id);
+    }
+
+    public int insertDishesType(DishesType dishesType) {
+        return mapper.insertDishesType(dishesType);
+    }
 }

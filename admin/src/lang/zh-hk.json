@@ -27,8 +27,6 @@
   "phoneNumber": "電話號碼",
   "addUser": "新增用戶",
   "editUser": "編輯用戶",
-  "address_cn": "地址(中)",
-  "address_en": "地址(英)",
   "pleaseEnterValidPhoneNumber": "請輸入有效的電話號碼",
   "pleaseEnterValidName": "請輸入有效的名稱",
   "pleaseEnterValidEmail": "請輸入有效的電郵",
@@ -79,5 +77,6 @@
   "emptyCustomOptionValue": "最少需要一個特製項目選項",
   "customOptionExist": "特製項目內容有重複",
   "customOptionValueExist": "特製項目選項有重複",
-  "add": "新增"
+  "add": "新增",
+  "edit": "編輯"
 }

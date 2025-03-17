@@ -27,8 +27,6 @@
   "phoneNumber": "Phone Number",
   "addUser": "Add User",
   "editUser": "Edit User",
-  "address_cn": "Address(CN)",
-  "address_en": "Address(EN)",
   "pleaseEnterValidPhoneNumber": "Please enter a valid phone number",
   "pleaseEnterValidName": "Please enter a valid name",
   "pleaseEnterValidEmail": "Please enter a valid email",
@@ -79,5 +77,6 @@
   "emptyCustomOptionValue": "At least one value of custom option is required",
   "customOptionExist": "Custom option information repeated",
   "customOptionValueExist": "Custom option value repeated",
-  "add": "Add"
+  "add": "Add",
+  "edit": "Edit"
 }
