@@ -2,8 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.server.mapper.DishesTypeMapper">
-    
+
     <select id="getAllDisheType" resultType="com.server.model.DishesType">
         SELECT * FROM dishes_type
     </select>
+
+    <update id="editDishesType" parameterType="com.server.model.DishesType">
+        UPDATE dishes_type
+        <set>
+            name_Zh_HK = #{name_Zh_HK},
+            name_Us_EN = #{name_Us_EN},
+            name_Zh_CN = #{name_Zh_CN},
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <insert id="insertDishesType" parameterType="com.server.model.DishesType">
+        INSERT INTO dishes_type (name_Zh_HK, name_Us_EN, name_Zh_CN)
+        VALUES (#{name_Zh_HK}, #{name_Us_EN}, #{name_Zh_CN})
+    </insert>
+
+    <delete id="deleteDishesType" parameterType="String">
+        DELETE FROM dishes_type WHERE id = #{id}
+    </delete>
+
 </mapper>

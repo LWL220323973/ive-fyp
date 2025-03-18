@@ -10,4 +10,10 @@ import com.server.model.DishesType;
 public interface DishesTypeMapper {
 
     List<DishesType> getAllDisheType();
+
+    int editDishesType(DishesType dishesType);
+
+    int deleteDishesType(String id);
+
+    int insertDishesType(DishesType dishesType);
 }

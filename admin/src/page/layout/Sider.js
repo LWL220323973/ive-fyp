@@ -20,9 +20,16 @@ function Sider() {
     setCollapsed(collapsed);
     sessionStorage.setItem("siderCollapsed", collapsed);
   };
-  const selectedKey = location.pathname.startsWith("/menu")
-    ? "/menu"
-    : location.pathname;
+
+  const selectedKey = () => {
+    if (location.pathname.startsWith("/menu")) {
+      return "/menu";
+    } else if (location.pathname.startsWith("/manage")) {
+      return "/manage";
+    } else {
+      return location.pathname;
+    }
+  };
 
   const menuItems = () => {
     if (sessionStorage.getItem("userRole") === "admin") {
@@ -46,7 +53,7 @@ function Sider() {
           onClick: () => navigate("/user"),
         },
         {
-          key: "/Manage",
+          key: "/manage",
           label: intl.get("manage"),
           icon: <SettingOutlined />,
           children: [
@@ -96,7 +103,7 @@ function Sider() {
       <Menu
         theme="dark"
         mode="inline"
-        selectedKeys={[selectedKey]}
+        selectedKeys={[selectedKey()]}
         items={menuItems()}
       />
     </Layout.Sider>
