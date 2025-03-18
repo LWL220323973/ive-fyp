@@ -32,4 +32,51 @@
         ORDER BY id DESC
         LIMIT 1
     </select>
+
+    <select id="getCustomOptionsByMenuId" resultType="com.server.model.CustomOption">
+        SELECT co.*
+        FROM custom_option co
+        INNER JOIN menu_item_custom_option mico ON co.id = mico.customOptionId
+        WHERE mico.menuItemId = #{menuId}
+    </select>
+    
+    <select id="getCustomOptionValuesByOptionId" resultType="com.server.model.CustomOptionValue">
+        SELECT *
+        FROM custom_option_value
+        WHERE custom_option_id = #{customOptionId}
+    </select>
+    
+    <resultMap id="CustomOptionWithValuesMap" type="java.util.HashMap">
+        <id property="id" column="option_id" />
+        <result property="name_zh_hk" column="option_name_zh_hk" />
+        <result property="name_zh_cn" column="option_name_zh_cn" />
+        <result property="name_us_en" column="option_name_us_en" />
+        <collection property="values" ofType="com.server.model.CustomOptionValue">
+            <id property="id" column="value_id" />
+            <result property="custom_option_id" column="custom_option_id" />
+            <result property="value_zh_hk" column="value_zh_hk" />
+            <result property="value_zh_cn" column="value_zh_cn" />
+            <result property="value_us_en" column="value_us_en" />
+            <result property="price_adjustment" column="price_adjustment" />
+        </collection>
+    </resultMap>
+    
+    <select id="getCustomOptionsAndValuesByMenuId" resultMap="CustomOptionWithValuesMap">
+        SELECT 
+            co.id AS option_id, 
+            co.name_Zh_HK AS option_name_zh_hk, 
+            co.name_Zh_CN AS option_name_zh_cn, 
+            co.name_Us_EN AS option_name_us_en,
+            cov.id AS value_id,
+            cov.custom_option_id,
+            cov.value_Zh_HK,
+            cov.value_Zh_CN,
+            cov.value_Us_EN,
+            cov.price_adjustment
+        FROM custom_option co
+        INNER JOIN menuitem_customoptions mico ON co.id = mico.custom_option_id
+        LEFT JOIN custom_option_value cov ON co.id = cov.custom_option_id
+        WHERE mico.menu_item_id = #{menuId}
+    </select>
+    
 </mapper>

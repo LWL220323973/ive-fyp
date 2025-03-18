@@ -200,19 +200,89 @@
   color: #b22222;
 }
 
-/* 3) Middle scrollable area */
+/* Middle scrollable area */
 .item-detail-scrollable {
   flex: 1;
   padding: 16px;
   overflow-y: auto;
-  background-color: #fff;
+  background-color: #f9f9f9; /* 更柔和的背景色 */
+  max-height: 250px; /* 限制滾動區域的最大高度 */
+  border: 1px solid #ddd; /* 添加邊框 */
+  border-radius: 8px; /* 添加圓角 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 添加陰影 */
+  transition: max-height 0.3s ease, padding 0.3s ease; /* 添加展開和收起的過渡效果 */
+}
+
+.item-detail-scrollable summary {
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 8px;
+  background-color: #b22222;
+  color: white;
+  border-radius: 4px;
+}
+
+.item-detail-scrollable[open] {
+  max-height: 300px; /* 展開時增加最大高度 */
+  padding: 16px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 滾動條樣式 */
+.item-detail-scrollable::-webkit-scrollbar {
+  width: 8px;
+}
+
+.item-detail-scrollable::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.item-detail-scrollable::-webkit-scrollbar-thumb {
+  background: #b22222;
+  border-radius: 4px;
+}
+
+.item-detail-scrollable::-webkit-scrollbar-thumb:hover {
+  background: #a11a1a;
+}
+
+/* 項目選項樣式 */
+.item-option {
+  margin-bottom: 5px;
+}
+
+.item-option h4 {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.item-option div {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0px;
+}
+
+.item-option input[type="radio"] {
+  margin-right: 8px;
+}
+
+.item-option label {
+  font-size: 14px;
+  color: #666;
 }
 
 /* 4) Bottom area */
 .item-detail-bottom {
   padding: 16px;
   background-color: #fff9e6;
-  border-top: 1px solid #ddd;
+
 }
 
 /* Bottom row: quantity + total price */

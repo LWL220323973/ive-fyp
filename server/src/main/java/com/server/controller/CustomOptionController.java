@@ -1,14 +1,18 @@
 package com.server.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.server.model.CustomOption;
+import com.server.model.CustomOptionValue;
 import com.server.service.CustomOptionService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -64,5 +68,38 @@ public class CustomOptionController {
     @GetMapping("/api/customOption/getLastCustomOptionID")
     public int getLastCustomOptionID() {
         return service.getLastCustomOptionID();
+    }
+
+    /**
+     * 獲取指定菜單項的所有自定義選項
+     * @param menuId 菜單ID
+     * @return 自定義選項列表
+     */
+    @GetMapping("/api/customOption/getByMenuId")
+    public List<CustomOption> getCustomOptionsByMenuId(@RequestParam int menuId) {
+        log.info("Getting custom options for menu ID: " + menuId);
+        return service.getCustomOptionsByMenuId(menuId);
+    }
+    
+    /**
+     * 獲取指定自定義選項的所有可選值
+     * @param customOptionId 自定義選項ID
+     * @return 自定義選項值列表
+     */
+    @GetMapping("/api/customOption/getValuesByOptionId")
+    public List<CustomOptionValue> getCustomOptionValuesByOptionId(@RequestParam int customOptionId) {
+        log.info("Getting values for custom option ID: " + customOptionId);
+        return service.getCustomOptionValuesByOptionId(customOptionId);
+    }
+    
+    /**
+     * 獲取指定菜單項的所有自定義選項及其值（一次性查詢）
+     * @param menuId 菜單ID
+     * @return 自定義選項及其值的列表
+     */
+    @GetMapping("/api/customOption/getOptionsAndValuesByMenuId")
+    public List<Map<String, Object>> getCustomOptionsAndValuesByMenuId(@RequestParam int menuId) {
+        log.info("Getting custom options and values for menu ID: " + menuId);
+        return service.getCustomOptionsAndValuesByMenuId(menuId);
     }
 }
