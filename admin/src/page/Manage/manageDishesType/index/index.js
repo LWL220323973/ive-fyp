@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Layout, message, Space, Table, Typography } from "antd";
-import { PlusCircleOutlined } from "@ant-design/icons";
+import { PlusCircleOutlined, DeleteOutlined } from "@ant-design/icons";
 import Sider from "../../../layout/Sider";
 import Footer from "../../../layout/Footer";
 import Header from "../../../layout/Header";
@@ -61,6 +61,7 @@ function Content() {
               <Button
                 color="danger"
                 variant="solid"
+                icon={<DeleteOutlined />}
                 onClick={() => onDelete(record)}
               >
                 {intl.get("delete")}
@@ -118,7 +119,7 @@ function Content() {
       message.success(intl.get("deleteDishesTypeSuccess"));
       setTimeout(() => {
         window.location.reload();
-      }, 1500);
+      }, 500);
     } else {
       message.error(intl.get("deleteDishesTypeFailed"));
     }

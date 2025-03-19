@@ -9,7 +9,7 @@ import {
   Table,
   InputNumber,
   Button,
-  Modal,
+  Space,
 } from "antd";
 import {
   RedoOutlined,
@@ -69,7 +69,6 @@ function Content() {
   const navigate = useNavigate();
   const location = useLocation();
   const [customOptionValue, setCustomOptionValue] = useState([]); // option value
-  const [isOpenConfirm, setIsOpenConfirm] = useState(false);
   const record = useMemo(
     () => (location.state && location.state.record) || {},
     [location]
@@ -426,7 +425,12 @@ function Content() {
     }
     var count = 0;
     if (status === "edit") {
-      const customOptionResult = await editCustomOption(name_us_en, name_zh_hk, name_zh_cn, record.id);
+      const customOptionResult = await editCustomOption(
+        name_us_en,
+        name_zh_hk,
+        name_zh_cn,
+        record.id
+      );
       if (customOptionResult.data !== 1) {
         message.warning(intl.get("customOptionExist"));
         return;
@@ -464,6 +468,10 @@ function Content() {
             return;
           }
         }
+        message.success(intl.get("editCustomOptionSuccess"));
+        setTimeout(() => {
+          navigate("..");
+        }, 1500);
       }
     } else {
       const result = await insertCustomOption(
@@ -504,24 +512,6 @@ function Content() {
         }
       } else {
         message.warning(intl.get("customOptionExist"));
-      }
-    }
-  };
-
-  const onDelete = async () => {
-    const res = await deleteCustomOptionValueByCustomOptionID(record.id);
-    if (res.data > 0) {
-      const result = await deleteMenuItemCustomOptionByCustomOptionId(
-        record.id
-      );
-      if (result.data > 0) {
-        const result = await deleteCustomOption(record.id);
-        if (result.data === 1) {
-          message.success(intl.get("deleteSuccess"));
-          setTimeout(() => {
-            navigate("..");
-          }, 2000);
-        }
       }
     }
   };
@@ -569,51 +559,37 @@ function Content() {
           columns={columns()}
           rowKey={(record) => record.id}
         />
-        <Button
-          type="primary"
-          icon={<PlusCircleOutlined />}
-          id="btnAdd"
-          onClick={onAdd}
-        >
-          {intl.get("add")}
-        </Button>
-        <Button
-          type="primary"
-          id="btnSubmit"
-          icon={<SendOutlined />}
-          htmlType="submit"
-        >
-          {intl.get("submit")}
-        </Button>
-        <Button
-          id="btnDelete"
-          icon={<DeleteOutlined />}
-          onClick={() => setIsOpenConfirm(true)}
-          disabled={status === "add"}
-        >
-          {intl.get("delete")}
-        </Button>
-        <Button id="btnReset" icon={<RedoOutlined />} onClick={onRest}>
-          {intl.get("reset")}
-        </Button>
-        <Button
-          id="btnCancel"
-          icon={<CloseCircleOutlined />}
-          onClick={onCancel}
-        >
-          {intl.get("cancel")}
-        </Button>
+        <Space size="middle">
+          <Button
+            type="primary"
+            icon={<PlusCircleOutlined />}
+            id="btnAdd"
+            onClick={onAdd}
+          >
+            {intl.get("add")}
+          </Button>
+          <Button
+            id="btnCancel"
+            icon={<CloseCircleOutlined />}
+            onClick={onCancel}
+          >
+            {intl.get("cancel")}
+          </Button>
+        </Space>
+        <Space size="middle" style={{ float: "right" }}>
+          <Button id="btnReset" icon={<RedoOutlined />} onClick={onRest}>
+            {intl.get("reset")}
+          </Button>
+          <Button
+            type="primary"
+            id="btnSubmit"
+            icon={<SendOutlined />}
+            htmlType="submit"
+          >
+            {intl.get("submit")}
+          </Button>
+        </Space>
       </Form>
-      <Modal
-        open={isOpenConfirm}
-        title={intl.get("deleteCustomOption")}
-        okText={intl.get("yes")}
-        cancelText={intl.get("no")}
-        onCancel={() => setIsOpenConfirm(false)}
-        onOk={() => onDelete()}
-      >
-        <Typography.Text>{intl.get("ConfirmDelete")}</Typography.Text>
-      </Modal>
     </Layout.Content>
   );
 }

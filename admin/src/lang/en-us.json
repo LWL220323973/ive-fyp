@@ -77,6 +77,7 @@
   "emptyCustomOptionValue": "At least one value of custom option is required",
   "customOptionExist": "Custom option information repeated",
   "customOptionValueExist": "Custom option value repeated",
+  "editCustomOptionSuccess": "Edit Custom Option Successfully",
   "add": "Add",
   "edit": "Edit",
   "editDishesType": "Edit Dishes Type",
