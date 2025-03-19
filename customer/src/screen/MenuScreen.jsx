@@ -16,7 +16,7 @@ import { getPhoto } from "../api/GetPhoto";
 import { getSystemsProfile } from "../api/GetSystemsProfile";
 import { getOptionsAndValuesByMenuId } from "../api/GetOptionsAndValuesByMenuId";
 
-// Initial state
+// 初始狀態
 const initialState = {
   cart: JSON.parse(localStorage.getItem("cart") || "[]"),
   selectedItem: null,
@@ -31,7 +31,7 @@ const initialState = {
   },
 };
 
-// Reducer function
+// Reducer 函數
 const reducer = (state, action) => {
   switch (action.type) {
     case "SET_CART":
@@ -70,13 +70,13 @@ const MenuScreen = () => {
   const [itemOptions, setItemOptions] = useState([]);
   const [selectedOptions, setSelectedOptions] = useState({});
 
-  // Filter menu items based on selected category
+  // 過濾菜單項目，根據所選類別進行類型轉換
   const filteredItems = useMemo(() => {
     if (selectedCategory === "all") return menuItems;
-    return menuItems.filter((item) => item.type === selectedCategory);
+    return menuItems.filter((item) => String(item.type) === String(selectedCategory));
   }, [selectedCategory, menuItems]);
 
-  // Fetch image function
+  // 獲取圖片函數
   const fetchImage = async (path, itemId) => {
     try {
       setImageStatus((prev) => ({ ...prev, [itemId]: "loading" }));
@@ -91,7 +91,7 @@ const MenuScreen = () => {
     }
   };
 
-  // Initial data load
+  // 初始數據加載
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
@@ -129,7 +129,7 @@ const MenuScreen = () => {
     fetchInitialData();
   }, [t]);
 
-  // Handle table number in URL
+  // 處理 URL 中的桌號
   useEffect(() => {
     const urlTableNumber = searchParams.get("table");
     if (urlTableNumber === "0") {
@@ -148,7 +148,7 @@ const MenuScreen = () => {
     }
   }, [searchParams, tableNumber]);
 
-  // Check if employee authentication is required
+  // 檢查是否需要員工身份驗證
   useEffect(() => {
     if (
       factoryEmployeeCheckRequired &&
@@ -158,12 +158,12 @@ const MenuScreen = () => {
     }
   }, [isEmployee, factoryEmployeeCheckRequired]);
 
-  // Sync cart with localStorage
+  // 同步購物車與 localStorage
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(state.cart));
   }, [state.cart]);
 
-  // Confirm employee identity
+  // 確認員工身份
   const handleEmployeeConfirm = (isEmp) => {
     setIsEmployee(isEmp);
     localStorage.setItem("isEmployee", isEmp);
@@ -173,7 +173,7 @@ const MenuScreen = () => {
     }
   };
 
-  // Handle item click in menu
+  // 處理菜單項點擊
   const handleItemClick = async (item) => {
     dispatch({ type: "SET_SELECTED_ITEM", payload: item });
     dispatch({ type: "SET_MODAL", modal: "itemDetail", value: true });
@@ -186,7 +186,7 @@ const MenuScreen = () => {
     }
   };
 
-  // Initialize default options when item detail modal opens
+  // 初始化默認選項
   useEffect(() => {
     if (state.modalStates.itemDetail && itemOptions.length > 0) {
       const initialOptions = {};
@@ -197,12 +197,12 @@ const MenuScreen = () => {
     }
   }, [state.modalStates.itemDetail, itemOptions]);
 
-  // Handle option change in detail modal
+  // 處理選項更改
   const handleOptionChange = (optionId, value) => {
     setSelectedOptions((prev) => ({ ...prev, [optionId]: value }));
   };
 
-  // Calculate option price adjustment (total adjustment for current selection)
+  // 計算選項價格調整
   const calculateOptionAdjustment = () => {
     let totalAdjustment = 0;
     itemOptions.forEach((option) => {
@@ -219,11 +219,10 @@ const MenuScreen = () => {
     return totalAdjustment;
   };
 
-  // Add selected item to cart
+  // 添加到購物車
   const handleAddToCart = () => {
     if (!state.selectedItem) return;
 
-    // Build custom strings for each language based on user selection.
     const customStrings = { zh_HK: "", zh_CN: "", en_US: "" };
     let totalAdjustment = 0;
     itemOptions.forEach((option) => {
@@ -234,22 +233,16 @@ const MenuScreen = () => {
         );
         if (selectedValue) {
           totalAdjustment += selectedValue.price_adjustment;
-          // Append separator if needed and build string for each language.
           customStrings.zh_HK += customStrings.zh_HK ? "；" : "";
           customStrings.zh_HK += `${option["name_zh_hk"]}: ${selectedValue["value_zh_hk"]}`;
-          
           customStrings.zh_CN += customStrings.zh_CN ? "；" : "";
           customStrings.zh_CN += `${option["name_zh_cn"]}: ${selectedValue["value_zh_cn"]}`;
-          
           customStrings.en_US += customStrings.en_US ? "; " : "";
           customStrings.en_US += `${option["name_us_en"]}: ${selectedValue["value_us_en"]}`;
         }
       }
     });
 
-    // Determine key to check duplicate:
-    // Now if same item with same custom string exists, update quantity;
-    // Otherwise add new record.
     const existingItem = state.cart.find(
       (item) =>
         item.id === state.selectedItem.id &&
@@ -289,11 +282,10 @@ const MenuScreen = () => {
     setSelectedOptions({});
   };
 
-  // Update quantity for an item in cart
+  // 更新購物車中項目的數量
   const handleUpdateQuantity = (itemId, delta, customString) => {
     const newCart = state.cart
       .map((item) => {
-        // Check item id and custom string (using zh_HK as key) for uniqueness
         if (
           item.id === itemId &&
           item.custom_string_zh_HK === customString
@@ -307,7 +299,7 @@ const MenuScreen = () => {
     dispatch({ type: "SET_CART", payload: newCart });
   };
 
-  // Update quantity in detail modal
+  // 更新詳情模態框中的數量
   const handleDetailQuantityChange = (delta) => {
     const newQuantity = state.selectedQuantity + delta;
     if (newQuantity > 0) {
@@ -315,7 +307,7 @@ const MenuScreen = () => {
     }
   };
 
-  // Calculate total price in cart
+  // 計算購物車總價
   const getTotalPrice = () =>
     state.cart.reduce(
       (sum, item) =>
@@ -324,11 +316,11 @@ const MenuScreen = () => {
       0
     );
 
-  // Calculate total items in cart
+  // 計算購物車總項數
   const getTotalItems = () =>
     state.cart.reduce((sum, item) => sum + item.quantity, 0);
 
-  // Clear cart
+  // 清空購物車
   const handleClearCart = () => {
     Modal.confirm({
       title: t("clear_cart_confirm"),
@@ -340,7 +332,7 @@ const MenuScreen = () => {
     });
   };
 
-  // Confirm order and call API createOrder
+  // 確認訂單並調用 API
   const handleConfirmOrder = async () => {
     Modal.confirm({
       title: t("confirm_order_title"),
@@ -350,11 +342,9 @@ const MenuScreen = () => {
           await Promise.all(
             state.cart.map((item) =>
               createOrder({
-                // For item names, try both uppercase and lowercase keys
                 item_name_zh_HK: item.Name_zh_HK || item.name_zh_HK,
                 item_name_zh_CN: item.Name_zh_CN || item.name_zh_CN,
                 item_name_en_US: item.Name_en_US || item.name_en_US,
-                // Pass custom strings for each language
                 custom_string_zh_HK: item.custom_string_zh_HK || "",
                 custom_string_zh_CN: item.custom_string_zh_CN || "",
                 custom_string_en_US: item.custom_string_en_US || "",
@@ -377,11 +367,12 @@ const MenuScreen = () => {
     });
   };
 
-  // Group menu items by category
+  // 按類別分組菜單項，進行類型轉換
   const groupedItems = useMemo(() => {
     return filteredItems.reduce((acc, item) => {
-      acc[item.type] = acc[item.type] || [];
-      acc[item.type].push(item);
+      const key = String(item.type); // 轉為字串以保持一致性
+      acc[key] = acc[key] || [];
+      acc[key].push(item);
       return acc;
     }, {});
   }, [filteredItems]);
@@ -392,7 +383,7 @@ const MenuScreen = () => {
 
   return (
     <div className="menu-screen">
-      {/* Ordering Disabled Modal */}
+      {/* 下單停用模態框 */}
       <Modal
         title="下單已停用 / 下单已停用 / Ordering Disabled"
         open={state.modalStates.orderingDisabled}
@@ -405,7 +396,7 @@ const MenuScreen = () => {
         <p>Ordering is currently disabled. Please try again later!</p>
       </Modal>
 
-      {/* Scan Failed Modal */}
+      {/* 掃描失敗模態框 */}
       <Modal
         title="掃描失敗 / 扫描失败 / Snap Failed"
         open={state.modalStates.scanFailed}
@@ -418,7 +409,7 @@ const MenuScreen = () => {
         <p>Snap failed, please try again!</p>
       </Modal>
 
-      {/* Employee Check Modal */}
+      {/* 員工檢查模態框 */}
       <Modal
         open={state.modalStates.employeeCheck}
         footer={[
@@ -440,7 +431,7 @@ const MenuScreen = () => {
         <p>Are you a factory employee of this building?</p>
       </Modal>
 
-      {/* Non-Employee Modal */}
+      {/* 非員工模態框 */}
       <Modal
         open={state.modalStates.nonEmployee}
         footer={[
@@ -457,7 +448,7 @@ const MenuScreen = () => {
         <p>Sorry, Factory Employee of this building only</p>
       </Modal>
 
-      {/* Category Buttons */}
+      {/* 類別按鈕 */}
       <div className="search-filter">
         <div className="category-buttons">
           <Button
@@ -469,14 +460,14 @@ const MenuScreen = () => {
           {categories.map((cat) => (
             <Button
               key={cat.id}
-              type={selectedCategory === cat.id ? "primary" : "default"}
-              onClick={() => setSelectedCategory(cat.id)}
+              type={selectedCategory === String(cat.id) ? "primary" : "default"}
+              onClick={() => setSelectedCategory(String(cat.id))}
             >
               {t(
                 cat[
                   `name_${
                     i18n.language === "en"
-                      ? "Us_En"
+                      ? "Us_EN"
                       : i18n.language === "zh_CN"
                       ? "Zh_CN"
                       : "Zh_HK"
@@ -488,13 +479,13 @@ const MenuScreen = () => {
         </div>
       </div>
 
-      {/* Table Number Display */}
+      {/* 桌號顯示 */}
       <div className="table-number">
         <span className="table-label">{t("table_number")}:</span>
         <span className="table-value">{tableNumber || "N/A"}</span>
       </div>
 
-      {/* Item Detail Modal */}
+      {/* 菜單項詳情模態框 */}
       <Modal
         visible={state.modalStates.itemDetail}
         footer={null}
@@ -508,7 +499,6 @@ const MenuScreen = () => {
       >
         {state.selectedItem && (
           <div className="item-detail-container">
-            {/* Top area: Image + Name and Price */}
             <div className="item-detail-top">
               <div className="item-detail-photo">
                 <img
@@ -546,7 +536,6 @@ const MenuScreen = () => {
               </div>
             </div>
 
-            {/* Middle scrollable area for custom options */}
             {itemOptions.length > 0 && (
               <details className="item-detail-scrollable">
                 <summary>{t("custom")}</summary>
@@ -612,7 +601,6 @@ const MenuScreen = () => {
               </details>
             )}
 
-            {/* Bottom area: Quantity and Total Price */}
             <div className="item-detail-bottom">
               <div className="bottom-row">
                 <div className="detail-quantity">
@@ -647,7 +635,7 @@ const MenuScreen = () => {
         )}
       </Modal>
 
-      {/* Display Menu Items grouped by category */}
+      {/* 按類別顯示菜單項 */}
       {Object.keys(groupedItems).map((category) => {
         const sortedItems = groupedItems[category].slice().sort((a, b) => {
           if (a.onSale === "N" && b.onSale !== "N") return 1;
@@ -659,10 +647,10 @@ const MenuScreen = () => {
           <div key={category}>
             <h2 className="category-title">
               {
-                categories.find((cat) => cat.id === category)?.[
+                categories.find((cat) => String(cat.id) === category)?.[
                   `name_${
                     i18n.language === "en"
-                      ? "Us_En"
+                      ? "Us_EN"
                       : i18n.language === "zh_CN"
                       ? "Zh_CN"
                       : "Zh_HK"
@@ -729,7 +717,7 @@ const MenuScreen = () => {
         );
       })}
 
-      {/* Floating Cart */}
+      {/* 浮動購物車 */}
       {state.cart.length > 0 && (
         <div
           className="floating-cart"
@@ -744,7 +732,7 @@ const MenuScreen = () => {
         </div>
       )}
 
-      {/* Cart Modal */}
+      {/* 購物車模態框 */}
       <Modal
         visible={state.modalStates.cart}
         onCancel={() =>
@@ -807,7 +795,6 @@ const MenuScreen = () => {
                       ]
                     }
                   </div>
-                  {/* Display custom string if exists for current language */}
                   {item[
                     `custom_string_${
                       i18n.language === "en"
