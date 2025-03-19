@@ -22,7 +22,7 @@ public class DishesTypeService {
         return mapper.editDishesType(dishesType);
     }
 
-    public int deleteDishesType(String id) {
+    public int deleteDishesType(int id) {
         return mapper.deleteDishesType(id);
     }
 

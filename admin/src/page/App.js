@@ -5,7 +5,8 @@ import Home from "./Home";
 import Menu from "./Menu";
 import User from "./User/index";
 import UserInfo from "./User/Info";
-import ManageDishesType from "./Manage/manageDishesType";
+import ManageDishesType from "./Manage/manageDishesType/index";
+import ManageDishesTypeInfo from "./Manage/manageDishesType/info";
 import ManageCustomization from "./Manage/manageCustomization/index";
 import ManageCustomizationInfo from "./Manage/manageCustomization/info";
 
@@ -26,7 +27,10 @@ function App() {
               <Route index element={<ManageCustomization />} />
               <Route path="info" element={<ManageCustomizationInfo />} />
             </Route>
-            <Route path="dishesType"  element={<ManageDishesType/>}/>
+            <Route path="dishesType">
+              <Route index element={<ManageDishesType />} />
+              <Route path="info" element={<ManageDishesTypeInfo />} />
+            </Route>
           </Route>
         </Route>
       </Routes>

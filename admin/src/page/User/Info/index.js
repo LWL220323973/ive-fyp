@@ -246,7 +246,7 @@ function UserInfoContent() {
       {/* add user by from */}
       <Form
         form={form}
-        name="form"
+        name="userInfoForm"
         layout="vertical"
         onFinish={onFinish}
         hidden={isHidden}

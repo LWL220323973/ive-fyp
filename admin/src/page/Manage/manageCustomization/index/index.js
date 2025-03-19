@@ -7,6 +7,7 @@ import Header from "../../../layout/Header";
 import intl from "react-intl-universal";
 import { useNavigate } from "react-router-dom";
 import { getAllCustomOption } from "../../../../api/CustomOption";
+import "./index.css";
 
 function ManageCustomization() {
   return (
@@ -108,6 +109,7 @@ function Content() {
         </Button>
       </Typography.Title>
       <Table
+        id="customizationTable"
         dataSource={Array.isArray(data) ? data : []}
         pagination={{
           position: ["bottomCenter"],
@@ -120,7 +122,7 @@ function Content() {
         onRow={(record) => {
           return {
             onClick: () => {
-              navigate("info", { state: { record: record, status: "edit" } });
+              navigate("./info", { state: { record: record, status: "edit" } });
             },
           };
         }}

@@ -15,10 +15,12 @@ function Sider() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(
+    localStorage.getItem("siderCollapsed") === "true"
+  );
   const onCollapse = (collapsed) => {
     setCollapsed(collapsed);
-    sessionStorage.setItem("siderCollapsed", collapsed);
+    localStorage.setItem("siderCollapsed", collapsed);
   };
 
   const selectedKey = () => {

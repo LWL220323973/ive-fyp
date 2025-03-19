@@ -22,7 +22,7 @@
         VALUES (#{name_Zh_HK}, #{name_Us_EN}, #{name_Zh_CN})
     </insert>
 
-    <delete id="deleteDishesType" parameterType="String">
+    <delete id="deleteDishesType" parameterType="int">
         DELETE FROM dishes_type WHERE id = #{id}
     </delete>
 

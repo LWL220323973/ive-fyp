@@ -235,6 +235,7 @@ function UserContent() {
       </Row>
       <Row justify="end" align="middle">
         <Table
+          id="userTable"
           dataSource={Array.isArray(data) ? data : []}
           scroll={{
             scrollToFirstRowOnChange: true,

@@ -8,23 +8,23 @@ export function getDishesType() {
   return axios.get(baseURL + "/getAllDishesType");
 }
 
-export function insertDishesType(name_Zh_HK, name_Zh_CN, name_Us_En) {
+export function insertDishesType(name_Zh_HK, name_Zh_CN, name_Us_EN) {
   return axios.post(baseURL + "/insertDishesType", {
     name_Zh_HK,
     name_Zh_CN,
-    name_Us_En,
+    name_Us_EN,
   });
 }
 
-export function updateDishesType(name_Zh_HK, name_Zh_CN, name_Us_En, id) {
-  return axios.put(baseURL + "/updateDishesType", {
+export function editDishesType(name_Zh_HK, name_Zh_CN, name_Us_EN, id) {
+  return axios.post(baseURL + "/editDishesType", {
     name_Zh_HK,
     name_Zh_CN,
-    name_Us_En,
+    name_Us_EN,
     id,
   });
 }
 
 export function deleteDishesType(id) {
-  return axios.delete(baseURL + "/deleteDishesType", { id });
+  return axios.post(baseURL + "/deleteDishesType", { id });
 }

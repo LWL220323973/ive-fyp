@@ -1,0 +1,17 @@
+#buttonGroup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#dishTypeInfoForm {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  border: 2px solid #000000;
+}
+
+#cancelButton {
+  display: flex;
+  float: left;
+}

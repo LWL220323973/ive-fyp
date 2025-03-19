@@ -55,7 +55,7 @@ function MenuContent() {
       if (localStorage.getItem("locale") === "zh-HK") {
         setDishesType(
           data.map((item) => (
-            <Tooltip title={item.name_Zh_HK} key={item.id}>
+            <Tooltip title={item.name_Zh_HK} key={item.name_Zh_HK}>
               <Button
                 type="primary"
                 color="primary"
@@ -87,7 +87,7 @@ function MenuContent() {
         console.log(data);
         setDishesType(
           data.map((item) => (
-            <Tooltip title={item.name_Us_En} key={item.id}>
+            <Tooltip title={item.name_Us_En} key={item.name_Us_En}>
               <Button
                 type="primary"
                 color="primary"
@@ -273,7 +273,7 @@ function MenuContent() {
         {dishesType}
       </Row>
       <Row justify="center">
-        <Form form={form} name="form" layout="vertical" onFinish={onSearch}>
+        <Form form={form} name="menuForm" layout="vertical" onFinish={onSearch}>
           <Row justify="center" gutter={[20, 10]}>
             {formItem(localStorage.getItem("locale"))}
             <Col span={2}>
@@ -324,6 +324,7 @@ function MenuContent() {
       <Row justify="center" style={{ marginBottom: 20 }}>
         <Col span={22}>
           <Table
+          id="menuTable"
             dataSource={Array.isArray(data) ? data : []}
             scroll={{
               scrollToFirstRowOnChange: true,

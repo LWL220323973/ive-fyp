@@ -1,6 +1,5 @@
 package com.server.controller;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,11 +57,17 @@ public class DishesTypeController {
 
     @PostMapping("/api/dishesType/deleteDishesType")
     public int deleteDishesType(@RequestBody DishesType dishesType) {
-        log.info("Deleting Dishes Type (" + dishesType.getId() + ") " + dishesType.toString());
-        int result = service.deleteDishesType(dishesType.getId());
-        if (result == 1) {
-            log.info("Dishes Type (" + dishesType.getId() + ") deleted successfully");
+        try {
+            log.info("Deleting Dishes Type (" + dishesType.getId() + ") " + dishesType.toString());
+            int result = service.deleteDishesType(dishesType.getId());
+            if (result == 1) {
+                log.info("Dishes Type (" + dishesType.getId() + ") deleted successfully");
+            }
+            return result;
+        } catch (Exception e) {
+            log.error("Error deleting Dishes Type (" + dishesType.getId() + ") " + dishesType.toString(), e);
+            return 0;
         }
-        return result;
+
     }
 }

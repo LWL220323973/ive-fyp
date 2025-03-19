@@ -13,7 +13,7 @@ public interface DishesTypeMapper {
 
     int editDishesType(DishesType dishesType);
 
-    int deleteDishesType(String id);
+    int deleteDishesType(int id);
 
     int insertDishesType(DishesType dishesType);
 }

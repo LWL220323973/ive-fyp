@@ -78,5 +78,16 @@
   "customOptionExist": "特製項目內容有重複",
   "customOptionValueExist": "特製項目選項有重複",
   "add": "新增",
-  "edit": "編輯"
+  "edit": "編輯",
+  "editDishesType": "編輯菜品類型",
+  "addDishesType": "新增菜品類型",
+  "deleteDishesType": "刪除菜品類型",
+  "pleaseEnterChinese": "請輸入中文",
+  "pleaseEnterEnglish": "請輸入英文",
+  "editDishesTypeSuccess": "編輯菜品類型成功",
+  "editDishesTypeFailed": "編輯菜品類型失敗, 數據重複",
+  "addDishesTypeSuccess": "新增菜品類型成功",
+  "addDishesTypeFailed": "新增菜品類型失敗, 數據重複",
+  "deleteDishesTypeSuccess": "刪除菜品類型成功",
+  "deleteDishesTypeFailed": "刪除菜品類型失敗, 此類型正在使用"
 }
