@@ -1,0 +1,39 @@
+#btnGrpDishType {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  padding: 1%;
+}
+
+#menuForm {
+  display: "flex";
+  flex-wrap: wrap;
+  margin-top: 1%;
+  margin-bottom: 1%;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  border: 2px solid #000000;
+}
+
+#menuTable {
+  margin-top: 1%;
+  margin-bottom: 1%;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  border: 2px solid #000000;
+}
+
+#formControlButtonGrp {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  padding: 1%;
+}
+
+#menuAddBtn{
+  float: right;
+}

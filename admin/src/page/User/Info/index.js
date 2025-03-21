@@ -51,7 +51,10 @@ function UserInfo() {
 function UserInfoContent() {
   const status = sessionStorage.getItem("userInfoStatus");
   const location = useLocation();
-  const record = useMemo(() => (location.state && location.state.record) || {}, [location]);
+  const record = useMemo(
+    () => (location.state && location.state.record) || {},
+    [location]
+  );
   const [form] = Form.useForm();
   const navigate = useNavigate();
   // const [open, setOpen] = useState(false);

@@ -36,7 +36,6 @@ import {
   insertCustomOption,
   getLastCustomOptionID,
 } from "../../../../api/CustomOption";
-import { deleteMenuItemCustomOptionByCustomOptionId } from "../../../../api/MenuItemCustomOptions";
 
 function ManageCustomizationInfo() {
   return (
@@ -535,7 +534,7 @@ function Content() {
   return (
     <Layout.Content style={style}>
       <Row>
-        <Typography.Title level={2}>
+      <Typography.Title level={2}>
           {status === "edit"
             ? intl.get("editCustomOption")
             : intl.get("addCustomOption")}

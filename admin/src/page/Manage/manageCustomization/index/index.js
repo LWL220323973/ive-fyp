@@ -89,17 +89,17 @@ function Content() {
       const variableColumns = [
         {
           title: intl.get("en-us"),
-          dataIndex: "name_Us_EN",
+          dataIndex: "name_us_en",
           key: "name_Us_EN",
         },
         {
           title: intl.get("zh-hk"),
-          dataIndex: "name_Zh_HK",
+          dataIndex: "name_zh_hk",
           key: "name_Zh_HK",
         },
         {
           title: intl.get("zh-cn"),
-          dataIndex: "name_Zh_CN",
+          dataIndex: "name_zh_cn",
           key: "name_Zh_CN",
         },
       ];
@@ -143,7 +143,7 @@ function Content() {
   };
   return (
     <Layout.Content style={style}>
-      <Typography.Title level={1}>
+      <Typography.Title level={2}>
         {intl.get("specialItem")}
         <Button
           type="primary"

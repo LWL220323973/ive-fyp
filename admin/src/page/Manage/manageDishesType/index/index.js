@@ -133,7 +133,7 @@ function Content() {
 
   return (
     <Layout.Content style={style}>
-      <Typography.Title level={1}>
+      <Typography.Title level={2}>
         {intl.get("DishesType")}
         <Button
           type="primary"

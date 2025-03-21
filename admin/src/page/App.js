@@ -2,7 +2,8 @@ import "../style/App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./Login";
 import Home from "./Home";
-import Menu from "./Menu";
+import Menu from "./Menu/index";
+import MenuInfo from "./Menu/info";
 import User from "./User/index";
 import UserInfo from "./User/Info";
 import ManageDishesType from "./Manage/manageDishesType/index";
@@ -17,7 +18,10 @@ function App() {
         <Route path="/">
           <Route index element={<Login />} />
           <Route path="home" element={<Home />} />
-          <Route path="menu" element={<Menu />} />
+          <Route path="menu/">
+            <Route index element={<Menu />} />
+            <Route path="info" element={<MenuInfo />} />
+          </Route>
           <Route path="user/">
             <Route index element={<User />} />
             <Route path="userInfo" element={<UserInfo />} />

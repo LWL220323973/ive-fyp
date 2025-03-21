@@ -2,7 +2,7 @@ import axios from "axios";
 
 const baseURL = "http://localhost:8080/api/menu";
 
-export function findInMenu(
+export function searchInMenu(
   name_zh_HK,
   name_zh_CN,
   name_en_US,
