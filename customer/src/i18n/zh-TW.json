@@ -21,6 +21,8 @@
   "total_price": "總計",
   "service_charge": "多謝加一服務費",
   "no_orders": "沒有訂單",
+  "no_orders_message": "您目前沒有任何訂單，請前往菜單點餐。",
+  "go_to_menu": "前往菜單",
   "confirm_order_title": "確認訂單",
   "confirm_order_content": "您確定要下單嗎？下單後不可取消。",
   "order_placed_successfully": "下單成功",

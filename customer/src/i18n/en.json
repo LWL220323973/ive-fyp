@@ -21,6 +21,8 @@
   "total_price": "Total",
   "service_charge": "Service Charge",
   "no_orders": "No Orders",
+  "no_orders_message": "You currently have no orders. Please go to menu to place an order.",
+  "go_to_menu": "Go to Menu",
   "confirm_order_title": "Confirm Order",
   "confirm_order_content": "Are you sure you want to place this order? No cancellation after order is placed.",
   "order_placed_successfully": "Order placed successfully",

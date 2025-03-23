@@ -61,15 +61,49 @@ html, body {
     max-width: 600px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    transition: transform 0.3s, box-shadow 0.3s;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* 可點擊的訂單項目樣式 */
+.order-item.has-custom-options {
+    cursor: pointer;
+    position: relative;
+}
+
+.order-item.has-custom-options:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.02);
+    opacity: 0;
+    transition: opacity 0.2s;
+    border-radius: 8px;
+}
+
+.order-item.has-custom-options:hover:after {
+    opacity: 1;
 }
 
 /* Hover effect for order item */
 .order-item:hover {
-    transform: translateY(-5px);
+    transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* 點擊不可展開的項目不應有 hover 效果 */
+.order-item.service-charge-item {
+    cursor: default;
+}
+
+.order-item.service-charge-item:hover {
+    transform: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Styling for order information text */
@@ -77,6 +111,14 @@ html, body {
     display: flex;
     flex-direction: column;
     gap: 5px;
+    position: relative;
+}
+
+/* 菜單名稱和自定義選項指示器的容器 */
+.name-and-options {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 /* Styling for menu name */
@@ -90,6 +132,19 @@ html, body {
 .quantity {
     font-size: 16px;
     color: #555;
+}
+
+/* 自定義選項指示器樣式 - 改良版本 */
+.custom-indicator {
+    display: inline-block;
+    color: #fff;
+    background-color: #b22222;
+    font-size: 12px;
+    border-radius: 10px;
+    padding: 2px 6px;
+    margin-left: 8px;
+    line-height: 1;
+    vertical-align: middle;
 }
 
 /* Styling for price and quantity */
@@ -112,14 +167,34 @@ html, body {
     margin-top: 2px;
 }
 
+/* 自定義選項容器 */
+.custom-options-container {
+    width: 100%;
+    margin-top: 10px;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.3s ease, margin-top 0.3s ease;
+    opacity: 0;
+}
+
+/* 展開的自定義選項容器 */
+.order-item .custom-options-container {
+    max-height: 100px;
+    opacity: 1;
+    margin-top: 10px;
+}
+
 /* Styling for custom options */
 .custom-options {
     font-size: 14px;
     color: #666;
     font-style: italic;
-    margin-top: 4px;
-    padding-left: 5px;
-    border-left: 2px solid #ddd;
+    padding: 8px 12px;
+    background-color: #f9f9f9;
+    border-radius: 6px;
+    border-left: 3px solid #ddd;
+    display: block;
+    transition: all 0.3s ease;
 }
 
 /* Styling for total price at the bottom */

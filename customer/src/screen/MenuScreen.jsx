@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useReducer } from "react";
-import { Card, Row, Col, Button, Modal, message } from "antd";
+import { Card, Row, Col, Button, Modal, message, Spin } from "antd";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 import "../style/menu.css";
@@ -10,26 +10,12 @@ import {
   CheckOutlined,
   CloseOutlined,
   ReloadOutlined,
+  SettingOutlined,
 } from "@ant-design/icons";
 import { createOrder } from "../api/CreateOrder";
 import { getPhoto } from "../api/GetPhoto";
 import { getSystemsProfile } from "../api/GetSystemsProfile";
 import { getOptionsAndValuesByMenuId } from "../api/GetOptionsAndValuesByMenuId";
-
-// 初始狀態
-const initialState = {
-  cart: JSON.parse(localStorage.getItem("cart") || "[]"),
-  selectedItem: null,
-  selectedQuantity: 1,
-  modalStates: {
-    itemDetail: false,
-    cart: false,
-    employeeCheck: false,
-    nonEmployee: false,
-    scanFailed: false,
-    orderingDisabled: false,
-  },
-};
 
 // Reducer 函數
 const reducer = (state, action) => {
@@ -53,7 +39,25 @@ const reducer = (state, action) => {
 const MenuScreen = () => {
   const { t, i18n } = useTranslation();
   const [searchParams] = useSearchParams();
-  const [state, dispatch] = useReducer(reducer, initialState);
+
+  // 在組件內部定義初始狀態函數，確保每次組件掛載時都能重新讀取 localStorage
+  const getInitialState = () => ({
+    cart: JSON.parse(localStorage.getItem("cart") || "[]"),
+    selectedItem: null,
+    selectedQuantity: 1,
+    modalStates: {
+      itemDetail: false,
+      cart: false,
+      employeeCheck: false,
+      nonEmployee: false,
+      scanFailed: false,
+      orderingDisabled: false,
+    },
+  });
+
+  // 使用 initializer 函數參數來確保每次都重新計算初始狀態
+  const [state, dispatch] = useReducer(reducer, null, getInitialState);
+
   const [isLoading, setIsLoading] = useState(true);
   const [menuItems, setMenuItems] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -69,11 +73,15 @@ const MenuScreen = () => {
   const [imageStatus, setImageStatus] = useState({});
   const [itemOptions, setItemOptions] = useState([]);
   const [selectedOptions, setSelectedOptions] = useState({});
+  const [imageModalVisible, setImageModalVisible] = useState(false);
+  const [enlargedImageUrl, setEnlargedImageUrl] = useState("");
 
   // 過濾菜單項目，根據所選類別進行類型轉換
   const filteredItems = useMemo(() => {
     if (selectedCategory === "all") return menuItems;
-    return menuItems.filter((item) => String(item.type) === String(selectedCategory));
+    return menuItems.filter(
+      (item) => String(item.type) === String(selectedCategory)
+    );
   }, [selectedCategory, menuItems]);
 
   // 獲取圖片函數
@@ -202,6 +210,11 @@ const MenuScreen = () => {
     setSelectedOptions((prev) => ({ ...prev, [optionId]: value }));
   };
 
+  const showImageModal = (url) => {
+    setEnlargedImageUrl(url);
+    setImageModalVisible(true);
+  };
+
   // 計算選項價格調整
   const calculateOptionAdjustment = () => {
     let totalAdjustment = 0;
@@ -286,10 +299,7 @@ const MenuScreen = () => {
   const handleUpdateQuantity = (itemId, delta, customString) => {
     const newCart = state.cart
       .map((item) => {
-        if (
-          item.id === itemId &&
-          item.custom_string_zh_HK === customString
-        ) {
+        if (item.id === itemId && item.custom_string_zh_HK === customString) {
           const newQuantity = item.quantity + delta;
           return newQuantity > 0 ? { ...item, quantity: newQuantity } : null;
         }
@@ -311,8 +321,7 @@ const MenuScreen = () => {
   const getTotalPrice = () =>
     state.cart.reduce(
       (sum, item) =>
-        sum +
-        (item.price + (item.customPrice || 0)) * item.quantity,
+        sum + (item.price + (item.customPrice || 0)) * item.quantity,
       0
     );
 
@@ -378,7 +387,11 @@ const MenuScreen = () => {
   }, [filteredItems]);
 
   if (isLoading) {
-    return <div className="menu-screen">Loading...</div>;
+    return (
+      <div className="loading-container">
+        <Spin size="large" />
+      </div>
+    );
   }
 
   return (
@@ -448,6 +461,21 @@ const MenuScreen = () => {
         <p>Sorry, Factory Employee of this building only</p>
       </Modal>
 
+      <Modal
+        visible={imageModalVisible}
+        footer={null}
+        onCancel={() => setImageModalVisible(false)}
+        centered
+        width="40%"
+        bodyStyle={{ padding: 0 }}
+      >
+        <img
+          src={enlargedImageUrl}
+          alt="Enlarged"
+          style={{ width: "95%", height: "auto" }}
+        />
+      </Modal>
+
       {/* 類別按鈕 */}
       <div className="search-filter">
         <div className="category-buttons">
@@ -500,7 +528,10 @@ const MenuScreen = () => {
         {state.selectedItem && (
           <div className="item-detail-container">
             <div className="item-detail-top">
-              <div className="item-detail-photo">
+              <div
+                className="item-detail-photo"
+                onClick={() => showImageModal(state.selectedItem.imageUrl)}
+              >
                 <img
                   src={state.selectedItem.imageUrl}
                   alt={
@@ -579,7 +610,9 @@ const MenuScreen = () => {
                             handleOptionChange(option.id, value.id)
                           }
                         />
-                        <label htmlFor={`option-${option.id}-value-${value.id}`}>
+                        <label
+                          htmlFor={`option-${option.id}-value-${value.id}`}
+                        >
                           {
                             value[
                               `value_${
@@ -765,7 +798,10 @@ const MenuScreen = () => {
             </div>
           ) : (
             state.cart.map((item) => (
-              <div key={`${item.id}-${item.custom_string_zh_HK}`} className="cart-item">
+              <div
+                key={`${item.id}-${item.custom_string_zh_HK}`}
+                className="cart-item"
+              >
                 <img
                   src={item.imageUrl}
                   alt={
@@ -805,6 +841,7 @@ const MenuScreen = () => {
                     }`
                   ] && (
                     <div className="cart-item-custom">
+                      <SettingOutlined className="cart-item-options-icon" />
                       {
                         item[
                           `custom_string_${
@@ -818,7 +855,9 @@ const MenuScreen = () => {
                       }
                     </div>
                   )}
-                  <div>${((item.price + (item.customPrice || 0)) * item.quantity).toFixed(2)}</div>
+                  <div className="cart-item-price">
+                    ${((item.price + (item.customPrice || 0)) * item.quantity).toFixed(2)}
+                  </div>
                 </div>
                 <div className="cart-item-quantity">
                   <button
@@ -837,11 +876,7 @@ const MenuScreen = () => {
                   <button
                     className="quantity-button"
                     onClick={() =>
-                      handleUpdateQuantity(
-                        item.id,
-                        1,
-                        item.custom_string_zh_HK
-                      )
+                      handleUpdateQuantity(item.id, 1, item.custom_string_zh_HK)
                     }
                   >
                     +

@@ -21,6 +21,8 @@
   "total_price": "总计",
   "service_charge": "多谢加一服务费",
   "no_orders": "没有订单",
+  "no_orders_message": "您目前没有任何订单，请前往菜单点餐。",
+  "go_to_menu": "前往菜单",
   "confirm_order_title": "确认订单",
   "confirm_order_content": "您确定要下单吗？下单后不可取消。",
   "order_placed_successfully": "下单成功",
