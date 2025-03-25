@@ -137,6 +137,7 @@
   "updateSettingsSuccess": "系統設定更新成功",
   "updateSettingsFailed": "系統設定更新失敗",
   "fetchDataFailed": "獲取數據失敗",
+  "fieldRequired": "此字段為必填",
   "editMenu": "編輯菜單 - ",
   "addMenu": "新增菜單",
   "uploadImage": "上傳圖片(PNG, JPG)"

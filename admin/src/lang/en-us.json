@@ -136,6 +136,7 @@
   "save": "Save",
   "updateSettingsSuccess": "System settings updated successfully",
   "updateSettingsFailed": "Failed to update system settings",
+  "fieldRequired": "This field is required",
   "fetchDataFailed": "Failed to fetch data",
   "editMenu": "Edit Menu - ",
   "addMenu": "Add Menu",
