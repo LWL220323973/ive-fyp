@@ -19,7 +19,25 @@ public class MenuController {
     @PostMapping("/api/menu/findInMenu")
     public List<Menu> findInMenu(@RequestBody Menu menu) {
         return service.findInMenu(menu);
-
     }
 
+    @PostMapping("/api/menu/insertMenu")
+    public int insertMenu(@RequestBody Menu menu) {
+        return service.insertMenu(menu);
+    }
+
+    @PostMapping("/api/menu/updateMenu")
+    public int updateMenu(@RequestBody Menu menu) {
+        return service.updateMenu(menu);
+    }
+    
+    @PostMapping("/api/menu/deleteMenu")
+    public int deleteMenu(@RequestBody Menu menu) {
+        return service.deleteMenu(menu);
+    }
+
+    @PostMapping("/api/menu/getLastMenu")
+    public Menu getLastMenu() {
+        return service.getLastMenu();
+    }
 }

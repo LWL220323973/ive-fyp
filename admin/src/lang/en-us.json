@@ -136,5 +136,8 @@
   "save": "Save",
   "updateSettingsSuccess": "System settings updated successfully",
   "updateSettingsFailed": "Failed to update system settings",
-  "fetchDataFailed": "Failed to fetch data"
+  "fetchDataFailed": "Failed to fetch data",
+  "editMenu": "Edit Menu - ",
+  "addMenu": "Add Menu",
+  "uploadImage": "Upload Image(PNG, JPG)"
 }

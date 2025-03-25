@@ -15,3 +15,17 @@ export function deleteMenuItemCustomOptionByCustomOptionId(customOptionId) {
     customOptionId,
   });
 }
+
+//get the menu item custom option by menu item id
+export function getMenuItemCustomOptionByMenuItemId(menuItemId) {
+  return axios.post(baseURL + "/getMenuItemCustomOptionByMenuItemId", {
+    menuItemId,
+  });
+}
+
+export function insertMenuItemCustomOption(menuId, customOptionId) {
+  return axios.post(baseURL + "/insertMenuItemCustomOption", {
+    menuId,
+    customOptionId,
+  });
+}

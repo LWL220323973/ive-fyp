@@ -6,8 +6,7 @@
     <select id="findInMenu" resultType="com.server.model.Menu">
 
         SELECT * FROM menu
-        <where> 
-        1=1
+        <where>  1=1
             <if test="name_en_US != null and name_en_US != ''">
             AND (Name_en_US LIKE CONCAT( #{name_en_US}, '%'))
             </if>
@@ -32,7 +31,47 @@
         </where>
     </select>
 
-    <select id="getMenuById" parameterType="long" resultType="com.server.model.Menu">
-        SELECT * FROM menu WHERE id = #{id}
+    <insert id="insertMenu" parameterType="com.server.model.Menu">
+        INSERT INTO menu (name_en_US, name_zh_HK, name_zh_CN, price, onSale, type, path)
+        VALUES (#{Name_en_US}, #{Name_zh_HK}, #{Name_zh_CN}, #{price}, #{onSale}, #{type}, #{path})
+    </insert>
+
+    <update id="updateMenu" parameterType="com.server.model.Menu">
+        UPDATE menu
+        <set>
+            <if test="name_en_US != null and name_en_US != ''">
+            name_en_US = #{name_en_US},
+            </if>
+            <if test="name_zh_HK != null and name_zh_HK != ''">
+            name_zh_HK = #{name_zh_HK},
+            </if>
+            <if test="name_zh_CN != null and name_zh_CN != ''">
+            name_zh_CN = #{name_zh_CN},
+            </if>
+            <if test="price != null and price != ''">
+            price = #{price},
+            </if>
+            <if test="onSale != null and onSale != ''">
+            onSale = #{onSale},
+            </if>
+            <if test="type != null and type != ''">
+            type = #{type},
+            </if>
+            <if test="path != null and path != ''">
+            path = #{path},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteMenu" parameterType="int">
+        DELETE FROM menu
+        WHERE id = #{id}
+    </delete>
+
+    <select id="getLastMenu" resultType="com.server.model.Menu">
+        SELECT * FROM menu 
+        ORDER BY id DESC
+        LIMIT 1
     </select>
 </mapper>
