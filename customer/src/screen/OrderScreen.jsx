@@ -12,7 +12,7 @@ const OrderScreen = () => {
     const tableName = localStorage.getItem('tableNumber') || '';
     // State to store the table number, retrieved from localStorage if available
     const [tableNumber, setTableNumber] = useState(localStorage.getItem('tableNumber') || '');
-    const [serviceChargeRequired, setServiceChargeRequired] = useState(false);
+    const [isServiceChargeRequired, setServiceChargeRequired] = useState(false);
     const [noOrderModalVisible, setNoOrderModalVisible] = useState(false); // 控制模態框顯示
     const [isLoading, setIsLoading] = useState(true); // 添加載入狀態
     const [expandedItems, setExpandedItems] = useState({}); // 新增：追蹤展開項目的狀態
@@ -42,7 +42,7 @@ const OrderScreen = () => {
     useEffect(() => {
         // 只有在載入完成後才檢查是否顯示模態框
         if (!isLoading) {
-            const activeOrders = orders.filter(order => order.orderStatusId === 1);
+            const activeOrders = orders.filter(order => order.orderStatusId === 1 || order.orderStatusId === 2);
             setNoOrderModalVisible(activeOrders.length === 0);
         }
     }, [orders, isLoading]);
@@ -52,7 +52,7 @@ const OrderScreen = () => {
             try {
                 const response = await getSystemsProfile();
                 const profile = response.data;
-                setServiceChargeRequired(profile.serviceChargeRequired);
+                setServiceChargeRequired(profile.isServiceChargeRequired);
             } catch (error) {
                 console.error('Failed to fetch systems profile:', error);
             }
@@ -93,25 +93,25 @@ const OrderScreen = () => {
 
     const calculateTotalPrice = () => {
         const total = orders
-            .filter(order => order.orderStatusId === 1)
+            .filter(order => order.orderStatusId === 1 || order.orderStatusId === 2)
             .reduce((total, order) => total + (order.price + order.customPrice) * order.quantity, 0);
-        return serviceChargeRequired ? (total * 1.1).toFixed(2) : total.toFixed(2);
+        return isServiceChargeRequired ? (total * 1.1).toFixed(2) : total.toFixed(2);
     };
 
     const calculateServiceCharge = () => {
         const total = orders
-            .filter(order => order.orderStatusId === 1)
+            .filter(order => order.orderStatusId === 1 || order.orderStatusId === 2)
             .reduce((total, order) => total + (order.price + order.customPrice) * order.quantity, 0);
         return (total * 0.1).toFixed(1);
     };
 
     const calculateTotalItems = () => {
         return orders
-            .filter(order => order.orderStatusId === 1)
+            .filter(order => order.orderStatusId === 1 || order.orderStatusId === 2)
             .reduce((total, order) => total + order.quantity, 0);
     };
 
-    const filteredOrders = orders.filter(order => order.orderStatusId === 1);
+    const filteredOrders = orders.filter(order => order.orderStatusId === 1 || order.orderStatusId === 2);
 
     // 切換訂單項目的展開/折疊狀態
     const toggleItemExpansion = (orderId) => {
@@ -173,7 +173,7 @@ const OrderScreen = () => {
                                 )}
                             </li>
                         ))}
-                        {serviceChargeRequired && (
+                        {isServiceChargeRequired && (
                             <li className="order-item service-charge-item">
                                 <div className="order-info">
                                     <span className="menu-name">{t('service_charge')}</span>

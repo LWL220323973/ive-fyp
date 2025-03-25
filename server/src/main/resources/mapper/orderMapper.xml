@@ -29,6 +29,33 @@
             o.table_name = #{tableName}
     </select>
 
+    <select id="getAllOrders" resultMap="OrderResultMap">
+        SELECT 
+            o.id,
+            o.order_status_id AS orderStatusId,
+            o.item_name_zh_HK AS itemNameZhHK,
+            o.item_name_zh_CN AS itemNameZhCN,
+            o.item_name_en_US AS itemNameEnUS,
+            o.custom_string_zh_HK AS customStringZhHK,
+            o.custom_string_zh_CN AS customStringZhCN,
+            o.custom_string_en_US AS customStringEnUS,
+            o.price,
+            o.custom_price AS customPrice,
+            o.quantity,
+            o.table_name AS tableName,
+            o.created_at AS createdAt,
+            o.updated_at AS updatedAt,
+            os.status_en_US AS statusEnUS,
+            os.status_zh_HK AS statusZhHK,
+            os.status_zh_CN AS statusZhCN
+        FROM 
+            `order` o
+        JOIN 
+            order_status os ON o.order_status_id = os.id
+        ORDER BY
+            o.created_at ASC
+    </select>
+
     <resultMap id="OrderResultMap" type="com.server.model.Order">
         <id property="id" column="id"/>
         <result property="orderStatusId" column="orderStatusId"/>
@@ -84,5 +111,33 @@
             NOW()
         )
     </insert>
+
+    <update id="updateOrderStatus">
+        UPDATE `order`
+        SET 
+            order_status_id = #{orderStatusId},
+            updated_at = NOW()
+        WHERE 
+            id = #{orderId}
+    </update>
+
+    <update id="updateOrderTable">
+        UPDATE `order`
+        SET 
+            table_name = #{newTableName},
+            updated_at = NOW()
+        WHERE 
+            id = #{orderId}
+    </update>
+
+    <update id="updateAllOrdersTables">
+        UPDATE `order`
+        SET 
+            table_name = #{newTableName},
+            updated_at = NOW()
+        WHERE 
+            table_name = #{oldTableName}
+            AND order_status_id IN (1, 2)
+    </update>
 
 </mapper>

@@ -6,7 +6,9 @@
 
   <resultMap id="SystemsProfileResultMap" type="com.server.model.SystemsProfile">
     <id property="id" column="id" />
-    <result property="restaurantName" column="restaurant_name" />
+    <result property="restaurantNameZhHK" column="restaurant_name_Zh_HK" />
+    <result property="restaurantNameZhCN" column="restaurant_name_Zh_CN" />
+    <result property="restaurantNameUsEN" column="restaurant_name_Us_EN" />
     <result property="isOrderingDisabled" column="is_ordering_disabled" />
     <result property="isServiceChargeRequired" column="is_service_charge_required" />
     <result property="isFactoryEmployeeCheckRequired" column="is_factory_employee_check_required" />
@@ -15,5 +17,21 @@
   <select id="getSystemsProfile" resultMap="SystemsProfileResultMap">
     SELECT * FROM systems_profile LIMIT 1
   </select>
+  
+  <update id="updateRestaurantName" parameterType="com.server.model.SystemsProfile">
+    UPDATE systems_profile SET 
+    restaurant_name_Zh_HK = #{restaurantNameZhHK},
+    restaurant_name_Zh_CN = #{restaurantNameZhCN},
+    restaurant_name_Us_EN = #{restaurantNameUsEN}
+    WHERE id = #{id}
+  </update>
+
+  <update id="updateSystemSettings" parameterType="com.server.model.SystemsProfile">
+    UPDATE systems_profile SET 
+    is_ordering_disabled = #{isOrderingDisabled},
+    is_service_charge_required = #{isServiceChargeRequired},
+    is_factory_employee_check_required = #{isFactoryEmployeeCheckRequired}
+    WHERE id = #{id}
+  </update>
 
 </mapper>

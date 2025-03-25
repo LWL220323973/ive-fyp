@@ -3,7 +3,6 @@
   "all_categories": "所有分类",
   "menu": "菜单",
   "orders": "订单",
-  "app_title": "宝斯重庆纸包鱼",
   "category": "分类",
   "price": "价格",
   "table_number": "桌号",
@@ -28,6 +27,6 @@
   "order_placed_successfully": "下单成功",
   "order_placement_failed": "下单失败",
   "sold_out": "售罄",
-  "custom": "自定义",
+  "custom": "定制项目",
   "normal": "正常"
 }

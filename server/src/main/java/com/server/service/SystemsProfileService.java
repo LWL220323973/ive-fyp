@@ -14,4 +14,12 @@ public class SystemsProfileService {
     public SystemsProfile getSystemsProfile() {
         return systemsProfileMapper.getSystemsProfile();
     }
+    
+    public void updateRestaurantName(SystemsProfile systemsProfile) {
+        systemsProfileMapper.updateRestaurantName(systemsProfile);
+    }
+
+    public void updateSystemSettings(SystemsProfile systemsProfile) {
+        systemsProfileMapper.updateSystemSettings(systemsProfile);
+    }
 }

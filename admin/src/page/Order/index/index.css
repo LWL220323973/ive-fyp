@@ -1,0 +1,305 @@
+.ant-table-container {
+  background-color: #ffffff;
+  border-radius: 8px;
+}
+
+.ant-table-thead th {
+  background-color: #f0f0f0 !important;
+}
+
+.timer-tag {
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 4px 12px;
+  width: 100%;
+  text-align: center;
+}
+
+#buttonGroup {
+  margin-bottom: 16px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.ant-table-row {
+  cursor: pointer;
+}
+
+.ant-table-row:hover {
+  background-color: #f5f5f5;
+}
+
+.order-cards {
+  margin-bottom: 16px;
+}
+
+.order-card {
+  height: 100%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.09);
+  display: flex;
+  flex-direction: column;
+  cursor: pointer; /* 添加指針樣式，表示可點擊 */
+}
+
+/* 移除卡片的懸停動畫效果 */
+.order-card:hover {
+  background-color: #f5f5f5; /* 保留顏色變化以表示可交互 */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.09); /* 保持一致的陰影 */
+  /* 移除transform效果 */
+}
+
+.pending-card {
+  border-left: 4px solid #faad14;
+}
+
+.marked-as-done-card {  /* 將 processing-card 改為 marked-as-done-card */
+  border-left: 4px solid #52c41a;
+}
+
+.timer-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.order-date {
+  color: #8c8c8c;
+  text-align: center;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+.order-content {
+  flex: 1;
+}
+
+.item-name {
+  margin-bottom: 12px !important;
+  text-align: center;
+}
+
+.order-detail {
+  margin-bottom: 12px;
+}
+
+.order-detail p {
+  margin-bottom: 8px;
+}
+
+.order-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.action-button {
+  margin-top: 4px;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 0 16px;
+  height: 48px;
+}
+
+.table-name-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+/* 新的桌號樣式 */
+.table-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  padding: 6px 10px;
+  background-color: #f0f5ff;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.table-container:hover {
+  background-color: #bae7ff; /* 保留顏色變化 */
+  /* 移除transform效果 */
+}
+
+.table-label {
+  font-size: 14px;
+  color: #1890ff;
+  margin-right: 8px;
+}
+
+.table-number {
+  font-size: 18px;
+  font-weight: bold;
+  color: #1d39c4;
+}
+
+.button-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  height: 48px; /* 固定按鈕高度 */
+}
+
+.complete-button {
+  flex: 2;
+  height: 100% !important;
+}
+
+.reject-button {
+  flex: 1;
+  height: 100% !important;
+}
+
+.table-modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.table-modal-buttons .ant-btn {
+  flex: 1;
+}
+
+@media (max-width: 576px) {
+  .order-card {
+    margin-bottom: 16px;
+  }
+}
+
+/* 桌號過濾器樣式 */
+.table-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding: 10px;
+  background-color: #f7f7f7;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.table-filter-button {
+  min-width: 70px;
+  margin-bottom: 8px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 12px;
+}
+
+.table-filter-button:hover {
+  background-color: #f0f0f0; /* 保留顏色變化 */
+  /* 移除transform和陰影效果 */
+}
+
+/* 訂單數量顯示樣式 */
+.filter-count-detail {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  margin-left: 5px;
+  color: #999;
+  line-height: 1;
+}
+
+.pending-count {
+  color: #faad14;
+  font-weight: bold;
+}
+
+.separator {
+  margin: 0 2px;
+  color: #d9d9d9;
+}
+
+.marked-as-done-count {  /* 將 processing-count 改為 marked-as-done-count */
+  color: #52c41a;
+  font-weight: bold;
+}
+
+.all-marked-as-done-button:not(.ant-btn-primary):hover {  /* 將 all-processing-button 改為 all-marked-as-done-button */
+  background-color: #f6ffed !important;
+  border-color: #b7eb8f !important;
+}
+
+/* 空訂單提示樣式 */
+.empty-orders-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 150px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  border: 1px dashed #d9d9d9;
+}
+
+.main-empty {
+  height: 100px;
+}
+
+.empty-orders-text {
+  font-size: 16px;
+  color: #999;
+}
+
+/* 超時訂單樣式 */
+.timed-out-card {
+  border: 2px solid #f5222d !important;
+  box-shadow: 0 2px 8px rgba(245, 34, 45, 0.2) !important;
+}
+
+.timed-out-timer {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* 超時設置樣式 */
+.timeout-setting-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  padding: 10px 16px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.timeout-minutes-input {
+  width: 80px;
+  margin-right: 10px;
+}
+
+.timeout-minutes-label {
+  color: #595959;
+  font-size: 14px;
+}
+
+/* 超時桌號按鈕樣式 */
+.timed-out-table-button:not(.ant-btn-primary) {
+  background-color: #fff1f0 !important;
+  border-color: #ff7875 !important;
+}
+
+.timed-out-table-button:not(.ant-btn-primary):hover {
+  background-color: #fff1f0 !important;
+  border-color: #ff4d4f !important;
+}

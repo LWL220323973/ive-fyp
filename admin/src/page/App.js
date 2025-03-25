@@ -6,10 +6,12 @@ import Menu from "./Menu/index";
 import MenuInfo from "./Menu/info";
 import User from "./User/index";
 import UserInfo from "./User/Info";
+import Order from "./Order/index";
 import ManageDishesType from "./Manage/manageDishesType/index";
 import ManageDishesTypeInfo from "./Manage/manageDishesType/info";
 import ManageCustomization from "./Manage/manageCustomization/index";
 import ManageCustomizationInfo from "./Manage/manageCustomization/info";
+import SystemSettings from "./Manage/systemSettings/index";
 
 function App() {
   return (
@@ -26,6 +28,9 @@ function App() {
             <Route index element={<User />} />
             <Route path="userInfo" element={<UserInfo />} />
           </Route>
+          <Route path="order/">
+            <Route index element={<Order />} />
+          </Route>
           <Route path="manage/">
             <Route path="customization">
               <Route index element={<ManageCustomization />} />
@@ -35,6 +40,7 @@ function App() {
               <Route index element={<ManageDishesType />} />
               <Route path="info" element={<ManageDishesTypeInfo />} />
             </Route>
+            <Route path="systemSettings" element={<SystemSettings />} />
           </Route>
         </Route>
       </Routes>

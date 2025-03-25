@@ -25,6 +25,11 @@ public class OrderController {
     public List<Order> getOrderDetailByTableName(@RequestParam String tableName) {
         return orderService.getOrderDetailByTableName(tableName);
     }
+    
+    @GetMapping("orders/all")
+    public List<Order> getAllOrders() {
+        return orderService.getAllOrders();
+    }
 
     @PostMapping("orders/create")
     public int CreateOrder(
@@ -41,5 +46,26 @@ public class OrderController {
         return orderService.CreateOrder(item_name_zh_HK, item_name_zh_CN, item_name_en_US, 
                                       custom_string_zh_HK, custom_string_zh_CN, custom_string_en_US,
                                       price, custom_price, quantity, table_name);
+    }
+
+    @PostMapping("orders/update-status")
+    public int updateOrderStatus(
+            @RequestParam int orderId,
+            @RequestParam int orderStatusId) {
+        return orderService.updateOrderStatus(orderId, orderStatusId);
+    }
+
+    @PostMapping("orders/update-table")
+    public int updateOrderTable(
+            @RequestParam int orderId,
+            @RequestParam String newTableName) {
+        return orderService.updateOrderTable(orderId, newTableName);
+    }
+
+    @PostMapping("orders/update-all-tables")
+    public int updateAllOrdersTables(
+            @RequestParam String oldTableName,
+            @RequestParam String newTableName) {
+        return orderService.updateAllOrdersTables(oldTableName, newTableName);
     }
 }

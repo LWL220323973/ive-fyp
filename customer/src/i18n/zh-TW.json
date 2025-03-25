@@ -3,7 +3,6 @@
   "all_categories": "所有分類",
   "menu": "菜單",
   "orders": "訂單",
-  "app_title": "寶斯重慶紙包魚",
   "category": "分類",
   "price": "價格",
   "table_number": "桌號",
@@ -28,6 +27,6 @@
   "order_placed_successfully": "下單成功",
   "order_placement_failed": "下單失敗",
   "sold_out": "售罄",
-  "custom": "自定義",
+  "custom": "訂製項目",
   "normal": "正常"
 }

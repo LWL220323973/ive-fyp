@@ -22,6 +22,10 @@ public class OrderService {
     public List<Order> getOrderDetailByTableName(String tableName) {
         return orderMapper.getOrderDetailByTableName(tableName);
     }
+    
+    public List<Order> getAllOrders() {
+        return orderMapper.getAllOrders();
+    }
 
     public int CreateOrder(String item_name_zh_HK, String item_name_zh_CN, 
                            String item_name_en_US, 
@@ -39,5 +43,17 @@ public class OrderService {
         params.put("quantity", quantity);
         params.put("table_name", table_name);
         return orderMapper.CreateOrder(params);
+    }
+
+    public int updateOrderStatus(int orderId, int orderStatusId) {
+        return orderMapper.updateOrderStatus(orderId, orderStatusId);
+    }
+
+    public int updateOrderTable(int orderId, String newTableName) {
+        return orderMapper.updateOrderTable(orderId, newTableName);
+    }
+
+    public int updateAllOrdersTables(String oldTableName, String newTableName) {
+        return orderMapper.updateAllOrdersTables(oldTableName, newTableName);
     }
 }

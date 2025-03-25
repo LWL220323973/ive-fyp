@@ -34,15 +34,17 @@ INSERT INTO `admin` (`staff_id`, `username`, `password`, `name_en`, `name_cn`, `
 
 CREATE TABLE `systems_profile` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `restaurant_name` varchar(100) NOT NULL,
+  `restaurant_name_Zh_HK` varchar(100) NOT NULL,
+  `restaurant_name_Zh_CN` varchar(100) NOT NULL,
+  `restaurant_name_Us_EN` varchar(100) NOT NULL,
   `is_ordering_disabled` tinyint(1) NOT NULL DEFAULT 0,
   `is_service_charge_required` tinyint(1) NOT NULL DEFAULT 0,
   `is_factory_employee_check_required` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `systems_profile` (`restaurant_name`, `is_ordering_disabled`, `is_service_charge_required`, `is_factory_employee_check_required`) VALUES
-('BOS', 0, 0, 0);
+INSERT INTO `systems_profile` (`restaurant_name_Zh_HK`,`restaurant_name_Zh_CN`,`restaurant_name_Us_EN`, `is_ordering_disabled`, `is_service_charge_required`, `is_factory_employee_check_required`) VALUES
+('寶斯重慶紙包魚','宝斯重庆纸包鱼','BOS', 0, 0, 0);
 
 
 CREATE TABLE `dishes_type` (
@@ -303,7 +305,8 @@ CREATE TABLE `custom_option_value` (
 INSERT INTO `custom_option_value` (`custom_option_id`, `value_Zh_HK`, `value_Zh_CN`, `value_Us_EN`, `price_adjustment`) VALUES
 	(1, '不辣', '不辣', 'Not Spicy', 0),
 	(1, '微辣', '微辣', 'Mild Spicy', 0),
-	(1, '中辣', '中辣', 'Medium Spicy', 0),
+	(1, '小辣', '小辣', 'Less Spicy', 0),
+	(1, '大辣', '大辣', 'Very Spicy', 0),
 	(1, '特辣', '特辣', 'Extra Spicy', 0),
 	(2, '額外洋葱', '额外洋葱', 'Extra Onion', 5),
 	(2, '沒有洋葱', '没有洋葱', 'No Onion', 0),
@@ -316,11 +319,11 @@ INSERT INTO `custom_option_value` (`custom_option_id`, `value_Zh_HK`, `value_Zh_
 	(6, '多油', '多油', 'More Oil', 0),
 	(6, '少油', '少油', 'Less Oil', 0),
 	(7, '額外番茄', '额外番茄', 'Extra Tomato', 5),
-	(7, '沒有番茄', '没有番茄', 'No Tomato', 5),
+	(7, '沒有番茄', '没有番茄', 'No Tomato',0),
 	(8, '額外青椒', '额外青椒', 'Extra Green Pepper', 5),
-	(8, '沒有青椒', '没有青椒', 'No Green Pepper', 5),
+	(8, '沒有青椒', '没有青椒', 'No Green Pepper', 0),
 	(9, '額外蘑菇', '额外蘑菇', 'Extra Mushroom', 5),
-	(9, '沒有蘑菇', '没有蘑菇', 'No Mushroom', 5),
+	(9, '沒有蘑菇', '没有蘑菇', 'No Mushroom', 0),
 	(10, '多糖', '多糖', 'Extra Sugar', 0),
 	(10, '少糖', '少糖', 'Less Sugar', 0),
 	(11, '額外番茄醬', '额外番茄酱', 'Extra Ketchup', 0),
@@ -341,7 +344,7 @@ INSERT INTO `custom_option_value` (`custom_option_id`, `value_Zh_HK`, `value_Zh_
 	(18, '沒有蒜', '没有蒜', 'No Garlic', 0),
 	(19, '額外醋', '额外醋', 'Extra Vinegar', 1),
 	(19, '沒有醋', '没有醋', 'No Vinegar', 0),
-	(20, '額外牛肉', '额外牛肉', 'Extra Beef', 10),
+	(20, '額外牛肉', '额外牛肉', 'Extra Beef', 20),
 	(20, '沒有牛肉', '没有牛肉', 'No Beef', 0),
 	(21, '額外豆腐', '额外豆腐', 'Extra Tofu', 5),
 	(21, '沒有豆腐', '没有豆腐', 'No Tofu', 0),
@@ -491,7 +494,7 @@ CREATE TABLE `order_status` (
 
 INSERT INTO `order_status` (`status_en_US`, `status_zh_HK`, `status_zh_CN`) VALUES
 ('Pending', '處理中', '处理中'),
-('Mark As Done', '廚部完成', '厨部完成'),
+('Mark As Done', '標記為完成', '标记为完成'),
 ('Completed', '已完成', '已完成'),
 ('Cancelled', '已取消', '已取消');
 

@@ -51,7 +51,7 @@ const MenuScreen = () => {
       employeeCheck: false,
       nonEmployee: false,
       scanFailed: false,
-      orderingDisabled: false,
+      isOrderingDisabled: false,
     },
   });
 
@@ -68,7 +68,7 @@ const MenuScreen = () => {
   const [isEmployee, setIsEmployee] = useState(
     localStorage.getItem("isEmployee") || null
   );
-  const [factoryEmployeeCheckRequired, setFactoryEmployeeCheckRequired] =
+  const [isFactoryEmployeeCheckRequired, setFactoryEmployeeCheckRequired] =
     useState(false);
   const [imageStatus, setImageStatus] = useState({});
   const [itemOptions, setItemOptions] = useState([]);
@@ -124,10 +124,10 @@ const MenuScreen = () => {
         const profile = profileResponse.data;
         dispatch({
           type: "SET_MODAL",
-          modal: "orderingDisabled",
-          value: profile.orderingDisabled,
+          modal: "isOrderingDisabled",
+          value: profile.isOrderingDisabled,
         });
-        setFactoryEmployeeCheckRequired(profile.factoryEmployeeCheckRequired);
+        setFactoryEmployeeCheckRequired(profile.isFactoryEmployeeCheckRequired);
       } catch (error) {
         message.error(t("data_load_failed"));
       } finally {
@@ -159,12 +159,12 @@ const MenuScreen = () => {
   // 檢查是否需要員工身份驗證
   useEffect(() => {
     if (
-      factoryEmployeeCheckRequired &&
+      isFactoryEmployeeCheckRequired &&
       (isEmployee === null || isEmployee === "false")
     ) {
       dispatch({ type: "SET_MODAL", modal: "employeeCheck", value: true });
     }
-  }, [isEmployee, factoryEmployeeCheckRequired]);
+  }, [isEmployee, isFactoryEmployeeCheckRequired]);
 
   // 同步購物車與 localStorage
   useEffect(() => {
@@ -399,7 +399,7 @@ const MenuScreen = () => {
       {/* 下單停用模態框 */}
       <Modal
         title="下單已停用 / 下单已停用 / Ordering Disabled"
-        open={state.modalStates.orderingDisabled}
+        open={state.modalStates.isOrderingDisabled}
         footer={null}
         closable={false}
         centered

@@ -7,6 +7,8 @@ import {
   UserOutlined,
   BarsOutlined,
   StarOutlined,
+  ShoppingCartOutlined,
+  ToolOutlined,
 } from "@ant-design/icons";
 import { useNavigate, useLocation } from "react-router-dom";
 import intl from "react-intl-universal";
@@ -28,6 +30,8 @@ function Sider() {
       return "/menu";
     } else if (location.pathname.startsWith("/manage")) {
       return "/manage";
+    } else if (location.pathname.startsWith("/order")) {
+      return "/order";
     } else {
       return location.pathname;
     }
@@ -47,6 +51,12 @@ function Sider() {
           icon: <MenuOutlined />,
           label: intl.get("menu"),
           onClick: () => navigate("/menu"),
+        },
+        {
+          key: "/order",
+          icon: <ShoppingCartOutlined />,
+          label: intl.get("orders"),
+          onClick: () => navigate("/order"),
         },
         {
           key: "/user",
@@ -71,6 +81,12 @@ function Sider() {
               icon: <BarsOutlined />,
               onClick: () => navigate("/manage/dishesType"),
             },
+            {
+              key: "/systemSettings",
+              label: intl.get("systemSettings"),
+              icon: <ToolOutlined />,
+              onClick: () => navigate("/manage/systemSettings"),
+            },
           ],
         },
       ];
@@ -87,6 +103,12 @@ function Sider() {
           icon: <MenuOutlined />,
           label: intl.get("menu"),
           onClick: () => navigate("/menu"),
+        },
+        {
+          key: "/order",
+          icon: <ShoppingCartOutlined />,
+          label: intl.get("orders"),
+          onClick: () => navigate("/order"),
         },
       ];
     }
