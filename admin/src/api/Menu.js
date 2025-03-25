@@ -26,7 +26,8 @@ export function insertMenu(
   name_en_US,
   price,
   onSale,
-  type
+  type,
+  path
 ) {
   return axios.post(baseURL + "/insertMenu", {
     name_zh_HK,
@@ -35,6 +36,7 @@ export function insertMenu(
     price,
     onSale,
     type,
+    path,
   });
 }
 
@@ -65,5 +67,5 @@ export function deleteMenu(id) {
 }
 
 export function getLastMenu() {
-  return axios.get(baseURL + "/getLastMenu");
+  return axios.post(baseURL + "/getLastMenu");
 }

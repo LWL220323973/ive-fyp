@@ -17,15 +17,16 @@ export function deleteMenuItemCustomOptionByCustomOptionId(customOptionId) {
 }
 
 //get the menu item custom option by menu item id
-export function getMenuItemCustomOptionByMenuItemId(menuItemId) {
+export function getMenuItemCustomOptionByMenuItemId(menu_item_id) {
   return axios.post(baseURL + "/getMenuItemCustomOptionByMenuItemId", {
-    menuItemId,
+    menu_item_id,
   });
 }
 
-export function insertMenuItemCustomOption(menuId, customOptionId) {
+//insert menu item custom option
+export function insertMenuItemCustomOption(menu_item_id, custom_option_id) {
   return axios.post(baseURL + "/insertMenuItemCustomOption", {
-    menuId,
-    customOptionId,
+    menu_item_id,
+    custom_option_id,
   });
 }

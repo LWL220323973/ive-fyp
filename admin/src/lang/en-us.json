@@ -63,7 +63,7 @@
   "admin": "Admin",
   "deleteSuccess": "Delete Successfully",
   "deleteUser": "Delete User",
-  "ConfirmDelete": "Are you sure you want to delete this user?",
+  "ConfirmDelete": "Are you sure you want to delete this information?",
   "specialItem": "Special Item",
   "zh-hk": "Traditional Chinese",
   "zh-cn": "Simplified Chinese",
@@ -140,5 +140,13 @@
   "fetchDataFailed": "Failed to fetch data",
   "editMenu": "Edit Menu - ",
   "addMenu": "Add Menu",
-  "uploadImage": "Upload Image(PNG, JPG)"
+  "uploadImage": "Upload Image(PNG, JPG)",
+  "cancelUploadSuccess": "Canceled Upload Successfully",
+  "invalidFileType": "Only PNG and JPG files are allowed",
+  "fileTooLarge": "The file is too large. Maximum allowed size is {size} MB",
+  "invalidFileName": "Invalid file name",
+  "pleaseUploadImage": "Please upload an image",
+  "pleaseChoose": "Please choose",
+  "pleaseEnterPrice": "Please enter price",
+  "deleteMenu": "Delete Menu"
 }

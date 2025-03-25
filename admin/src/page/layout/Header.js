@@ -11,14 +11,17 @@ import {
   Input,
   Form,
 } from "antd";
-import Icon, { 
-  UserOutlined, 
-  TranslationOutlined, 
-  EditOutlined 
+import Icon, {
+  UserOutlined,
+  TranslationOutlined,
+  EditOutlined,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import intl from "react-intl-universal";
-import { getSystemsProfile, updateRestaurantName } from "../../api/GetSystemsProfile";
+import {
+  getSystemsProfile,
+  updateRestaurantName,
+} from "../../api/GetSystemsProfile";
 
 function Header() {
   const LogoutSvg = () => (
@@ -52,7 +55,7 @@ function Header() {
         const response = await getSystemsProfile();
         setSystemProfile(response.data);
       } catch (error) {
-        console.error('Error fetching system profile:', error);
+        console.error("Error fetching system profile:", error);
       }
     };
 
@@ -88,9 +91,9 @@ function Header() {
 
     const currentLocale = intl.getInitOptions().currentLocale;
     switch (currentLocale) {
-      case 'zh-HK':
+      case "zh-HK":
         return systemProfile.restaurantNameZhHK;
-      case 'en-US':
+      case "en-US":
         return systemProfile.restaurantNameUsEN;
       default:
         return systemProfile.restaurantNameZhHK;
@@ -117,7 +120,7 @@ function Header() {
         restaurantNameZhCN: values.restaurantNameZhCN,
         restaurantNameUsEN: values.restaurantNameUsEN,
       };
-      
+
       const response = await updateRestaurantName(updatedProfile);
       setSystemProfile(response.data);
       message.success(intl.get("updateSuccess") || "Updated successfully");
@@ -143,10 +146,12 @@ function Header() {
     >
       <Flex align="center">
         <Typography.Title level={1}>{getRestaurantName()}</Typography.Title>
-        <Tooltip title={intl.get("editRestaurantName") || "Edit Restaurant Name"}>
-          <Button 
-            type="link" 
-            icon={<EditOutlined style={{ fontSize: "18px" }} />} 
+        <Tooltip
+          title={intl.get("editRestaurantName") || "Edit Restaurant Name"}
+        >
+          <Button
+            type="link"
+            icon={<EditOutlined style={{ fontSize: "18px" }} />}
             onClick={handleEditRestaurantName}
           />
         </Tooltip>
@@ -201,21 +206,39 @@ function Header() {
           <Form.Item
             name="restaurantNameZhHK"
             label={"繁體中文"}
-            rules={[{ required: true, message: intl.get("fieldRequired") || "This field is required" }]}
+            rules={[
+              { required: true, message: intl.get("fieldRequired") },
+              {
+                pattern: /^[\u4e00-\u9fa5（）()]+$/,
+                message: intl.get("pleaseEnterChinese"),
+              },
+            ]}
           >
             <Input />
           </Form.Item>
           <Form.Item
             name="restaurantNameZhCN"
             label={"簡體中文"}
-            rules={[{ required: true, message: intl.get("fieldRequired") || "This field is required" }]}
+            rules={[
+              { required: true, message: intl.get("fieldRequired") },
+              {
+                pattern: /^[\u4e00-\u9fa5（）()]+$/,
+                message: intl.get("pleaseEnterChinese"),
+              },
+            ]}
           >
             <Input />
           </Form.Item>
           <Form.Item
             name="restaurantNameUsEN"
             label={"English"}
-            rules={[{ required: true, message: intl.get("fieldRequired") || "This field is required" }]}
+            rules={[
+              { required: true, message: intl.get("fieldRequired") },
+              {
+                pattern: /^[A-Za-z\s()]+$/,
+                message: intl.get("pleaseEnterEnglish"),
+              },
+            ]}
           >
             <Input />
           </Form.Item>

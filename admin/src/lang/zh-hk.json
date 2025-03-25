@@ -44,7 +44,7 @@
   "loginFailed": "登入失敗",
   "logoutSuccess": "登出成功",
   "uploadSuccess": "上傳成功",
-  "uploadFailed": "上傳失敗，請檢查所有數據",
+  "uploadFail": "上傳失敗，請檢查所有數據",
   "submitSuccess": "提交成功",
   "submitFail": "提交失敗，請檢查所有數據",
   "login": "登入",
@@ -140,5 +140,13 @@
   "fieldRequired": "此字段為必填",
   "editMenu": "編輯菜單 - ",
   "addMenu": "新增菜單",
-  "uploadImage": "上傳圖片(PNG, JPG)"
+  "uploadImage": "上傳圖片(PNG, JPG)",
+  "cancelUploadSuccess": "取消上傳成功",
+  "invalidFileType": "僅支持PNG和JPG文件",
+  "fileTooLarge": "文件太大，請選擇小於{size}的文件",
+  "invalidFileName": "文件名無效",
+  "pleaseUploadImage": "請上傳圖片",
+  "pleaseChoose": "請選擇",
+  "pleaseEnterPrice": "請輸入價格",
+  "deleteMenu": "刪除菜單"
 }
