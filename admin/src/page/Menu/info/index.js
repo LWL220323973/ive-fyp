@@ -37,7 +37,12 @@ import {
 } from "../../../api/MenuItemCustomOptions";
 import { uploadPhoto, cancelUploadPhoto } from "../../../api/Photo";
 import "./index.css";
-import { deleteMenu, getLastMenu, insertMenu } from "../../../api/Menu";
+import {
+  deleteMenu,
+  getLastMenu,
+  insertMenu,
+  updateMenu,
+} from "../../../api/Menu";
 
 function MenuInfo() {
   return (
@@ -358,6 +363,39 @@ function MenuInfoContent() {
 
   const onSubmit = async () => {
     if (status === "edit") {
+      const {
+        customOption,
+        dishesType,
+        status,
+        name_en_US,
+        name_zh_HK,
+        name_zh_CN,
+        price,
+      } = menuInfoForm.getFieldsValue();
+      const response = await updateMenu(
+        record.id,
+        name_zh_HK,
+        name_zh_CN,
+        name_en_US,
+        price,
+        status,
+        dishesType,
+        imageSrc.replace("http://localhost:8080/api/admin/photoAdmin/", "")
+      );
+      if (response.data === 1) {
+        await deleteMenuItemCustomOptionByMenuItemId(record.id);
+        customOption.forEach(async (item) => {
+          const res = await insertMenuItemCustomOption(record.id, item);
+          if (res.data !== 1) {
+            await deleteMenuItemCustomOptionByMenuItemId(record.id);
+            message.error(intl.get("editFailed"));
+          }
+        });
+        message.success(intl.get("editSuccess"));
+        setTimeout(() => {
+          navigate("..");
+        }, 1000);
+      }
     } else {
       if (imageSrc === undefined || imageSrc === null || imageSrc === "") {
         message.error(intl.get("pleaseUploadImage"));
@@ -403,15 +441,14 @@ function MenuInfoContent() {
   };
 
   const onDelete = async () => {
-    if ((await deleteMenuItemCustomOptionByMenuItemId(record.id).data) > 0) {
-      await deleteMenuItemCustomOptionByMenuItemId(record.id);
-      const res = await deleteMenu(record.id);
-      if (res.data === 1) {
-        message.success(intl.get("deleteSuccess"));
-        setTimeout(() => {
-          navigate("..");
-        }, 1000);
-      }
+    await deleteMenuItemCustomOptionByMenuItemId(record.id);
+    const res = await deleteMenu(record.id);
+    if (res.data === 1) {
+      onCancelUploadPhoto();
+      message.success(intl.get("deleteSuccess"));
+      setTimeout(() => {
+        navigate("..");
+      }, 1000);
     }
   };
   return (

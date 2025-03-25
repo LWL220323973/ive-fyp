@@ -8,145 +8,84 @@
 
  :: Spring Boot ::       (v3.4.2-SNAPSHOT)
 
-2025-03-25T22:36:28.638+08:00  INFO 20120 --- [server] [           main] com.server.ServerApplication             : Starting ServerApplication using Java 21.0.5 with PID 20120 (C:\Users\kahei\Desktop\ive-fyp\server\target\classes started by kahei in C:\Users\kahei\Desktop\ive-fyp\server)
-2025-03-25T22:36:28.638+08:00  INFO 20120 --- [server] [           main] com.server.ServerApplication             : No active profile set, falling back to 1 default profile: "default"
-2025-03-25T22:36:29.078+08:00  INFO 20120 --- [server] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
-2025-03-25T22:36:29.088+08:00  INFO 20120 --- [server] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-03-25T22:36:29.088+08:00  INFO 20120 --- [server] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.34]
-2025-03-25T22:36:29.108+08:00  INFO 20120 --- [server] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2025-03-25T22:36:29.108+08:00  INFO 20120 --- [server] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 449 ms
-2025-03-25T22:36:29.433+08:00  INFO 20120 --- [server] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
-2025-03-25T22:36:29.439+08:00  INFO 20120 --- [server] [           main] com.server.ServerApplication             : Started ServerApplication in 0.985 seconds (process running for 1.15)
-org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@6f1c29b7, started on Tue Mar 25 22:36:28 HKT 2025
-2025-03-25T22:36:29.442+08:00  INFO 20120 --- [server] [           main] com.server.ServerApplication             : Server is running on port 8080
-2025-03-25T22:36:29.971+08:00  INFO 20120 --- [server] [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-03-25T22:36:29.972+08:00  INFO 20120 --- [server] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2025-03-25T22:36:29.972+08:00  INFO 20120 --- [server] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
-2025-03-25T22:36:30.005+08:00  INFO 20120 --- [server] [nio-8080-exec-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-03-25T22:36:30.025+08:00  INFO 20120 --- [server] [nio-8080-exec-3] c.s.c.MenuItemCustomOptionsController    : getMenuItemCustomOptionByMenuItemId: menuItemId={0}
-2025-03-25T22:36:30.076+08:00  INFO 20120 --- [server] [nio-8080-exec-2] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@46d0dca5
-2025-03-25T22:36:30.076+08:00  INFO 20120 --- [server] [nio-8080-exec-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-03-25T22:36:40.487+08:00  INFO 20120 --- [server] [nio-8080-exec-4] c.s.controller.PhotoController_Admin     : File uploaded successfully: 苦瓜炒肉.jpg
-2025-03-25T22:36:40.509+08:00  INFO 20120 --- [server] [nio-8080-exec-7] c.s.controller.PhotoController_Admin     : Decoded image name: 苦瓜炒肉.jpg
-2025-03-25T22:36:40.509+08:00  INFO 20120 --- [server] [nio-8080-exec-7] c.s.controller.PhotoController_Admin     : Fetching image from path: C:\Users\kahei\Desktop\ive-fyp\server\src\main\resources\static\photo\苦瓜炒肉.jpg
-2025-03-25T22:36:45.525+08:00  INFO 20120 --- [server] [nio-8080-exec-8] c.s.controller.PhotoController_Admin     : File deleted successfully: 苦瓜炒肉.jpg
-2025-03-25T22:37:34.277+08:00  INFO 20120 --- [server] [nio-8080-exec-1] c.s.controller.PhotoController_Admin     : File uploaded successfully: 苦瓜炒肉.jpg
-2025-03-25T22:37:34.288+08:00  INFO 20120 --- [server] [nio-8080-exec-3] c.s.controller.PhotoController_Admin     : Decoded image name: 苦瓜炒肉.jpg
-2025-03-25T22:37:34.288+08:00  INFO 20120 --- [server] [nio-8080-exec-3] c.s.controller.PhotoController_Admin     : Fetching image from path: C:\Users\kahei\Desktop\ive-fyp\server\src\main\resources\static\photo\苦瓜炒肉.jpg
-2025-03-25T22:37:40.069+08:00  INFO 20120 --- [server] [nio-8080-exec-5] com.server.controller.MenuController     : menu: Menu(id=0, Name_zh_HK=苦瓜炒肉（份）, Name_zh_CN=苦瓜炒肉（份）, Name_en_US=Stir Fried Bitter Melon with Pork(A Serving), onSale=Y, price=88, type=7, path=苦瓜炒肉.jpg)
-2025-03-25T22:37:40.087+08:00  INFO 20120 --- [server] [nio-8080-exec-7] c.s.c.MenuItemCustomOptionsController    : insertMenuItemCustomOption: menuItemId={174}, customOptionId={3}
-2025-03-25T22:37:40.088+08:00  INFO 20120 --- [server] [nio-8080-exec-4] c.s.c.MenuItemCustomOptionsController    : insertMenuItemCustomOption: menuItemId={174}, customOptionId={15}
-2025-03-25T22:37:40.087+08:00  INFO 20120 --- [server] [nio-8080-exec-1] c.s.c.MenuItemCustomOptionsController    : insertMenuItemCustomOption: menuItemId={174}, customOptionId={4}
-2025-03-25T22:37:40.087+08:00  INFO 20120 --- [server] [nio-8080-exec-8] c.s.c.MenuItemCustomOptionsController    : insertMenuItemCustomOption: menuItemId={174}, customOptionId={2}
-2025-03-25T22:37:40.087+08:00  INFO 20120 --- [server] [nio-8080-exec-2] c.s.c.MenuItemCustomOptionsController    : insertMenuItemCustomOption: menuItemId={174}, customOptionId={14}
-2025-03-25T22:37:40.087+08:00  INFO 20120 --- [server] [nio-8080-exec-5] c.s.c.MenuItemCustomOptionsController    : insertMenuItemCustomOption: menuItemId={174}, customOptionId={1}
-2025-03-25T22:37:40.093+08:00  INFO 20120 --- [server] [nio-8080-exec-6] c.s.c.MenuItemCustomOptionsController    : insertMenuItemCustomOption: menuItemId={174}, customOptionId={5}
-2025-03-25T22:37:40.093+08:00  INFO 20120 --- [server] [nio-8080-exec-9] c.s.c.MenuItemCustomOptionsController    : insertMenuItemCustomOption: menuItemId={174}, customOptionId={6}
-2025-03-25T22:37:47.752+08:00  INFO 20120 --- [server] [nio-8080-exec-6] c.s.c.MenuItemCustomOptionsController    : getMenuItemCustomOptionByMenuItemId: menuItemId={174}
-2025-03-25T22:38:27.777+08:00  INFO 20120 --- [server] [nio-8080-exec-4] c.s.c.MenuItemCustomOptionsController    : getMenuItemCustomOptionByMenuItemId: menuItemId={174}
-2025-03-25T22:39:11.832+08:00  INFO 20120 --- [server] [nio-8080-exec-1] c.s.c.MenuItemCustomOptionsController    : getMenuItemCustomOptionByMenuItemId: menuItemId={174}
-2025-03-25T22:43:56.805+08:00  INFO 20120 --- [server] [nio-8080-exec-2] c.s.c.MenuItemCustomOptionsController    : getMenuItemCustomOptionByMenuItemId: menuItemId={174}
-2025-03-25T22:45:25.169+08:00  INFO 20120 --- [server] [io-8080-exec-10] c.s.c.MenuItemCustomOptionsController    : getMenuItemCustomOptionByMenuItemId: menuItemId={174}
-2025-03-25T22:45:57.793+08:00  INFO 20120 --- [server] [nio-8080-exec-2] c.s.c.MenuItemCustomOptionsController    : getMenuItemCustomOptionByMenuItemId: menuItemId={174}
-2025-03-25T22:46:17.959+08:00  INFO 20120 --- [server] [nio-8080-exec-5] c.s.controller.PhotoController_Admin     : Decoded image name: 苦瓜炒肉.jpg
-2025-03-25T22:46:17.959+08:00  INFO 20120 --- [server] [nio-8080-exec-5] c.s.controller.PhotoController_Admin     : Fetching image from path: C:\Users\kahei\Desktop\ive-fyp\server\src\main\resources\static\photo\苦瓜炒肉.jpg
-2025-03-25T22:46:18.539+08:00  INFO 20120 --- [server] [io-8080-exec-10] c.s.c.MenuItemCustomOptionsController    : getMenuItemCustomOptionByMenuItemId: menuItemId={174}
-2025-03-25T22:46:22.059+08:00  INFO 20120 --- [server] [nio-8080-exec-1] c.s.controller.PhotoController_Admin     : Decoded image name: 苦瓜炒肉.jpg
-2025-03-25T22:46:22.059+08:00  INFO 20120 --- [server] [nio-8080-exec-1] c.s.controller.PhotoController_Admin     : Fetching image from path: C:\Users\kahei\Desktop\ive-fyp\server\src\main\resources\static\photo\苦瓜炒肉.jpg
-2025-03-25T22:46:22.116+08:00  INFO 20120 --- [server] [nio-8080-exec-2] c.s.c.MenuItemCustomOptionsController    : getMenuItemCustomOptionByMenuItemId: menuItemId={174}
-2025-03-25T22:47:35.836+08:00  INFO 20120 --- [server] [nio-8080-exec-7] c.s.c.MenuItemCustomOptionsController    : getMenuItemCustomOptionByMenuItemId: menuItemId={174}
-2025-03-25T22:48:04.214+08:00  INFO 20120 --- [server] [nio-8080-exec-6] c.s.controller.PhotoController_Admin     : Decoded image name: 苦瓜炒肉.jpg
-2025-03-25T22:48:04.214+08:00  INFO 20120 --- [server] [nio-8080-exec-6] c.s.controller.PhotoController_Admin     : Fetching image from path: C:\Users\kahei\Desktop\ive-fyp\server\src\main\resources\static\photo\苦瓜炒肉.jpg
-2025-03-25T22:48:04.753+08:00  INFO 20120 --- [server] [nio-8080-exec-1] c.s.c.MenuItemCustomOptionsController    : getMenuItemCustomOptionByMenuItemId: menuItemId={174}
-2025-03-25T22:51:06.852+08:00  INFO 20120 --- [server] [nio-8080-exec-5] c.s.c.MenuItemCustomOptionsController    : getMenuItemCustomOptionByMenuItemId: menuItemId={174}
-2025-03-25T22:52:09.804+08:00  INFO 20120 --- [server] [nio-8080-exec-1] c.s.c.MenuItemCustomOptionsController    : getMenuItemCustomOptionByMenuItemId: menuItemId={174}
-2025-03-25T22:52:20.824+08:00  INFO 20120 --- [server] [nio-8080-exec-8] c.s.c.MenuItemCustomOptionsController    : getMenuItemCustomOptionByMenuItemId: menuItemId={174}
-2025-03-25T22:52:24.809+08:00  INFO 20120 --- [server] [nio-8080-exec-6] c.s.c.MenuItemCustomOptionsController    : getMenuItemCustomOptionByMenuItemId: menuItemId={174}
-2025-03-25T22:52:41.366+08:00  INFO 20120 --- [server] [nio-8080-exec-9] c.s.controller.PhotoController_Admin     : Decoded image name: 苦瓜炒肉.jpg
-2025-03-25T22:52:41.366+08:00  INFO 20120 --- [server] [nio-8080-exec-9] c.s.controller.PhotoController_Admin     : Fetching image from path: C:\Users\kahei\Desktop\ive-fyp\server\src\main\resources\static\photo\苦瓜炒肉.jpg
-2025-03-25T22:52:41.418+08:00  INFO 20120 --- [server] [nio-8080-exec-2] c.s.c.MenuItemCustomOptionsController    : getMenuItemCustomOptionByMenuItemId: menuItemId={174}
-2025-03-25T22:52:42.445+08:00  INFO 20120 --- [server] [nio-8080-exec-8] c.s.controller.PhotoController_Admin     : File deleted successfully: 苦瓜炒肉.jpg
-2025-03-25T22:53:02.537+08:00  INFO 20120 --- [server] [nio-8080-exec-6] c.s.c.MenuItemCustomOptionsController    : deleteMenuItemCustomOptionByMenuItemId: menuItemId={0}
-2025-03-25T22:53:03.166+08:00 ERROR 20120 --- [server] [nio-8080-exec-9] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: org.springframework.dao.DataIntegrityViolationException: 
-### Error updating database.  Cause: java.sql.SQLIntegrityConstraintViolationException: Cannot delete or update a parent row: a foreign key constraint fails (`ive_fyp`.`menuitem_customoptions`, CONSTRAINT `menuitem_customoptions_ibfk_1` FOREIGN KEY (`menu_item_id`) REFERENCES `menu` (`id`))
-### The error may exist in file [C:\Users\kahei\Desktop\ive-fyp\server\target\classes\mapper\menuMapper.xml]
-### The error may involve com.server.mapper.MenuMapper.deleteMenu-Inline
-### The error occurred while setting parameters
-### SQL: DELETE FROM menu         WHERE id = ?
-### Cause: java.sql.SQLIntegrityConstraintViolationException: Cannot delete or update a parent row: a foreign key constraint fails (`ive_fyp`.`menuitem_customoptions`, CONSTRAINT `menuitem_customoptions_ibfk_1` FOREIGN KEY (`menu_item_id`) REFERENCES `menu` (`id`))
-; Cannot delete or update a parent row: a foreign key constraint fails (`ive_fyp`.`menuitem_customoptions`, CONSTRAINT `menuitem_customoptions_ibfk_1` FOREIGN KEY (`menu_item_id`) REFERENCES `menu` (`id`))] with root cause
-
-java.sql.SQLIntegrityConstraintViolationException: Cannot delete or update a parent row: a foreign key constraint fails (`ive_fyp`.`menuitem_customoptions`, CONSTRAINT `menuitem_customoptions_ibfk_1` FOREIGN KEY (`menu_item_id`) REFERENCES `menu` (`id`))
-	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:109) ~[mysql-connector-j-9.1.0.jar:9.1.0]
-	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:114) ~[mysql-connector-j-9.1.0.jar:9.1.0]
-	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:988) ~[mysql-connector-j-9.1.0.jar:9.1.0]
-	at com.mysql.cj.jdbc.ClientPreparedStatement.execute(ClientPreparedStatement.java:382) ~[mysql-connector-j-9.1.0.jar:9.1.0]
-	at com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44) ~[HikariCP-5.1.0.jar:na]
-	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.execute(HikariProxyPreparedStatement.java) ~[HikariCP-5.1.0.jar:na]
-	at org.apache.ibatis.executor.statement.PreparedStatementHandler.update(PreparedStatementHandler.java:48) ~[mybatis-3.5.17.jar:3.5.17]
-	at org.apache.ibatis.executor.statement.RoutingStatementHandler.update(RoutingStatementHandler.java:75) ~[mybatis-3.5.17.jar:3.5.17]
-	at org.apache.ibatis.executor.SimpleExecutor.doUpdate(SimpleExecutor.java:50) ~[mybatis-3.5.17.jar:3.5.17]
-	at org.apache.ibatis.executor.BaseExecutor.update(BaseExecutor.java:117) ~[mybatis-3.5.17.jar:3.5.17]
-	at org.apache.ibatis.executor.CachingExecutor.update(CachingExecutor.java:76) ~[mybatis-3.5.17.jar:3.5.17]
-	at org.apache.ibatis.session.defaults.DefaultSqlSession.update(DefaultSqlSession.java:197) ~[mybatis-3.5.17.jar:3.5.17]
-	at org.apache.ibatis.session.defaults.DefaultSqlSession.delete(DefaultSqlSession.java:212) ~[mybatis-3.5.17.jar:3.5.17]
-	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
-	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
-	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:333) ~[mybatis-spring-3.0.4.jar:3.0.4]
-	at jdk.proxy2/jdk.proxy2.$Proxy63.delete(Unknown Source) ~[na:na]
-	at org.mybatis.spring.SqlSessionTemplate.delete(SqlSessionTemplate.java:244) ~[mybatis-spring-3.0.4.jar:3.0.4]
-	at org.apache.ibatis.binding.MapperMethod.execute(MapperMethod.java:72) ~[mybatis-3.5.17.jar:3.5.17]
-	at org.apache.ibatis.binding.MapperProxy$PlainMethodInvoker.invoke(MapperProxy.java:141) ~[mybatis-3.5.17.jar:3.5.17]
-	at org.apache.ibatis.binding.MapperProxy.invoke(MapperProxy.java:86) ~[mybatis-3.5.17.jar:3.5.17]
-	at jdk.proxy2/jdk.proxy2.$Proxy68.deleteMenu(Unknown Source) ~[na:na]
-	at com.server.service.MenuService.deleteMenu(MenuService.java:30) ~[classes/:na]
-	at com.server.controller.MenuController.deleteMenu(MenuController.java:45) ~[classes/:na]
-	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
-	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
-	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:257) ~[spring-web-6.2.2.jar:6.2.2]
-	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:190) ~[spring-web-6.2.2.jar:6.2.2]
-	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118) ~[spring-webmvc-6.2.2.jar:6.2.2]
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:986) ~[spring-webmvc-6.2.2.jar:6.2.2]
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:891) ~[spring-webmvc-6.2.2.jar:6.2.2]
-	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-6.2.2.jar:6.2.2]
-	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1088) ~[spring-webmvc-6.2.2.jar:6.2.2]
-	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:978) ~[spring-webmvc-6.2.2.jar:6.2.2]
-	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.2.2.jar:6.2.2]
-	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914) ~[spring-webmvc-6.2.2.jar:6.2.2]
-	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590) ~[tomcat-embed-core-10.1.34.jar:6.0]
-	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.2.2.jar:6.2.2]
-	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.34.jar:6.0]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
-	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51) ~[tomcat-embed-websocket-10.1.34.jar:10.1.34]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
-	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.2.2.jar:6.2.2]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.2.jar:6.2.2]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
-	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.2.2.jar:6.2.2]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.2.jar:6.2.2]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.2.2.jar:6.2.2]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.2.jar:6.2.2]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
-	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
-	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
-	at java.base/java.lang.Thread.run(Thread.java:1583) ~[na:na]
-
+2025-03-25T23:19:28.961+08:00  INFO 29332 --- [server] [           main] com.server.ServerApplication             : Starting ServerApplication using Java 21.0.5 with PID 29332 (C:\Users\kahei\Desktop\ive-fyp\server\target\classes started by kahei in C:\Users\kahei\Desktop\ive-fyp\server)
+2025-03-25T23:19:28.962+08:00  INFO 29332 --- [server] [           main] com.server.ServerApplication             : No active profile set, falling back to 1 default profile: "default"
+2025-03-25T23:19:29.421+08:00  INFO 29332 --- [server] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-03-25T23:19:29.428+08:00  INFO 29332 --- [server] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-03-25T23:19:29.429+08:00  INFO 29332 --- [server] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.34]
+2025-03-25T23:19:29.456+08:00  INFO 29332 --- [server] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-03-25T23:19:29.457+08:00  INFO 29332 --- [server] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 474 ms
+2025-03-25T23:19:29.790+08:00  INFO 29332 --- [server] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-03-25T23:19:29.793+08:00  INFO 29332 --- [server] [           main] com.server.ServerApplication             : Started ServerApplication in 1.016 seconds (process running for 1.199)
+org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@6f1c29b7, started on Tue Mar 25 23:19:28 HKT 2025
+2025-03-25T23:19:29.795+08:00  INFO 29332 --- [server] [           main] com.server.ServerApplication             : Server is running on port 8080
+2025-03-25T23:19:42.841+08:00  INFO 29332 --- [server] [nio-8080-exec-4] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-03-25T23:19:42.841+08:00  INFO 29332 --- [server] [nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-03-25T23:19:42.842+08:00  INFO 29332 --- [server] [nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-03-25T23:19:42.895+08:00  INFO 29332 --- [server] [nio-8080-exec-1] c.s.controller.PhotoController_Admin     : Decoded image name: 苦瓜炒肉.jpg
+2025-03-25T23:19:42.896+08:00  INFO 29332 --- [server] [nio-8080-exec-1] c.s.controller.PhotoController_Admin     : Fetching image from path: C:\Users\kahei\Desktop\ive-fyp\server\src\main\resources\static\photo\苦瓜炒肉.jpg
+2025-03-25T23:19:42.910+08:00  INFO 29332 --- [server] [nio-8080-exec-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-03-25T23:19:42.958+08:00  INFO 29332 --- [server] [nio-8080-exec-4] c.s.c.MenuItemCustomOptionsController    : getMenuItemCustomOptionByMenuItemId: menuItemId={174}
+2025-03-25T23:19:43.076+08:00  INFO 29332 --- [server] [nio-8080-exec-2] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3106f8dc
+2025-03-25T23:19:43.077+08:00  INFO 29332 --- [server] [nio-8080-exec-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-03-25T23:19:47.731+08:00  INFO 29332 --- [server] [nio-8080-exec-6] c.s.c.MenuItemCustomOptionsController    : MenuItemCustomOption(id=0, menu_item_id=0, custom_option_id=0)
+2025-03-25T23:19:47.731+08:00  INFO 29332 --- [server] [nio-8080-exec-6] c.s.c.MenuItemCustomOptionsController    : deleteMenuItemCustomOptionByMenuItemId: menuItemId={0}
+2025-03-25T23:20:27.849+08:00  INFO 29332 --- [server] [nio-8080-exec-9] c.s.c.MenuItemCustomOptionsController    : getMenuItemCustomOptionByMenuItemId: menuItemId={174}
+2025-03-25T23:20:29.834+08:00  INFO 29332 --- [server] [io-8080-exec-10] c.s.controller.PhotoController_Admin     : Decoded image name: 苦瓜炒肉.jpg
+2025-03-25T23:20:29.834+08:00  INFO 29332 --- [server] [io-8080-exec-10] c.s.controller.PhotoController_Admin     : Fetching image from path: C:\Users\kahei\Desktop\ive-fyp\server\src\main\resources\static\photo\苦瓜炒肉.jpg
+2025-03-25T23:20:29.888+08:00  INFO 29332 --- [server] [nio-8080-exec-4] c.s.c.MenuItemCustomOptionsController    : getMenuItemCustomOptionByMenuItemId: menuItemId={174}
+2025-03-25T23:20:34.938+08:00  INFO 29332 --- [server] [nio-8080-exec-3] c.s.c.MenuItemCustomOptionsController    : MenuItemCustomOption(id=0, menu_item_id=174, custom_option_id=0)
+2025-03-25T23:20:34.938+08:00  INFO 29332 --- [server] [nio-8080-exec-3] c.s.c.MenuItemCustomOptionsController    : deleteMenuItemCustomOptionByMenuItemId: menuItemId={174}
+2025-03-25T23:21:09.804+08:00  INFO 29332 --- [server] [nio-8080-exec-6] c.s.c.MenuItemCustomOptionsController    : getMenuItemCustomOptionByMenuItemId: menuItemId={174}
+2025-03-25T23:21:16.394+08:00  INFO 29332 --- [server] [nio-8080-exec-6] c.s.c.MenuItemCustomOptionsController    : getMenuItemCustomOptionByMenuItemId: menuItemId={174}
+2025-03-25T23:21:38.221+08:00  INFO 29332 --- [server] [nio-8080-exec-1] c.s.c.MenuItemCustomOptionsController    : getMenuItemCustomOptionByMenuItemId: menuItemId={174}
+2025-03-25T23:21:39.954+08:00  INFO 29332 --- [server] [nio-8080-exec-4] c.s.controller.PhotoController_Admin     : Decoded image name: 苦瓜炒肉.jpg
+2025-03-25T23:21:39.954+08:00  INFO 29332 --- [server] [nio-8080-exec-4] c.s.controller.PhotoController_Admin     : Fetching image from path: C:\Users\kahei\Desktop\ive-fyp\server\src\main\resources\static\photo\苦瓜炒肉.jpg
+2025-03-25T23:21:40.008+08:00  INFO 29332 --- [server] [nio-8080-exec-2] c.s.c.MenuItemCustomOptionsController    : getMenuItemCustomOptionByMenuItemId: menuItemId={174}
+2025-03-25T23:21:45.804+08:00  INFO 29332 --- [server] [nio-8080-exec-3] c.s.c.MenuItemCustomOptionsController    : MenuItemCustomOption(id=0, menu_item_id=174, custom_option_id=0)
+2025-03-25T23:21:45.804+08:00  INFO 29332 --- [server] [nio-8080-exec-3] c.s.c.MenuItemCustomOptionsController    : deleteMenuItemCustomOptionByMenuItemId: menuItemId={174}
+2025-03-25T23:21:45.819+08:00  INFO 29332 --- [server] [nio-8080-exec-1] c.s.controller.PhotoController_Admin     : File deleted successfully: 苦瓜炒肉.jpg
+2025-03-25T23:21:59.021+08:00  INFO 29332 --- [server] [nio-8080-exec-6] c.s.controller.PhotoController_Admin     : Decoded image name: 青椒炒肉.jpg
+2025-03-25T23:21:59.023+08:00  INFO 29332 --- [server] [nio-8080-exec-6] c.s.controller.PhotoController_Admin     : Fetching image from path: C:\Users\kahei\Desktop\ive-fyp\server\src\main\resources\static\photo\青椒炒肉.jpg
+2025-03-25T23:21:59.059+08:00  INFO 29332 --- [server] [nio-8080-exec-8] c.s.c.MenuItemCustomOptionsController    : getMenuItemCustomOptionByMenuItemId: menuItemId={166}
+2025-03-25T23:22:33.851+08:00  INFO 29332 --- [server] [nio-8080-exec-4] c.s.c.MenuItemCustomOptionsController    : getMenuItemCustomOptionByMenuItemId: menuItemId={166}
+2025-03-25T23:23:21.793+08:00  INFO 29332 --- [server] [nio-8080-exec-8] c.s.c.MenuItemCustomOptionsController    : getMenuItemCustomOptionByMenuItemId: menuItemId={166}
+2025-03-25T23:23:32.802+08:00  INFO 29332 --- [server] [io-8080-exec-10] c.s.c.MenuItemCustomOptionsController    : getMenuItemCustomOptionByMenuItemId: menuItemId={166}
+2025-03-25T23:24:31.819+08:00  INFO 29332 --- [server] [nio-8080-exec-2] c.s.c.MenuItemCustomOptionsController    : getMenuItemCustomOptionByMenuItemId: menuItemId={166}
+2025-03-25T23:25:00.485+08:00  INFO 29332 --- [server] [nio-8080-exec-8] c.s.c.MenuItemCustomOptionsController    : getMenuItemCustomOptionByMenuItemId: menuItemId={166}
+2025-03-25T23:25:10.879+08:00  INFO 29332 --- [server] [nio-8080-exec-5] c.s.c.MenuItemCustomOptionsController    : getMenuItemCustomOptionByMenuItemId: menuItemId={0}
+2025-03-25T23:25:13.338+08:00  INFO 29332 --- [server] [nio-8080-exec-8] c.s.controller.PhotoController_Admin     : File uploaded successfully: 苦瓜炒肉.jpg
+2025-03-25T23:25:26.021+08:00  INFO 29332 --- [server] [io-8080-exec-10] com.server.controller.MenuController     : menu: Menu(id=0, Name_zh_HK=苦瓜炒肉（份）, Name_zh_CN=苦瓜炒肉（份）, Name_en_US=Stir Fried Bitter Melon with Pork(A Serving), onSale=Y, price=88, type=1, path=苦瓜炒肉.jpg)
+2025-03-25T23:25:26.032+08:00  INFO 29332 --- [server] [nio-8080-exec-3] c.s.c.MenuItemCustomOptionsController    : insertMenuItemCustomOption: menuItemId={175}, customOptionId={14}
+2025-03-25T23:25:26.032+08:00  INFO 29332 --- [server] [nio-8080-exec-8] c.s.c.MenuItemCustomOptionsController    : insertMenuItemCustomOption: menuItemId={175}, customOptionId={1}
+2025-03-25T23:25:26.032+08:00  INFO 29332 --- [server] [nio-8080-exec-1] c.s.c.MenuItemCustomOptionsController    : insertMenuItemCustomOption: menuItemId={175}, customOptionId={2}
+2025-03-25T23:25:26.032+08:00  INFO 29332 --- [server] [nio-8080-exec-5] c.s.c.MenuItemCustomOptionsController    : insertMenuItemCustomOption: menuItemId={175}, customOptionId={15}
+2025-03-25T23:25:53.762+08:00  INFO 29332 --- [server] [nio-8080-exec-3] c.s.c.MenuItemCustomOptionsController    : getMenuItemCustomOptionByMenuItemId: menuItemId={175}
+2025-03-25T23:26:08.285+08:00  INFO 29332 --- [server] [nio-8080-exec-8] c.s.c.MenuItemCustomOptionsController    : getMenuItemCustomOptionByMenuItemId: menuItemId={166}
+2025-03-25T23:26:12.112+08:00  INFO 29332 --- [server] [nio-8080-exec-9] c.s.c.MenuItemCustomOptionsController    : MenuItemCustomOption(id=0, menu_item_id=166, custom_option_id=0)
+2025-03-25T23:26:12.112+08:00  INFO 29332 --- [server] [nio-8080-exec-9] c.s.c.MenuItemCustomOptionsController    : deleteMenuItemCustomOptionByMenuItemId: menuItemId={166}
+2025-03-25T23:26:12.120+08:00  INFO 29332 --- [server] [nio-8080-exec-5] c.s.c.MenuItemCustomOptionsController    : insertMenuItemCustomOption: menuItemId={166}, customOptionId={3}
+2025-03-25T23:26:12.120+08:00  INFO 29332 --- [server] [nio-8080-exec-6] c.s.c.MenuItemCustomOptionsController    : insertMenuItemCustomOption: menuItemId={166}, customOptionId={2}
+2025-03-25T23:26:12.120+08:00  INFO 29332 --- [server] [nio-8080-exec-2] c.s.c.MenuItemCustomOptionsController    : insertMenuItemCustomOption: menuItemId={166}, customOptionId={1}
+2025-03-25T23:26:12.120+08:00  INFO 29332 --- [server] [nio-8080-exec-7] c.s.c.MenuItemCustomOptionsController    : insertMenuItemCustomOption: menuItemId={166}, customOptionId={4}
+2025-03-25T23:26:12.121+08:00  INFO 29332 --- [server] [nio-8080-exec-3] c.s.c.MenuItemCustomOptionsController    : insertMenuItemCustomOption: menuItemId={166}, customOptionId={5}
+2025-03-25T23:26:12.122+08:00  INFO 29332 --- [server] [nio-8080-exec-8] c.s.c.MenuItemCustomOptionsController    : insertMenuItemCustomOption: menuItemId={166}, customOptionId={6}
+2025-03-25T23:26:12.123+08:00  INFO 29332 --- [server] [nio-8080-exec-1] c.s.c.MenuItemCustomOptionsController    : insertMenuItemCustomOption: menuItemId={166}, customOptionId={14}
+2025-03-25T23:26:12.124+08:00  INFO 29332 --- [server] [io-8080-exec-10] c.s.c.MenuItemCustomOptionsController    : insertMenuItemCustomOption: menuItemId={166}, customOptionId={15}
+2025-03-25T23:26:18.030+08:00  INFO 29332 --- [server] [nio-8080-exec-3] c.s.c.MenuItemCustomOptionsController    : getMenuItemCustomOptionByMenuItemId: menuItemId={175}
+2025-03-25T23:26:31.540+08:00  INFO 29332 --- [server] [nio-8080-exec-4] c.s.c.MenuItemCustomOptionsController    : MenuItemCustomOption(id=0, menu_item_id=175, custom_option_id=0)
+2025-03-25T23:26:31.540+08:00  INFO 29332 --- [server] [nio-8080-exec-4] c.s.c.MenuItemCustomOptionsController    : deleteMenuItemCustomOptionByMenuItemId: menuItemId={175}
+2025-03-25T23:26:31.556+08:00  INFO 29332 --- [server] [nio-8080-exec-7] c.s.c.MenuItemCustomOptionsController    : insertMenuItemCustomOption: menuItemId={175}, customOptionId={1}
+2025-03-25T23:26:31.556+08:00  INFO 29332 --- [server] [nio-8080-exec-5] c.s.c.MenuItemCustomOptionsController    : insertMenuItemCustomOption: menuItemId={175}, customOptionId={15}
+2025-03-25T23:26:31.556+08:00  INFO 29332 --- [server] [nio-8080-exec-9] c.s.c.MenuItemCustomOptionsController    : insertMenuItemCustomOption: menuItemId={175}, customOptionId={14}
+2025-03-25T23:26:31.556+08:00  INFO 29332 --- [server] [nio-8080-exec-6] c.s.c.MenuItemCustomOptionsController    : insertMenuItemCustomOption: menuItemId={175}, customOptionId={2}
+2025-03-25T23:26:31.556+08:00  INFO 29332 --- [server] [nio-8080-exec-2] c.s.c.MenuItemCustomOptionsController    : insertMenuItemCustomOption: menuItemId={175}, customOptionId={7}
+2025-03-25T23:26:31.556+08:00  INFO 29332 --- [server] [nio-8080-exec-8] c.s.c.MenuItemCustomOptionsController    : insertMenuItemCustomOption: menuItemId={175}, customOptionId={6}
+2025-03-25T23:26:38.248+08:00  INFO 29332 --- [server] [nio-8080-exec-8] c.s.c.MenuItemCustomOptionsController    : getMenuItemCustomOptionByMenuItemId: menuItemId={175}
+2025-03-25T23:26:46.325+08:00  INFO 29332 --- [server] [nio-8080-exec-9] c.s.c.MenuItemCustomOptionsController    : MenuItemCustomOption(id=0, menu_item_id=175, custom_option_id=0)
+2025-03-25T23:26:46.325+08:00  INFO 29332 --- [server] [nio-8080-exec-9] c.s.c.MenuItemCustomOptionsController    : deleteMenuItemCustomOptionByMenuItemId: menuItemId={175}
+2025-03-25T23:26:46.350+08:00  INFO 29332 --- [server] [nio-8080-exec-1] c.s.controller.PhotoController_Admin     : File deleted successfully: 苦瓜炒肉.jpg
+2025-03-25T23:26:59.344+08:00  INFO 29332 --- [server] [ionShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-03-25T23:26:59.348+08:00  INFO 29332 --- [server] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-03-25T23:26:59.351+08:00  INFO 29332 --- [server] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-03-25T23:26:59.354+08:00  INFO 29332 --- [server] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

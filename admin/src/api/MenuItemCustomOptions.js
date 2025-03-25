@@ -3,16 +3,16 @@ import axios from "axios";
 const baseURL = "http://localhost:8080/api/menuItemCustomOptions";
 
 // delete menu item custom option by menu item id
-export function deleteMenuItemCustomOptionByMenuItemId(menuItemId) {
+export function deleteMenuItemCustomOptionByMenuItemId(menu_item_id) {
   return axios.post(baseURL + "/deleteMenuItemCustomOptionByMenuItemId", {
-    menuItemId,
+    menu_item_id,
   });
 }
 
 // delete menu item custom option by custom option id
-export function deleteMenuItemCustomOptionByCustomOptionId(customOptionId) {
+export function deleteMenuItemCustomOptionByCustomOptionId(custom_option_id) {
   return axios.post(baseURL + "/deleteMenuItemCustomOptionByCustomOptionId", {
-    customOptionId,
+    custom_option_id,
   });
 }
 

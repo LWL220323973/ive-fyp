@@ -27,6 +27,7 @@ public class MenuItemCustomOptionsController {
 
     @PostMapping("/api/menuItemCustomOptions/deleteMenuItemCustomOptionByMenuItemId")
     public int deleteMenuItemCustomOptionByMenuItemId(@RequestBody MenuItemCustomOption menuItemCustomOption) {
+        log.info(menuItemCustomOption.toString());
         log.info("deleteMenuItemCustomOptionByMenuItemId: menuItemId={" + menuItemCustomOption.getMenu_item_id() + "}");
         return service.deleteMenuItemCustomOptionByMenuItemId(menuItemCustomOption.getMenu_item_id());
     }

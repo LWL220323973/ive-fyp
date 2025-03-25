@@ -47,7 +47,8 @@ export function updateMenu(
   name_en_US,
   price,
   onSale,
-  type
+  type,
+  path
 ) {
   return axios.post(baseURL + "/updateMenu", {
     id,
@@ -57,6 +58,7 @@ export function updateMenu(
     price,
     onSale,
     type,
+    path,
   });
 }
 
