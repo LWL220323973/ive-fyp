@@ -1,0 +1,11 @@
+#menuInfoFormInfo {
+  display: "flex";
+  width: "100%";
+}
+
+#menuInfoFormButton{
+  margin-top: 5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

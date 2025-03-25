@@ -19,3 +19,51 @@ export function searchInMenu(
     type,
   });
 }
+
+export function insertMenu(
+  name_zh_HK,
+  name_zh_CN,
+  name_en_US,
+  price,
+  onSale,
+  type
+) {
+  return axios.post(baseURL + "/insertMenu", {
+    name_zh_HK,
+    name_zh_CN,
+    name_en_US,
+    price,
+    onSale,
+    type,
+  });
+}
+
+export function updateMenu(
+  id,
+  name_zh_HK,
+  name_zh_CN,
+  name_en_US,
+  price,
+  onSale,
+  type
+) {
+  return axios.post(baseURL + "/updateMenu", {
+    id,
+    name_zh_HK,
+    name_zh_CN,
+    name_en_US,
+    price,
+    onSale,
+    type,
+  });
+}
+
+export function deleteMenu(id) {
+  return axios.post(baseURL + "/deleteMenu", {
+    id,
+  });
+}
+
+export function getLastMenu() {
+  return axios.get(baseURL + "/getLastMenu");
+}

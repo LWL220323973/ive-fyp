@@ -90,5 +90,8 @@
   "addDishesTypeSuccess": "Add Dishes Type Successfully",
   "addDishesTypeFailed": "Add Dishes Type Failed, data repeated",
   "deleteDishesTypeSuccess": "Delete Dishes Type Successfully",
-  "deleteDishesTypeFailed": "Delete Dishes Type Failed, this type is in use"
+  "deleteDishesTypeFailed": "Delete Dishes Type Failed, this type is in use",
+  "editMenu": "Edit Menu - ",
+  "addMenu": "Add Menu",
+  "uploadImage": "Upload Image(PNG, JPG)"
 }

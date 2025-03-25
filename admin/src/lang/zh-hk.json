@@ -90,5 +90,8 @@
   "addDishesTypeSuccess": "新增菜品類型成功",
   "addDishesTypeFailed": "新增菜品類型失敗, 數據重複",
   "deleteDishesTypeSuccess": "刪除菜品類型成功",
-  "deleteDishesTypeFailed": "刪除菜品類型失敗, 此類型正在使用"
+  "deleteDishesTypeFailed": "刪除菜品類型失敗, 此類型正在使用",
+  "editMenu": "編輯菜單 - ",
+  "addMenu": "新增菜單",
+  "uploadImage": "上傳圖片(PNG, JPG)"
 }

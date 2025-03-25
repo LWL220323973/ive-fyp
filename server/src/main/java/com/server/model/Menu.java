@@ -10,6 +10,6 @@ public class Menu {
     private String Name_en_US;
     private String onSale;
     private int price;
-    private String type;
+    private int type;
     private String path;
 }
