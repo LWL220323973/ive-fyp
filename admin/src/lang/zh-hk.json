@@ -148,5 +148,18 @@
   "pleaseUploadImage": "請上傳圖片",
   "pleaseChoose": "請選擇",
   "pleaseEnterPrice": "請輸入價格",
-  "deleteMenu": "刪除菜單"
+  "deleteMenu": "刪除菜單",
+  "newPassword": "新密碼",
+  "oldPassword": "舊密碼",
+  "username": "用戶名",
+  "passwordRuleReminder": "密碼必須符合以下要求：",
+  "passwordRule1": "密碼長度必須大於8 - 16個字符",
+  "passwordRule2": "密碼必須包含至少一個大寫字母",
+  "passwordRule3": "密碼必須包含至少一個小寫字母",
+  "passwordRule4": "密碼必須包含至少一個數字",
+  "passwordRule5": "密碼必須包含至少一個特殊字符(!, @, _, -)",
+  "passwordRule6": "密碼不能包含空格",
+  "updatePasswordAndInfoSuccess": "更新成功, 將在秒後自動登出",
+  "updatePasswordAndInfoFailed": "更新失敗, 請檢查所有數據",
+  "oldPasswordIncorrect": "舊密碼不正確"
 }

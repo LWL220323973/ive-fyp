@@ -1,4 +1,5 @@
 import { Layout } from "antd";
+import "./layout.css";
 function Footer() {
   return (
     <Layout.Footer
@@ -8,7 +9,7 @@ function Footer() {
         height: "50px",
       }}
     >
-      IVE_FYP ©{new Date().getFullYear()} Created by Kelvin Chang
+      IVE_FYP ©2025 Created by Kelvin Chang and Alex Wong
     </Layout.Footer>
   );
 }

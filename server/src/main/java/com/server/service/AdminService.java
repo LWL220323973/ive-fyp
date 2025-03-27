@@ -56,7 +56,26 @@ public class AdminService {
 
     //Edit User
     public int editAdmin(Admin admin) {
+        AES256TextEncryptor textEncryptor = new AES256TextEncryptor();
+        textEncryptor.setPassword("ive_fyp_20242025_admin_password_encryption_password" + admin.getStaff_id());
+        admin.setPassword(textEncryptor.encrypt(admin.getPassword()));
         return mapper.editAdmin(admin);
+    }
+
+    //Check Password
+    public boolean checkOldPassword(Admin admin) {
+        log.info("Checking password for staff ID: " + admin.getStaff_id());
+        log.info("Input password: " + admin.getPassword());
+        String inputPassword = admin.getPassword();
+        AES256TextEncryptor textEncryptor = new AES256TextEncryptor();
+        textEncryptor.setPassword("ive_fyp_20242025_admin_password_encryption_password" + admin.getStaff_id());
+        for (Admin account : mapper.findAdmin(admin)) {
+            String passwordDecrypted = textEncryptor.decrypt(account.getPassword());
+            log.info("Staff ID: " + account.getStaff_id());
+            log.info("Decrypted password: " + passwordDecrypted);
+            return passwordDecrypted.equals(inputPassword);
+        }
+        return false;
     }
 
     // Generate staffID

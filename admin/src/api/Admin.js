@@ -96,3 +96,28 @@ export function deleteAdmin(record) {
     staff_id
   });
 }
+
+//Check old password
+export function checkPassword(staff_id, password) {
+  return axios.post(baseURL + "/checkPassword", {
+    staff_id,
+    password,
+  });
+}
+
+//Change password and pesonal information
+export function changePasswordAndInfo(
+  id,
+  staff_id,
+  email,
+  phone_number,
+  password,
+) {
+  return axios.post(baseURL + "/updateAdmin", {
+    id,
+    staff_id,
+    email,
+    phone_number,
+    password,
+  });
+}

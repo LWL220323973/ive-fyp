@@ -72,6 +72,9 @@
             <if test="userRole != null and userRole != ''">
                 userRole = #{userRole},
             </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
         </set>
         WHERE staff_id = #{staff_id} AND id = #{id}
     </update>
@@ -80,5 +83,5 @@
         DELETE FROM admin
         WHERE id = #{id}
     </delete>
-    
+
 </mapper>

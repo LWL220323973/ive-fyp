@@ -148,5 +148,18 @@
   "pleaseUploadImage": "Please upload an image",
   "pleaseChoose": "Please choose",
   "pleaseEnterPrice": "Please enter price",
-  "deleteMenu": "Delete Menu"
+  "deleteMenu": "Delete Menu",
+  "newPassword": "New Password",
+  "oldPassword": "Old Password",
+  "username": "Username",
+  "passwordRuleReminder": "Password must meet the following requirements:",
+  "passwordRule1": "Password must be 8 - 16 characters.",
+  "passwordRule2":"At least 1 uppercase alphabet.",
+  "passwordRule3":"At least 1 lowercase alphabet.",
+  "passwordRule4":"At least 1 number.",
+  "passwordRule5":"At least 1 special character(!, @, _, -).",
+  "passwordRule6":"No space allowed.",
+  "updatePasswordAndInfoSuccess": "Update successfully, will log out in 3 seconds",
+  "updatePasswordAndInfoFailed": "Update failed, please check all the data",
+  "oldPasswordIncorrect": "Old password is incorrect"
 }

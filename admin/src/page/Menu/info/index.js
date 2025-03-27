@@ -71,7 +71,6 @@ function MenuInfoContent() {
   const [dishesTypeList, setDishesTypeList] = useState([]);
   const [isOpenConfirm, setIsOpenConfirm] = useState(false);
   const [menuInfoForm] = Form.useForm();
-  const [customOption, setCustomOption] = useState([]);
 
   const record = useMemo(
     () => (location.state && location.state.record) || {},
@@ -287,14 +286,12 @@ function MenuInfoContent() {
               <Form.Item
                 label={intl.get("specialItem")}
                 name="customOption"
-                initialValue={customOption}
               >
                 <Checkbox.Group>
                   {customOptionList.map((item) => (
                     <Checkbox
                       key={item.id}
                       value={item.id}
-                      checked={customOption.includes(item.id)}
                     >
                       {localStorage.getItem("locale") === "en-US"
                         ? item.name_us_en

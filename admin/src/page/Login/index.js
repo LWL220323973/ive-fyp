@@ -33,7 +33,7 @@ function Login() {
         navigate("/home");
       }, 1200);
     } else {
-      message.error(intl.get("loginFail"));
+      message.error(intl.get("loginFailed"));
       form.resetFields();
     }
   };

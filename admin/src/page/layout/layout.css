@@ -13,12 +13,8 @@
   margin-left: 16px;
 }
 
-footer {
-  text-align: "center";
-  background-color: "#fff";
-  height: "50px";
-}
-
-#sider {
-  min-height: "100vh";
+#personalInfoButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

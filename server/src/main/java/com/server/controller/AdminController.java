@@ -58,6 +58,11 @@ public class AdminController {
         return service.editAdmin(admin);
     }
 
+    @PostMapping("/api/admin/checkPassword")
+    public boolean checkPassword(@RequestBody Admin admin) {
+        return service.checkOldPassword(admin);
+    }
+
     // Download Excel Template
     @GetMapping("/api/admin/downloadExcel/UserInfo.xlsx")
     public ResponseEntity<Resource> downloadUserInfoTemplate() {
