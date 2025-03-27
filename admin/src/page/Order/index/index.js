@@ -309,7 +309,7 @@ function OrderContent() {
     fetchOrders();
     
     // 設置定時器定期更新訂單列表
-    const timer = setInterval(fetchOrders, 60000); // 每分鐘更新一次
+    const timer = setInterval(fetchOrders, 6000); // 每分鐘更新一次
     
     return () => clearInterval(timer);
   }, [fetchOrders]);

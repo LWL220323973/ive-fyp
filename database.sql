@@ -8,6 +8,9 @@ DROP TABLE IF EXISTS `custom_option`;
 DROP TABLE IF EXISTS `order`;
 DROP TABLE IF EXISTS `order_status`;
 
+DROP TABLE IF EXISTS `receipt_oreder_item`;
+DROP TABLE IF EXISTS `receipt`;
+
 DROP TABLE IF EXISTS `menu`;
 DROP TABLE IF EXISTS `dishes_type`;
 
@@ -522,5 +525,30 @@ INSERT INTO `order` (`order_status_id`, `item_name_zh_HK`, `item_name_zh_CN`, `i
 (1, '尖椒皮蛋（份）', '尖椒皮蛋（份）', 'Spicy Pepper Preserved Egg(A Serving)','洋葱: 額外洋葱','洋葱: 額外洋葱','Onion: Extra Onion', 48, 5, 2, 1, '2024-02-02 10:30:00', '2024-02-02 10:35:00'),
 (1, '青島（大樽）', '青岛（大瓶）', 'Tsingtao Beer(Large)','洋葱: 額外洋葱；芫荽: 額外芫荽','洋葱: 額外洋葱；香菜: 额外香菜','Onion: Extra Onion; Coriander: Extra Coriander', 28, 10, 2, 1, '2024-01-09 12:50:00', '2024-01-09 12:55:00'),
 (1, '豆卜（份）', '豆卜（份）', 'Tofu Puff(A Serving)','洋葱: 不要洋葱','洋葱: 不要洋葱','Onion: No Onion', 38, 0, 2, 1, '2024-02-08 10:45:00', '2024-02-08 10:50:00');
+
+CREATE TABLE `receipt`(
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `is_request_service_charge` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `receipt_oreder_item`(
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `receipt_id` int(11) NOT NULL,
+  `item_name_zh_HK` varchar(150) NOT NULL,
+  `item_name_zh_CN` varchar(150) NOT NULL,
+  `item_name_en_US` varchar(150) NOT NULL,
+  `custom_string_zh_HK` varchar(300),
+  `custom_string_zh_CN` varchar(300),
+  `custom_string_en_US` varchar(500),
+  `price` int(11) NOT NULL,
+  `custom_price` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `table_name` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `receipt_id` (`receipt_id`),
+  CONSTRAINT `receipt_order_item_fk_1` FOREIGN KEY (`receipt_id`) REFERENCES `receipt` (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 COMMIT;

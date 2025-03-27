@@ -9,6 +9,7 @@ import {
   StarOutlined,
   ShoppingCartOutlined,
   ToolOutlined,
+  CreditCardOutlined,
 } from "@ant-design/icons";
 import { useNavigate, useLocation } from "react-router-dom";
 import intl from "react-intl-universal";
@@ -32,6 +33,8 @@ function Sider() {
       return "/manage";
     } else if (location.pathname.startsWith("/order")) {
       return "/order";
+    } else if (location.pathname.startsWith("/checkout")) {
+      return "/checkout";
     } else {
       return location.pathname;
     }
@@ -57,6 +60,12 @@ function Sider() {
           icon: <ShoppingCartOutlined />,
           label: intl.get("orders"),
           onClick: () => navigate("/order"),
+        },
+        {
+          key: "/checkout",
+          icon: <CreditCardOutlined />,
+          label: intl.get("checkout"),
+          onClick: () => navigate("/checkout"),
         },
         {
           key: "/user",
@@ -109,6 +118,12 @@ function Sider() {
           icon: <ShoppingCartOutlined />,
           label: intl.get("orders"),
           onClick: () => navigate("/order"),
+        },
+        {
+          key: "/checkout",
+          icon: <CreditCardOutlined />,
+          label: intl.get("checkout"),
+          onClick: () => navigate("/checkout"),
         },
       ];
     }
