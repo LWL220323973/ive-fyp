@@ -4,11 +4,18 @@
 <mapper namespace="com.server.mapper.MenuItemCustomOptionsMapper">
 
     <delete id="deleteMenuItemCustomOptionByMenuItemId" parameterType="com.server.model.MenuItemCustomOption">
-        DELETE FROM menuitem_customoptions WHERE menu_item_id = #{menuItemId}
+        DELETE FROM menuitem_customoptions WHERE menu_item_id = #{menu_item_id}
     </delete>
 
     <delete id="deleteMenuItemCustomOptionByCustomOptionId" parameterType="com.server.model.MenuItemCustomOption">
-        DELETE FROM menuitem_customoptions WHERE custom_option_id = #{customOptionId}
+        DELETE FROM menuitem_customoptions WHERE custom_option_id = #{custom_option_id}
     </delete>
 
+    <select id="getMenuItemCustomOptionByMenuItemId" resultType="com.server.model.MenuItemCustomOption">
+        SELECT * FROM menuitem_customoptions WHERE menu_item_id = #{menu_item_id}
+    </select>
+
+    <insert id="insertMenuItemCustomOption" parameterType="com.server.model.MenuItemCustomOption">
+        INSERT INTO menuitem_customoptions (menu_item_id, custom_option_id) VALUES (#{menu_item_id}, #{custom_option_id})
+    </insert>
 </mapper>

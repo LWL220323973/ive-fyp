@@ -6,7 +6,7 @@ import lombok.Data;
 public class MenuItemCustomOption {
 
     private int id;
-    private int menuItemId;
-    private int customOptionId;
+    private int menu_item_id;
+    private int custom_option_id;
 
 }

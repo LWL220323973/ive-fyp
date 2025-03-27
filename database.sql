@@ -250,8 +250,7 @@ INSERT INTO `menu` (`id`, `Name_zh_HK`, `Name_zh_CN`, `Name_en_US`, `price`, `on
 	(163, '淮山炒木耳（份）', '淮山炒木耳（份）', 'Stir Fried Huai Shan with Black Fungus(A Serving)', 78, 'Y', '淮山炒木耳.jpg', 7),
 	(164, '農家小炒肉（份）', '农家小炒肉（份）', 'Home-style Stir Fried Pork(A Serving)', 88, 'Y', '農家小炒肉.jpg', 7),
 	(165, '藕片炒肉（份）', '藕片炒肉（份）', 'Stir Fried Lotus Root Slices with Pork(A Serving)', 88, 'Y', '藕片炒肉.jpg', 7),
-	(166, '青椒炒肉（份）', '青椒炒肉（份）', 'Stir Fried Green Peppers with Pork(A Serving)', 68, 'Y', '青椒炒肉.jpg', 7),
-	(167, '苦瓜炒肉（份）', '苦瓜炒肉（份）', 'Stir Fried Bitter Melon with Pork(A Serving)', 88, 'Y', '苦瓜炒肉.jpg', 7);
+	(166, '青椒炒肉（份）', '青椒炒肉（份）', 'Stir Fried Green Peppers with Pork(A Serving)', 68, 'Y', '青椒炒肉.jpg', 7);
 
 CREATE TABLE `custom_option` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -483,9 +482,7 @@ INSERT INTO `menuItem_customOptions` (`menu_item_id`, `custom_option_id`) VALUES
 (163, 1), (163, 2), (163, 3), (163, 4), (163, 5), (163, 6), (163, 14), (163, 15),
 (164, 1), (164, 2), (164, 3), (164, 4), (164, 5), (164, 6), (164, 14), (164, 15),
 (165, 1), (165, 2), (165, 3), (165, 4), (165, 5), (165, 6), (165, 14), (165, 15),
-(166, 1), (166, 2), (166, 3), (166, 4), (166, 5), (166, 6), (166, 14), (166, 15),
-(167, 1), (167, 2), (167, 3), (167, 4), (167, 5), (167, 6), (167, 14), (167, 15);
-
+(166, 1), (166, 2), (166, 3), (166, 4), (166, 5), (166, 6), (166, 14), (166, 15);
 
 CREATE TABLE `order_status` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
