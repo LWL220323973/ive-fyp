@@ -7,6 +7,7 @@ import MenuInfo from "./Menu/info";
 import User from "./User/index";
 import UserInfo from "./User/Info";
 import Order from "./Order/index";
+import Checkout from "./Checkout";
 import ManageDishesType from "./Manage/manageDishesType/index";
 import ManageDishesTypeInfo from "./Manage/manageDishesType/info";
 import ManageCustomization from "./Manage/manageCustomization/index";
@@ -31,6 +32,7 @@ function App() {
           <Route path="order/">
             <Route index element={<Order />} />
           </Route>
+          <Route path="checkout" element={<Checkout />} />
           <Route path="manage/">
             <Route path="customization">
               <Route index element={<ManageCustomization />} />

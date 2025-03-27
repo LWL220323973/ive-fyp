@@ -802,7 +802,7 @@ const MenuScreen = () => {
                 key={`${item.id}-${item.custom_string_zh_HK}`}
                 className="cart-item"
               >
-                <img
+                {/* <img
                   src={item.imageUrl}
                   alt={
                     item[
@@ -816,7 +816,7 @@ const MenuScreen = () => {
                     ]
                   }
                   className="cart-item-image"
-                />
+                /> */}
                 <div className="cart-item-info">
                   <div>
                     {

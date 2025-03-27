@@ -53,7 +53,7 @@
   border-left: 4px solid #faad14;
 }
 
-.marked-as-done-card {  /* 將 processing-card 改為 marked-as-done-card */
+.marked-as-done-card {
   border-left: 4px solid #52c41a;
 }
 
@@ -198,6 +198,22 @@
   /* 移除transform和陰影效果 */
 }
 
+/* 增強選擇器優先級，確保顏色正確應用 */
+.table-filter-button .pending-count {
+  color: #faad14 !important;
+  font-weight: bold;
+}
+
+.table-filter-button .separator {
+  margin: 0 2px;
+  color: #d9d9d9;
+}
+
+.table-filter-button .marked-as-done-count { 
+  color: #52c41a !important;
+  font-weight: bold;
+}
+
 /* 訂單數量顯示樣式 */
 .filter-count-detail {
   display: flex;
@@ -218,12 +234,12 @@
   color: #d9d9d9;
 }
 
-.marked-as-done-count {  /* 將 processing-count 改為 marked-as-done-count */
+.marked-as-done-count { 
   color: #52c41a;
   font-weight: bold;
 }
 
-.all-marked-as-done-button:not(.ant-btn-primary):hover {  /* 將 all-processing-button 改為 all-marked-as-done-button */
+.all-marked-as-done-button:not(.ant-btn-primary):hover {
   background-color: #f6ffed !important;
   border-color: #b7eb8f !important;
 }
