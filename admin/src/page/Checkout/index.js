@@ -35,8 +35,6 @@ import { getSystemsProfile } from "../../api/GetSystemsProfile";
 import intl from "react-intl-universal";
 import "./Checkout.css";
 
-const { Panel } = Collapse;
-
 function Checkout() {
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -51,7 +49,6 @@ function Checkout() {
 }
 
 function CheckoutContent() {
-  const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(false);
   const [tableOrders, setTableOrders] = useState({});
   const [tableStats, setTableStats] = useState({});
@@ -96,7 +93,6 @@ function CheckoutContent() {
         new Date(b.createdAt) - new Date(a.createdAt)
       );
       
-      setOrders(sortedOrders);
       organizeOrdersByTable(sortedOrders);
       setLastRefreshTime(new Date()); // 更新最後刷新時間
       setServiceChargeExemptions({}); // 重置服務費免除狀態
@@ -394,8 +390,8 @@ function CheckoutContent() {
       </div>
     );
     
-    return (
-      <Panel header={panelHeader} key={tableName} className="checkout-panel">
+    const panelContent = (
+      <>
         <div className="checkout-stats-cards">
           <Row gutter={[16, 16]}>
             <Col xs={24} sm={8}>
@@ -540,8 +536,15 @@ function CheckoutContent() {
             {intl.get("print")}
           </Button>
         </div>
-      </Panel>
+      </>
     );
+    
+    return {
+      key: tableName,
+      label: panelHeader,
+      children: panelContent,
+      className: "checkout-panel"
+    };
   };
 
   // 新增：計算經過的時間
@@ -646,8 +649,7 @@ function CheckoutContent() {
           activeKey={activeKeys}
           onChange={handleCollapseChange}
           accordion={true}
-        >
-          {Object.keys(tableOrders)
+          items={Object.keys(tableOrders)
             .sort((a, b) => {
               // 有待處理訂單的桌號優先顯示
               const aHasPending = tableStats[a].pendingItems > 0;
@@ -678,7 +680,7 @@ function CheckoutContent() {
               return a.localeCompare(b);
             })
             .map(tableName => renderTablePanel(tableName))}
-        </Collapse>
+        />
       )}
     </Layout.Content>
   );

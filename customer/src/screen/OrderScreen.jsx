@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { getOrderDetailByTableName } from '../api/GetOrderDetailByTableName';
 import { getSystemsProfile } from '../api/GetSystemsProfile';
 import { useTranslation } from 'react-i18next';
@@ -11,14 +11,15 @@ const OrderScreen = () => {
     const [orders, setOrders] = useState([]);
     const tableName = localStorage.getItem('tableNumber') || '';
     // State to store the table number, retrieved from localStorage if available
-    const [tableNumber, setTableNumber] = useState(localStorage.getItem('tableNumber') || '');
+    const [tableNumber] = useState(localStorage.getItem('tableNumber') || '');
     const [isServiceChargeRequired, setServiceChargeRequired] = useState(false);
     const [noOrderModalVisible, setNoOrderModalVisible] = useState(false); // 控制模態框顯示
     const [isLoading, setIsLoading] = useState(true); // 添加載入狀態
     const [expandedItems, setExpandedItems] = useState({}); // 新增：追蹤展開項目的狀態
     const navigate = useNavigate(); // 用於頁面導航
 
-    const fetchOrders = async () => {
+    // 使用 useCallback 封裝 fetchOrders 以在依賴陣列中使用
+    const fetchOrders = useCallback(async () => {
         setIsLoading(true); // 開始載入
         try {
             const response = await getOrderDetailByTableName(tableName);
@@ -28,7 +29,7 @@ const OrderScreen = () => {
         } finally {
             setIsLoading(false); // 無論成功或失敗都標記載入完成
         }
-    };
+    }, [tableName]);
 
     useEffect(() => {
         if (tableName) {
@@ -36,7 +37,7 @@ const OrderScreen = () => {
         } else {
             setIsLoading(false); // 如果沒有 tableName，也標記為載入完成
         }
-    }, [tableName]);
+    }, [tableName, fetchOrders]);
 
     // 在訂單資料載入後檢查是否有有效訂單
     useEffect(() => {
