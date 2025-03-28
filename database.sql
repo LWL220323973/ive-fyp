@@ -533,7 +533,7 @@ CREATE TABLE `receipt`(
   PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE `receipt_oreder_item`(
+CREATE TABLE `receipt_order_item`(
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `receipt_id` int(11) NOT NULL,
   `item_name_zh_HK` varchar(150) NOT NULL,

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.server.mapper.ReceiptMapper">
+
+    <!-- 插入Receipt並返回生成的主鍵ID -->
+    <insert id="insertReceipt" parameterType="com.server.model.Receipt" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO receipt (created_at, is_request_service_charge)
+        VALUES (#{createdAt}, #{isRequestServiceCharge})
+    </insert>
+
+    <!-- 插入ReceiptOrderItem -->
+    <insert id="insertReceiptOrderItem" parameterType="com.server.model.ReceiptOrderItem">
+        INSERT INTO receipt_order_item (
+            receipt_id,
+            item_name_zh_HK,
+            item_name_zh_CN,
+            item_name_en_US,
+            custom_string_zh_HK,
+            custom_string_zh_CN,
+            custom_string_en_US,
+            price,
+            custom_price,
+            quantity,
+            table_name
+        )
+        VALUES (
+            #{receiptId},
+            #{itemNameZhHK},
+            #{itemNameZhCN},
+            #{itemNameEnUS},
+            #{customStringZhHK},
+            #{customStringZhCN},
+            #{customStringEnUS},
+            #{price},
+            #{customPrice},
+            #{quantity},
+            #{tableName}
+        )
+    </insert>
+
+</mapper>

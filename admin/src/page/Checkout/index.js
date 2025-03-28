@@ -31,6 +31,7 @@ import Sider from "../layout/Sider";
 import Footer from "../layout/Footer";
 import Header from "../layout/Header";
 import { getAllOrders, updateOrderStatus } from "../../api/Order";
+import { createReceiptWithItems } from "../../api/Receipt"; // 新增引入
 import { getSystemsProfile } from "../../api/GetSystemsProfile";
 import intl from "react-intl-universal";
 import "./Checkout.css";
@@ -217,6 +218,39 @@ function CheckoutContent() {
           // 顯示載入狀態
           setLoading(true);
           
+          // 準備收據數據
+          const isServiceChargeRequired = systemProfile?.isServiceChargeRequired || false;
+          const isExempted = serviceChargeExemptions[tableName];
+          
+          // 創建收據對象
+          const receipt = {
+            // 不在這裡設置日期，讓後端處理
+            requestServiceCharge: isServiceChargeRequired && !isExempted // 修正屬性名稱
+          };
+          
+          // 將訂單轉換為收據訂單項
+          const receiptOrderItems = tableOrder.map(order => {
+            return {
+              // 確保所有字段與後端模型匹配
+              itemNameZhHK: order.itemNameZhHK || "",
+              itemNameZhCN: order.itemNameZhCN || "",
+              itemNameEnUS: order.itemNameEnUS || "",
+              customStringZhHK: order.customStringZhHK || "",
+              customStringZhCN: order.customStringZhCN || "",
+              customStringEnUS: order.customStringEnUS || "",
+              price: order.price || 0,
+              customPrice: order.customPrice || 0,
+              quantity: order.quantity || 1,
+              tableName: order.tableName || tableName
+            };
+          });
+          
+          console.log("發送到後端的數據:", { receipt, orderItems: receiptOrderItems });
+          
+          // 使用API創建收據和收據訂單項
+          const response = await createReceiptWithItems(receipt, receiptOrderItems);
+          console.log("收據創建成功:", response.data);
+          
           // 對桌號所有訂單逐一更新狀態為3（已結帳）
           const updatePromises = tableOrder.map(order => 
             updateOrderStatus(order.id, 3)
@@ -232,7 +266,15 @@ function CheckoutContent() {
           fetchOrders();
         } catch (error) {
           console.error("結帳失敗:", error);
-          message.error(intl.get("checkoutFailed"));
+          // 添加更詳細的錯誤信息顯示
+          let errorMsg = error.message || error.toString();
+          if (error.response && error.response.data) {
+            console.error("錯誤詳情:", error.response.data);
+            if (error.response.data.message) {
+              errorMsg = error.response.data.message;
+            }
+          }
+          message.error(`${intl.get("checkoutFailed")}: ${errorMsg}`);
         } finally {
           setLoading(false);
         }
