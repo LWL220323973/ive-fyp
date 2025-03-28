@@ -399,6 +399,7 @@ function Header() {
         }
         open={openPersonalInfo}
         footer={null}
+        onCancel={() => setOpenPersonalInfo(false)}
       >
         <Form layout="vertical" form={personalInfoForm} onFinish={onSubmit}>
           {formItem()}

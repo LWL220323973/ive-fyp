@@ -7,6 +7,7 @@ C:\Users\kahei\Desktop\ive-fyp\server\src\main\java\com\server\controller\MenuIt
 C:\Users\kahei\Desktop\ive-fyp\server\src\main\java\com\server\controller\OrderController.java
 C:\Users\kahei\Desktop\ive-fyp\server\src\main\java\com\server\controller\PhotoController.java
 C:\Users\kahei\Desktop\ive-fyp\server\src\main\java\com\server\controller\PhotoController_Admin.java
+C:\Users\kahei\Desktop\ive-fyp\server\src\main\java\com\server\controller\ReceiptController.java
 C:\Users\kahei\Desktop\ive-fyp\server\src\main\java\com\server\controller\SystemsProfileController.java
 C:\Users\kahei\Desktop\ive-fyp\server\src\main\java\com\server\mapper\AdminMapper.java
 C:\Users\kahei\Desktop\ive-fyp\server\src\main\java\com\server\mapper\CustomOptionMapper.java
@@ -15,6 +16,7 @@ C:\Users\kahei\Desktop\ive-fyp\server\src\main\java\com\server\mapper\DishesType
 C:\Users\kahei\Desktop\ive-fyp\server\src\main\java\com\server\mapper\MenuItemCustomOptionsMapper.java
 C:\Users\kahei\Desktop\ive-fyp\server\src\main\java\com\server\mapper\MenuMapper.java
 C:\Users\kahei\Desktop\ive-fyp\server\src\main\java\com\server\mapper\OrderMapper.java
+C:\Users\kahei\Desktop\ive-fyp\server\src\main\java\com\server\mapper\ReceiptMapper.java
 C:\Users\kahei\Desktop\ive-fyp\server\src\main\java\com\server\mapper\SystemsProfileMapper.java
 C:\Users\kahei\Desktop\ive-fyp\server\src\main\java\com\server\model\Admin.java
 C:\Users\kahei\Desktop\ive-fyp\server\src\main\java\com\server\model\CustomOption.java
@@ -24,6 +26,8 @@ C:\Users\kahei\Desktop\ive-fyp\server\src\main\java\com\server\model\Menu.java
 C:\Users\kahei\Desktop\ive-fyp\server\src\main\java\com\server\model\MenuItemCustomOption.java
 C:\Users\kahei\Desktop\ive-fyp\server\src\main\java\com\server\model\Order.java
 C:\Users\kahei\Desktop\ive-fyp\server\src\main\java\com\server\model\OrderStatus.java
+C:\Users\kahei\Desktop\ive-fyp\server\src\main\java\com\server\model\Receipt.java
+C:\Users\kahei\Desktop\ive-fyp\server\src\main\java\com\server\model\ReceiptOrderItem.java
 C:\Users\kahei\Desktop\ive-fyp\server\src\main\java\com\server\model\SystemsProfile.java
 C:\Users\kahei\Desktop\ive-fyp\server\src\main\java\com\server\ServerApplication.java
 C:\Users\kahei\Desktop\ive-fyp\server\src\main\java\com\server\service\AdminService.java
@@ -34,5 +38,6 @@ C:\Users\kahei\Desktop\ive-fyp\server\src\main\java\com\server\service\MenuItemC
 C:\Users\kahei\Desktop\ive-fyp\server\src\main\java\com\server\service\MenuService.java
 C:\Users\kahei\Desktop\ive-fyp\server\src\main\java\com\server\service\OrderService.java
 C:\Users\kahei\Desktop\ive-fyp\server\src\main\java\com\server\service\readExcel.java
+C:\Users\kahei\Desktop\ive-fyp\server\src\main\java\com\server\service\ReceiptService.java
 C:\Users\kahei\Desktop\ive-fyp\server\src\main\java\com\server\service\SystemsProfileService.java
 C:\Users\kahei\Desktop\ive-fyp\server\src\main\java\com\server\test.java

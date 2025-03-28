@@ -33,7 +33,10 @@ CREATE TABLE `admin` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='管理員';
 
 INSERT INTO `admin` (`staff_id`, `username`, `password`, `name_en`, `name_cn`, `phone_number`, `email`, `userRole`) VALUES
-('12345678', 'admin', 'c18iSDP/2zxbh+NRB8bJJ+TrIEhtSafdW7KwOgMXOx6npzBCBaZ2n42sa3/K5xsv', 'Admin', '管理員號', '78945612', 'admin06@gmail.com', 'admin');
+	( '12345678', 'admin', 'c18iSDP/2zxbh+NRB8bJJ+TrIEhtSafdW7KwOgMXOx6npzBCBaZ2n42sa3/K5xsv', 'Admin', '管理員號', '12345678', 'admin06@gmail.com', 'admin'),
+	( '12345679', 'kitchen', 'np91WXrtfTdaesXKIkOfJahrlFsDbUJQtz79eI/oX8pOBi24ir76B299nygzBsKo', 'Kitchen', '廚房', '12345679', 'kitchen@gmail.com', 'kitchen'),
+	( '12345680', 'cashier', 'GkQZEoGMuIKWqs0RuZxtepmtkrss7QkJVqrc4Xs98OCc57dhJNhBq+We65TX1vHw', 'Cashier', '收銀', '12345680', 'cashier@gmail.com', 'cashier'),
+	( '12345681', 'staff', 'rKP+HXM0xi8D//6oEFkNmNmCZHnwKM7z6qTmb7kvWvmIYAxFAUCw6rJJEjzXqheR', 'Staff', '員工', '12345681', 'staff@gmail.com', 'staff');
 
 CREATE TABLE `systems_profile` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
