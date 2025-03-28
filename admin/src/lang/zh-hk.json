@@ -185,5 +185,7 @@
   "passwordRule6": "密碼不能包含空格",
   "updatePasswordAndInfoSuccess": "更新成功, 將在秒後自動登出",
   "updatePasswordAndInfoFailed": "更新失敗, 請檢查所有數據",
-  "oldPasswordIncorrect": "舊密碼不正確"
+  "oldPasswordIncorrect": "舊密碼不正確",
+  "kitchen": "廚房",
+  "cashier": "收銀"
 }

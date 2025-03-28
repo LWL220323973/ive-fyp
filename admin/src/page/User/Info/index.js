@@ -328,6 +328,8 @@ function UserInfoContent() {
               <Select defaultValue="staff">
                 <Select.Option value="admin">{intl.get("admin")}</Select.Option>
                 <Select.Option value="staff">{intl.get("staff")}</Select.Option>
+                <Select.Option value="kitchen">{intl.get("kitchen")}</Select.Option>
+                <Select.Option value="cashier">{intl.get("cashier")}</Select.Option>
               </Select>
             </Form.Item>
           </Col>

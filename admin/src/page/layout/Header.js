@@ -279,11 +279,12 @@ function Header() {
         newPassword
       );
       if (response.data === 1) {
-        message.success(intl.get("updatePasswordAndInfoSuccess"));
+        message.success(intl.get("updatePasswordAndInfoSuccess"), 3);
         setOpenPersonalInfo(false);
         setTimeout(() => {
-          onLogout();
-        }, 1000); // 1 second delay before logout
+          navigate("..");
+          sessionStorage.clear();
+        }, 3000);
       } else {
         message.error(intl.get("updatePasswordAndInfoFailed"));
       }

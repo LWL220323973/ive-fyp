@@ -185,5 +185,7 @@
   "passwordRule6":"No space allowed.",
   "updatePasswordAndInfoSuccess": "Update successfully, will log out in 3 seconds",
   "updatePasswordAndInfoFailed": "Update failed, please check all the data",
-  "oldPasswordIncorrect": "Old password is incorrect"
+  "oldPasswordIncorrect": "Old password is incorrect",
+  "kitchen": "Kitchen",
+  "cashier": "Cashier"
 }
